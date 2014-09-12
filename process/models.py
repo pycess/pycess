@@ -1,25 +1,26 @@
+#coding: utf8
 from django.db import models
 
 # pycess models - gem. Workshop 27 June 2013 
-#   Version 0.1 - ohne Syntaxpruefung und Kardinalität 
+#   Version 0.12 - MIT Syntaxpruefung - OHNE Kardinalitaet 
 #   Bernd Brincken - 12. Sept 2014 
 
 ## I - Prozess-Definition 
 class ProcessDef(models.Model):
-  name     = models.Charfield() 
-  descript = models.Charfield() 
+  name     = models.CharField(max_length=200)
+  descript = models.CharField(max_length=200) 
   status   = models.PositiveSmallIntegerField()
     # etwa 1-geplant 2-Definitionsphase 3-nutzbar 4-aktiv 5-postponed 6-deaktiv
   version  = models.PositiveSmallIntegerField()
-    # von 1..2^16 hochgezählt für jede neue Version
+    # von 1..2^16 hochgezaehlt für jede neue Version
   refering = models.ForeignKey('ProcessDef')
-    # optional: Verweis auf Vorgänger-Version oder Vorlage (Templates, Kopien etc.)
+    # optional: Verweis auf Vorgaenger-Version oder Vorlage (Templates, Kopien etc.)
 
 class ProcessStep(models.Model):
   # Prozess-spezifischer Schritt, umfasst definierte Felder (FieldPerstep)
   #   kann wiederum mehrfach pro Process vorkommen > StepScheme
-  name     = models.Charfield() 
-  descript = models.Charfield() 
+  name     = models.CharField(max_length=200) 
+  descript = models.CharField(max_length=200) 
   index    = models.PositiveSmallIntegerField()
     # Id innerhalb der ProcDef
   actiontype = models.PositiveSmallIntegerField()
@@ -27,11 +28,11 @@ class ProcessStep(models.Model):
   process  = models.ForeignKey('ProcessDef')
   
 class StepScheme(models.Model):
-  # Zulässige Folge-Steps für jeden Step > 1..n prestep-Nodes
-  selfstep = models.ForeignKey('ProcessStep')
-  prestep  = models.ForeignKey('ProcessStep')
-  remark   = models.Charfield()
-  logic    = models.Charfield()
+  # Zulaessige Folge-Steps fuer jeden Step > 1..n prestep-Nodes
+  selfstep = models.ForeignKey('ProcessStep', related_name='selfstep')
+  prestep  = models.ForeignKey('ProcessStep', related_name='prestep')
+  remark   = models.CharField(max_length=200)
+  logic    = models.CharField(max_length=200)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift  
     #  und bei >1 möglichen Folge-Steps den konkreten ermittelt 
     
@@ -41,10 +42,10 @@ class FieldPerstep(models.Model):
   field    = models.ForeignKey('FieldDef')
 
 class FieldDef(models.Model):
-  name     = models.Charfield() 
-  descript = models.Charfield()
-  fldhelp  = models.Charfield()
-    # In einem Formular ggf. angezeigte ausführlichere Erklärung zur Bedeutung des Feldes
+  name     = models.CharField(max_length=200) 
+  descript = models.CharField(max_length=200)
+  fldhelp  = models.CharField(max_length=200)
+    # In einem Formular ggf. angezeigte ausfuehrlichere Erklaerung zur Bedeutung des Feldes
   fldtype  = models.PositiveSmallIntegerField()
     # Datentyp (ggf. Enum ..)
   length   = models.PositiveSmallIntegerField()
@@ -53,13 +54,13 @@ class FieldDef(models.Model):
   must 	   = models.NullBooleanField()
     # Bei 'editable' wird Inhalt=not-NULL erzwungen 
   parent   = models.ForeignKey('FieldDef')
-    # Field-Struktur ermöglicht 1:n Datenbeziehungen auf Instanz-Ebene
+    # Field-Struktur ermoeglicht 1:n Datenbeziehungen auf Instanz-Ebene
   type     = models.PositiveSmallIntegerField()
     # etwa 1-normal 2-pycess-intern 3-javascript-intern 
 
 class RoleDef(models.Model):
-  name     = models.Charfield() 
-  descript = models.Charfield()
+  name     = models.CharField(max_length=200) 
+  descript = models.CharField(max_length=200)
   process  = models.ForeignKey('ProcessDef')
 
 ## II - Prozess-Instanz 
@@ -79,6 +80,6 @@ class RoleInstance(models.Model):
 
 class PycLog(models.Model):
   time      = models.DateTimeField()
-  action    = models.Charfield()
+  action    = models.CharField(max_length=200)
   
-# - Ende models.py V. 0.1 -
+# - Ende models.py V. 0.12 -
