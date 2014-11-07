@@ -121,8 +121,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('remark', models.CharField(max_length=200)),
                 ('logic', models.CharField(max_length=200)),
-                ('prestep', models.ForeignKey(related_name=b'prestep', to='process.ProcessStep')),
-                ('selfstep', models.ForeignKey(related_name=b'selfstep', to='process.ProcessStep')),
+                ('prestep', models.ForeignKey(related_name='prestep', to='process.ProcessStep')),
+                ('selfstep', models.ForeignKey(related_name='selfstep', to='process.ProcessStep')),
             ],
             options={
             },
