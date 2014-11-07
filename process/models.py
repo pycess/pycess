@@ -51,7 +51,7 @@ class FieldDef(models.Model):
   length   = models.PositiveSmallIntegerField()
   editable = models.NullBooleanField()
     # false > nur Anzeige 
-  must 	   = models.NullBooleanField()
+  must     = models.NullBooleanField()
     # Bei 'editable' wird Inhalt=not-NULL erzwungen 
   parent   = models.ForeignKey('FieldDef')
     # Field-Struktur ermoeglicht 1:n Datenbeziehungen auf Instanz-Ebene
