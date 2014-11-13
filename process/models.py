@@ -45,9 +45,9 @@ class FieldPerstep(models.Model):
 class FieldDef(models.Model):
   name     = models.CharField(max_length=200) 
   descript = models.CharField(max_length=200)
-  fldhelp  = models.CharField(max_length=200)
+  fieldhelp  = models.CharField(max_length=200)
     # In einem Formular ggf. angezeigte ausfuehrlichere Erklaerung zur Bedeutung des Feldes
-  fldtype  = models.PositiveSmallIntegerField()
+  fieldtype  = models.PositiveSmallIntegerField()
     # Datentyp (ggf. Enum ..)
   length   = models.PositiveSmallIntegerField()
   editable = models.NullBooleanField()
