@@ -27,10 +27,11 @@ class ProcessStep(models.Model):
     # Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
   process  = models.ForeignKey('ProcessDef')
   
-class StepScheme(models.Model):
+class StatusScheme(models.Model):
   # Zulaessige Folge-Steps fuer jeden Step > 1..n prestep-Nodes
   selfstep = models.ForeignKey('ProcessStep', related_name='selfstep')
   prestep  = models.ForeignKey('ProcessStep', related_name='prestep')
+  name 	   = models.CharField(max_length=20)
   remark   = models.CharField(max_length=200)
   logic    = models.CharField(max_length=200)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift  
