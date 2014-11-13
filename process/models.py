@@ -11,6 +11,7 @@ class ProcessDef(models.Model):
   descript = models.CharField(max_length=200) 
   status   = models.PositiveSmallIntegerField()
     # etwa 1-geplant 2-Definitionsphase 3-nutzbar 4-aktiv 5-postponed 6-deaktiv
+    # REFACT: add constants for status
   version  = models.PositiveSmallIntegerField()
     # von 1..2^16 hochgezaehlt für jede neue Version
   refering = models.ForeignKey('ProcessDef')
@@ -31,7 +32,7 @@ class StatusScheme(models.Model):
   # Zulaessige Folge-Steps fuer jeden Step > 1..n prestep-Nodes
   selfstep = models.ForeignKey('ProcessStep', related_name='selfstep')
   prestep  = models.ForeignKey('ProcessStep', related_name='prestep')
-  name 	   = models.CharField(max_length=20)
+  name     = models.CharField(max_length=20)
   remark   = models.CharField(max_length=200)
   logic    = models.CharField(max_length=200)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift  
