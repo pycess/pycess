@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('name', models.CharField(max_length=200)),
                 ('descript', models.CharField(max_length=200)),
-                ('fldhelp', models.CharField(max_length=200)),
-                ('fldtype', models.PositiveSmallIntegerField()),
+                ('fieldhelp', models.CharField(max_length=200)),
+                ('fieldtype', models.PositiveSmallIntegerField()),
                 ('length', models.PositiveSmallIntegerField()),
                 ('editable', models.NullBooleanField()),
                 ('must', models.NullBooleanField()),
@@ -136,15 +136,5 @@ class Migration(migrations.Migration):
             name='step',
             field=models.ForeignKey(to='process.ProcessStep'),
             preserve_default=True,
-        ),
-        migrations.RenameField(
-            model_name='fielddef',
-            old_name='fldhelp',
-            new_name='fieldhelp',
-        ),
-        migrations.RenameField(
-            model_name='fielddef',
-            old_name='fldtype',
-            new_name='fieldtype',
         ),
     ]
