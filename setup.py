@@ -22,7 +22,7 @@ setup(name='pycess',
       packages=find_packages(),
       include_package_data=True,
 #      zip_safe=False, Right now it should be
-      test_suite='pycess',
+      test_suite='pycess.testing.runtests.runtests',
       install_requires=[
           'django',
           'pyexpect'
