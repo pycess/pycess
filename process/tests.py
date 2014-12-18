@@ -1,10 +1,12 @@
+# coding: utf-8
+
 from django.test import TestCase
 
 from process.models import *
 
 class FirstProcess(TestCase):
     
-    def test_can_define_murksmeldung(self):
+    def _create_murksmeldung(self):
         murksmeldung = ProcessDef(
             name="Murksmeldung",
             descript="Meldungen über Geräte an denen geplante Obsoleszenz sichtbar wird.",
@@ -70,3 +72,6 @@ class FirstProcess(TestCase):
         FieldPerstep(step=decision, field=device_description)
         FieldPerstep(step=decision, field=error_description)
         
+    
+    def test_can_define_murksmeldung(self):
+        self._create_murksmeldung()
