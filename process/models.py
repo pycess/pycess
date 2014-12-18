@@ -14,29 +14,30 @@ class ProcessDef(models.Model):
     # REFACT: add constants for status
   version  = models.PositiveSmallIntegerField()
     # von 1..2^16 hochgezaehlt für jede neue Version
-  refering = models.ForeignKey('ProcessDef')
+  refering = models.ForeignKey('ProcessDef', null=True, blank=True)
     # optional: Verweis auf Vorgaenger-Version oder Vorlage (Templates, Kopien etc.)
 
 class ProcessStep(models.Model):
   # Prozess-spezifischer Schritt, umfasst definierte Felder (FieldPerstep)
   #   kann wiederum mehrfach pro Process vorkommen > StepScheme
+  process  = models.ForeignKey('ProcessDef', null=True)
   name     = models.CharField(max_length=200) 
   descript = models.CharField(max_length=200) 
   index    = models.PositiveSmallIntegerField()
     # Id innerhalb der ProcDef
   actiontype = models.PositiveSmallIntegerField()
     # Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
-  process  = models.ForeignKey('ProcessDef')
   
 class StatusScheme(models.Model):
-  # Zulaessige Folge-Steps fuer jeden Step > 1..n prestep-Nodes
+  # Zulaessige Folge-Status fuer jeden Status > 1..n prestep-Nodes
+  process  = models.ForeignKey('ProcessDef', null=True)  
   selfstep = models.ForeignKey('ProcessStep', related_name='selfstep')
   prestep  = models.ForeignKey('ProcessStep', related_name='prestep')
   name     = models.CharField(max_length=20)
   remark   = models.CharField(max_length=200)
   logic    = models.CharField(max_length=200)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift  
-    #  und bei >1 möglichen Folge-Steps den konkreten ermittelt 
+    #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt 
     
 class FieldPerstep(models.Model):
   # Fields, die pro Schritt angezeigt/abgefragt werden
@@ -44,6 +45,7 @@ class FieldPerstep(models.Model):
   field    = models.ForeignKey('FieldDef')
 
 class FieldDef(models.Model):
+  process  = models.ForeignKey('ProcessDef')
   name     = models.CharField(max_length=200) 
   descript = models.CharField(max_length=200)
   fieldhelp  = models.CharField(max_length=200)
@@ -61,9 +63,9 @@ class FieldDef(models.Model):
     # etwa 1-normal 2-pycess-intern 3-javascript-intern 
 
 class RoleDef(models.Model):
+  process  = models.ForeignKey('ProcessDef')
   name     = models.CharField(max_length=200) 
   descript = models.CharField(max_length=200)
-  process  = models.ForeignKey('ProcessDef')
 
 ## II - Prozess-Instanz 
 class ProcInstance(models.Model):
