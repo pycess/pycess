@@ -43,7 +43,9 @@ class FieldPerstep(models.Model):
   # Fields, die pro Schritt angezeigt/abgefragt werden
   step     = models.ForeignKey('ProcessStep')
   field    = models.ForeignKey('FieldDef')
-
+  interaction = models.PositiveSmallIntegerField()
+    # 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
+  
 class FieldDef(models.Model):
   process  = models.ForeignKey('ProcessDef')
   name     = models.CharField(max_length=200) 
