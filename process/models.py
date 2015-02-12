@@ -23,25 +23,36 @@ class ProcessDef(models.Model):
       
 @python_2_unicode_compatible
 class ProcessStep(models.Model):
-  # Prozess-spezifischer Schritt, umfasst definierte Felder (FieldPerstep)
-  #   kann wiederum mehrfach pro Process vorkommen > StatusScheme
-  process  = models.ForeignKey('ProcessDef', null=True)
-  role	   = models.ForeignKey('RoleDef',    null=True)
-  name     = models.CharField(max_length=200) 
-  descript = models.CharField(max_length=200) 
-  index    = models.PositiveSmallIntegerField()
-    # Id innerhalb der ProcDef
-  actiontype = models.PositiveSmallIntegerField()
-    # Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
-  def __str__(self):
-        return self.name  
+	# Prozess-spezifischer Schritt, umfasst definierte Felder (FieldPerstep)
+	#   kann wiederum mehrfach pro Process vorkommen > StatusScheme
+	process		= models.ForeignKey('ProcessDef', null=True)
+	role			= models.ForeignKey('RoleDef',    null=True)
+	name			= models.CharField(max_length=200) 
+	descript	= models.CharField(max_length=200) 
+	index			= models.PositiveSmallIntegerField()
+	# Id innerhalb der ProcDef
+	# REFACT: could/ should we replace index by a relation from ProcessDeff to its first ProcessStep?
+	actiontype = models.PositiveSmallIntegerField()
+	# Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
+	def __str__(self):
+		return self.name
+	
+	def json_schema(self):
+		return {
+			'type':'object',
+			'properties': dict(
+				# REFACT: consider moving key generation into step
+				('%s-%s' % (step.field.id, step.field.name), step.json_schema()) for  step in self.steps.all()
+			)
+		}
+	
 
 @python_2_unicode_compatible
 class StatusScheme(models.Model):
   # Zulaessige Folge-Status fuer jeden Status > 1..n prestep-Nodes
   process  = models.ForeignKey('ProcessDef', null=True)  
-  selfstep = models.ForeignKey('ProcessStep', related_name='selfstep')
-  prestep  = models.ForeignKey('ProcessStep', related_name='prestep')
+  selfstep = models.ForeignKey('ProcessStep', related_name='selfstep', null=True)
+  prestep  = models.ForeignKey('ProcessStep', related_name='prestep', null=True)
     # Erster Schritt: Prestep = Selfstep
   name     = models.CharField(max_length=20)
   remark   = models.CharField(max_length=200, blank=True)
@@ -55,35 +66,51 @@ class StatusScheme(models.Model):
     
 @python_2_unicode_compatible
 class FieldPerstep(models.Model):
-  # Fields, die pro Schritt angezeigt/abgefragt werden
-  step     = models.ForeignKey('ProcessStep')
-  field    = models.ForeignKey('FieldDef')
-  interaction = models.PositiveSmallIntegerField(default=0)
-    # 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
-  def __str__(self):
-        return unicode(self.id)
-  class Meta:
-    unique_together = ('step', 'field', )
+	# Fields, die pro Schritt angezeigt/abgefragt werden
+	step     = models.ForeignKey('ProcessStep', related_name='steps')
+	field    = models.ForeignKey('FieldDef')
+	interaction = models.PositiveSmallIntegerField(default=0)
+	# 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
+	def __str__(self):
+		return unicode(self.id)
+	
+	class Meta:
+		unique_together = ('step', 'field', )
+	
+	def json_schema(self):
+		return self.field.json_schema()
   
 @python_2_unicode_compatible
 class FieldDef(models.Model):
-  process  = models.ForeignKey('ProcessDef', null=True)
-  name     = models.CharField(max_length=200) 
-  descript = models.CharField(max_length=200)
-  fieldhelp  = models.CharField(max_length=200)
-    # In einem Formular ggf. angezeigte ausfuehrlichere Erklaerung zur Bedeutung des Feldes
-  fieldtype  = models.PositiveSmallIntegerField()
-    # Datentyp: 1-char, 2-int-number, 3-finance-number, 4-float-num, 5-Date, 
-    #	6-Datetime, 7 blob, 8-Enum (tbd)
-  length   = models.PositiveSmallIntegerField(default=1)
-    # Lenght 1 bei Typen mit impliziter Laenge, etwa Date
-  ## editable & must per V 0.13 durch fieldPerstep.interaction ersetzt
-  parent   = models.ForeignKey('FieldDef', null=True, blank=True)
-    # Field-Struktur ermoeglicht 1:n Datenbeziehungen auf Instanz-Ebene
-  type     = models.PositiveSmallIntegerField()
-    # etwa 1-normal 2-pycess-intern 3-javascript-intern 
-  def __str__(self):
-        return self.name  
+	process  = models.ForeignKey('ProcessDef', null=True)
+	name     = models.CharField(max_length=200) 
+	descript = models.CharField(max_length=200)
+	fieldhelp  = models.CharField(max_length=200)
+	# In einem Formular ggf. angezeigte ausfuehrlichere Erklaerung zur Bedeutung des Feldes
+	# REFACT: consider to replace with real enum so that we can write the constructor as
+	# FieldDef(fieldType=FieldDef.STRING)
+	fieldtype  = models.PositiveSmallIntegerField()
+	# Datentyp: 1-char, 2-int-number, 3-finance-number, 4-float-num, 5-Date, 
+	#	6-Datetime, 7 blob, 8-Enum (tbd)
+	length   = models.PositiveSmallIntegerField(default=1)
+	# Lenght 1 bei Typen mit impliziter Laenge, etwa Date
+	## editable & must per V 0.13 durch fieldPerstep.interaction ersetzt
+	parent   = models.ForeignKey('FieldDef', null=True, blank=True)
+	# Field-Struktur ermoeglicht 1:n Datenbeziehungen auf Instanz-Ebene
+	type     = models.PositiveSmallIntegerField()
+	# etwa 1-normal 2-pycess-intern 3-javascript-intern 
+	def __str__(self):
+		return self.name
+	
+	def json_schema(self):
+		types = {
+			1: 'string',
+		}
+		
+		return {
+			'type': types[self.type],
+		}
+        
 
 @python_2_unicode_compatible
 class RoleDef(models.Model):
@@ -93,7 +120,7 @@ class RoleDef(models.Model):
   def __str__(self):
         return self.name  
 
-## II - Prozess-Instanz 
+## II - Prozess-Instanz
 @python_2_unicode_compatible
 class ProcInstance(models.Model):
   process  = models.ForeignKey('ProcessDef')
