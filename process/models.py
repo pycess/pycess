@@ -72,7 +72,7 @@ class FieldPerstep(models.Model):
 	interaction = models.PositiveSmallIntegerField(default=0)
 	# 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
 	def __str__(self):
-		return unicode(self.id)
+		return str(self.id)
 	
 	class Meta:
 		unique_together = ('step', 'field', )
@@ -129,7 +129,7 @@ class ProcInstance(models.Model):
   status   = models.PositiveSmallIntegerField()
     # etwa 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
   def __str__(self):
-        return unicode(self.id)
+        return str(self.id)
 
 @python_2_unicode_compatible
 class RoleInstance(models.Model):
@@ -139,13 +139,13 @@ class RoleInstance(models.Model):
   entrytime = models.DateTimeField()
   exittime  = models.DateTimeField()
   def __str__(self):
-        return unicode(self.id)
+        return str(self.id)
 
 @python_2_unicode_compatible
 class PycLog(models.Model):
   time      = models.DateTimeField()
   action    = models.CharField(max_length=200)
   def __str__(self):
-        return unicode(self.id)
+        return str(self.id)
   
 # - Ende models.py V. 0.13 -

@@ -33,7 +33,7 @@ class FielddefAdmin(admin.ModelAdmin):
   list_display = ('id', 'name', 'descript', 'fieldtype', 'length', 'type', 'process')
   list_display_links = ('id', 'name')
   ordering = ['id']
-  save_on_top = 'TRUE'
+  save_on_top = True
 #  list_filter = ('process') > funktioniert nicht (?)
 admin.site.register(FieldDef, FielddefAdmin)
 
