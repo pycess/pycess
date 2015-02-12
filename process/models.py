@@ -1,11 +1,13 @@
 #coding: utf8
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 # pycess models - gem. Workshop 27 June 2013 
 #   Version 0.12 - MIT Syntaxpruefung - OHNE Kardinalitaet 
 #   Bernd Brincken - 12. Sept 2014 
 
-## I - Prozess-Definition 
+## I - Prozess-Definition
+@python_2_unicode_compatible
 class ProcessDef(models.Model):
   name     = models.CharField(max_length=200)
   descript = models.CharField(max_length=200) 
@@ -16,9 +18,10 @@ class ProcessDef(models.Model):
     # von 1..2^16 hochgezaehlt für jede neue Version
   refering = models.ForeignKey('ProcessDef', null=True, blank=True)
     # optional: Verweis auf Vorgaenger-Version oder Vorlage (Templates, Kopien etc.)
-  def __unicode__(self):
+  def __str__(self):
         return self.name
       
+@python_2_unicode_compatible
 class ProcessStep(models.Model):
   # Prozess-spezifischer Schritt, umfasst definierte Felder (FieldPerstep)
   #   kann wiederum mehrfach pro Process vorkommen > StatusScheme
@@ -30,9 +33,10 @@ class ProcessStep(models.Model):
     # Id innerhalb der ProcDef
   actiontype = models.PositiveSmallIntegerField()
     # Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
-  def __unicode__(self):
+  def __str__(self):
         return self.name  
 
+@python_2_unicode_compatible
 class StatusScheme(models.Model):
   # Zulaessige Folge-Status fuer jeden Status > 1..n prestep-Nodes
   process  = models.ForeignKey('ProcessDef', null=True)  
@@ -44,22 +48,24 @@ class StatusScheme(models.Model):
   logic    = models.CharField(max_length=200, blank=True)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift  
     #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt 
-  def __unicode__(self):
+  def __str__(self):
         return self.name  
   class Meta:
     unique_together = ('process', 'selfstep', 'prestep',)
     
+@python_2_unicode_compatible
 class FieldPerstep(models.Model):
   # Fields, die pro Schritt angezeigt/abgefragt werden
   step     = models.ForeignKey('ProcessStep')
   field    = models.ForeignKey('FieldDef')
   interaction = models.PositiveSmallIntegerField(default=0)
     # 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
-  def __unicode__(self):
+  def __str__(self):
         return unicode(self.id)
   class Meta:
     unique_together = ('step', 'field', )
   
+@python_2_unicode_compatible
 class FieldDef(models.Model):
   process  = models.ForeignKey('ProcessDef', null=True)
   name     = models.CharField(max_length=200) 
@@ -76,39 +82,43 @@ class FieldDef(models.Model):
     # Field-Struktur ermoeglicht 1:n Datenbeziehungen auf Instanz-Ebene
   type     = models.PositiveSmallIntegerField()
     # etwa 1-normal 2-pycess-intern 3-javascript-intern 
-  def __unicode__(self):
+  def __str__(self):
         return self.name  
 
+@python_2_unicode_compatible
 class RoleDef(models.Model):
   process  = models.ForeignKey('ProcessDef')
   name     = models.CharField(max_length=200) 
   descript = models.CharField(max_length=200)
-  def __unicode__(self):
+  def __str__(self):
         return self.name  
 
 ## II - Prozess-Instanz 
+@python_2_unicode_compatible
 class ProcInstance(models.Model):
   process  = models.ForeignKey('ProcessDef')
   starttime= models.DateTimeField()
   stoptime = models.DateTimeField()
   status   = models.PositiveSmallIntegerField()
     # etwa 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
-  def __unicode__(self):
+  def __str__(self):
         return unicode(self.id)
 
+@python_2_unicode_compatible
 class RoleInstance(models.Model):
   role      = models.ForeignKey('RoleDef')
   procinst  = models.ForeignKey('ProcInstance')
   # user = models.ForeignKey(erweitertes Django User-Modell)
   entrytime = models.DateTimeField()
   exittime  = models.DateTimeField()
-  def __unicode__(self):
+  def __str__(self):
         return unicode(self.id)
 
+@python_2_unicode_compatible
 class PycLog(models.Model):
   time      = models.DateTimeField()
   action    = models.CharField(max_length=200)
-  def __unicode__(self):
+  def __str__(self):
         return unicode(self.id)
   
 # - Ende models.py V. 0.13 -
