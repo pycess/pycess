@@ -25,7 +25,8 @@ class FirstProcess(TestCase):
         )
         self.first_step.save()
         self.initial_status = StatusScheme(
-            name="Initialer Zustand",
+            remark="Initialer Zustand",
+            name='Init',
             selfstep=self.first_step,
         )
         self.initial_status.save()
@@ -56,12 +57,14 @@ class FirstProcess(TestCase):
         )
         self.data_entered.save()
         self.data_published = StatusScheme(
-            name="Murksmeldung veröffentlicht",
+            name='Report_Published',
+            remark="Murksmeldung veröffentlicht",
             prestep=self.decision,
         )
         self.data_published.save()
         self.trashed = StatusScheme(
-            name="Murksmeldung verworfen",
+            name='Declined',
+            remark="Murksmeldung verworfen",
             prestep=self.decision,
         )
         self.trashed.save()
