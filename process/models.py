@@ -123,7 +123,8 @@ class RoleDef(models.Model):
 ## II - Prozess-Instanz
 @python_2_unicode_compatible
 class ProcInstance(models.Model):
-  process  = models.ForeignKey('ProcessDef')
+  process     = models.ForeignKey('ProcessDef')
+  currentstep = models.ForeignKey('ProcessStep')
   starttime= models.DateTimeField()
   stoptime = models.DateTimeField()
   status   = models.PositiveSmallIntegerField()
