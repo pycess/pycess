@@ -3,7 +3,7 @@
 	<div><a href="{% url 'instance_create' process.id %}">Create Process</a>
     <ul>
     {% for instance in process.instances.all %}
-        <li><a href="/{{ instance.id }}/">{{ instance.status }}</a></li>
+        <li><a href="{% url 'instance_detail' process.id instance.id %}/">{{ instance.status }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
