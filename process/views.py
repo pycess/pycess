@@ -21,6 +21,7 @@ def process_instance_create(request, process_id):
     instance = ProcInstance.objects.create(
         process=process, 
         currentstep=process.first_status(),
+        # procdata = json.dumps({}) # FIXME: set initial data
         starttime=timezone.now(), 
         stoptime=timezone.now(), 
         status=3)
