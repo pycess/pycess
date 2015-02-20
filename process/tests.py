@@ -99,20 +99,24 @@ class FirstProcess(TestCase):
         self._create_murksmeldung()
         expect(self.device_description.json_schema()) == {
             'type': 'string',
+            'format': 'textarea',
         }
         
         expect(self.error_description.json_schema()) == {
             'type': 'string',
+            'format': 'textarea',
         }
         
         expect(self.first_step.json_schema()) == {
             'type': 'object',
             'properties': {
-                '%s-device_description' % self.device_description.id: {
+                'Gerätebeschreibung': {
                     'type': 'string',
+                    'format': 'textarea',
                 },
-                '%s-error_description' % self.error_description.id: {
+                'Murksbeschreibung': {
                     'type': 'string',
+                    'format': 'textarea',
                 },
             },
         }

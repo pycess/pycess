@@ -49,7 +49,8 @@ class ProcessStep(models.Model):
             'properties': dict(
             # REFACT: consider moving key generation into field
 			# REFACT: find a way to get a better css id/class on the fields
-            ('%s-%s' % (field.field.id, field.field.descript), field.json_schema()) for  field in self.fields.all()
+			# should be id-name or something like that
+            (field.field.descript, field.json_schema()) for  field in self.fields.all()
             )
         }
 
