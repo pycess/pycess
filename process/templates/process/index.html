@@ -1,0 +1,9 @@
+{% if processes %}
+    <ul>
+    {% for process in processes %}
+        <li><a href="{% url 'detail' process.id %}/">{{ process.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No processes are available.</p>
+{% endif %}

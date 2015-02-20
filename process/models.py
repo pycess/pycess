@@ -9,43 +9,53 @@ from django.utils.encoding import python_2_unicode_compatible
 ## I - Prozess-Definition
 @python_2_unicode_compatible
 class ProcessDef(models.Model):
-  name     = models.CharField(max_length=200)
-  descript = models.CharField(max_length=200) 
-  status   = models.PositiveSmallIntegerField()
+    name     = models.CharField(max_length=200)
+    descript = models.CharField(max_length=200) 
+    status   = models.PositiveSmallIntegerField()
     # etwa 1-geplant 2-Definitionsphase 3-nutzbar 4-aktiv 5-postponed 6-deaktiv
     # REFACT: add constants for status
-  version  = models.PositiveSmallIntegerField()
+    version  = models.PositiveSmallIntegerField()
     # von 1..2^16 hochgezaehlt für jede neue Version
-  refering = models.ForeignKey('ProcessDef', null=True, blank=True)
+    refering = models.ForeignKey('ProcessDef', null=True, blank=True)
     # optional: Verweis auf Vorgaenger-Version oder Vorlage (Templates, Kopien etc.)
-  def __str__(self):
+    def __str__(self):
         return self.name
-      
+    
+    def first_status(self):
+        # consider: StatusScheme.objects.raw('SELECT * FROM process_statusscheme WHERE selfstep_id = prestep_id')
+        return ProcessStep.objects.get(process=self, selfstep=models.F('prestep'))
+    
+ 
 @python_2_unicode_compatible
 class ProcessStep(models.Model):
-	# Prozess-spezifischer Schritt, umfasst definierte Felder (FieldPerstep)
-	#   kann wiederum mehrfach pro Process vorkommen > StatusScheme
-	process		= models.ForeignKey('ProcessDef', null=True)
-	role			= models.ForeignKey('RoleDef',    null=True)
-	name			= models.CharField(max_length=200) 
-	descript	= models.CharField(max_length=200) 
-	index			= models.PositiveSmallIntegerField()
-	# Id innerhalb der ProcDef
-	# REFACT: could/ should we replace index by a relation from ProcessDeff to its first ProcessStep?
-	actiontype = models.PositiveSmallIntegerField()
-	# Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
-	def __str__(self):
-		return self.name
-	
-	def json_schema(self):
-		return {
-			'type':'object',
-			'properties': dict(
-				# REFACT: consider moving key generation into step
-				('%s-%s' % (step.field.id, step.field.name), step.json_schema()) for  step in self.steps.all()
-			)
-		}
-	
+    # Prozess-spezifischer Schritt, umfasst definierte Felder (FieldPerstep)
+    #   kann wiederum mehrfach pro Process vorkommen > StatusScheme
+    process		= models.ForeignKey('ProcessDef', null=True)
+    role		= models.ForeignKey('RoleDef',    null=True)
+    name		= models.CharField(max_length=200) 
+    descript	= models.CharField(max_length=200) 
+    index		= models.PositiveSmallIntegerField()
+    # Id innerhalb der ProcDef
+    # REFACT: could/ should we replace index by a relation from ProcessDeff to its first ProcessStep?
+    actiontype  = models.PositiveSmallIntegerField()
+    # Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
+
+    def __str__(self):
+        return self.name
+
+    def json_schema(self):
+        return {
+            'type':'object',
+            'properties': dict(
+            # REFACT: consider moving key generation into field
+			# REFACT: find a way to get a better css id/class on the fields
+            ('%s-%s' % (field.field.id, field.field.descript), field.json_schema()) for  field in self.fields.all()
+            )
+        }
+
+    def json_data(self):
+        return {} # TODO: add real data
+
 
 @python_2_unicode_compatible
 class StatusScheme(models.Model):
@@ -67,7 +77,7 @@ class StatusScheme(models.Model):
 @python_2_unicode_compatible
 class FieldPerstep(models.Model):
 	# Fields, die pro Schritt angezeigt/abgefragt werden
-	step     = models.ForeignKey('ProcessStep', related_name='steps')
+	step     = models.ForeignKey('ProcessStep', related_name='fields')
 	field    = models.ForeignKey('FieldDef')
 	interaction = models.PositiveSmallIntegerField(default=0)
 	# 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
@@ -101,16 +111,24 @@ class FieldDef(models.Model):
 	# etwa 1-normal 2-pycess-intern 3-javascript-intern 
 	def __str__(self):
 		return self.name
-	
+
 	def json_schema(self):
-		types = {
+		type_mapping = {
 			1: 'string',
+			5: 'string',
 		}
+		format_mapping = {
+			1: 'textarea',
+			5: 'date',
+		}
+		if self.fieldtype not in type_mapping:
+			print("Missing mapping for type %s" % self.fieldtype)
 		
 		return {
-			'type': types[self.type],
+			'type': type_mapping.get(self.fieldtype, 'string'),
+			'format': format_mapping.get(self.fieldtype, 'string')
 		}
-        
+
 
 @python_2_unicode_compatible
 class RoleDef(models.Model):
@@ -123,13 +141,13 @@ class RoleDef(models.Model):
 ## II - Prozess-Instanz
 @python_2_unicode_compatible
 class ProcInstance(models.Model):
-  process     = models.ForeignKey('ProcessDef')
-  currentstep = models.ForeignKey('ProcessStep', blank=True, null=True)
-  starttime= models.DateTimeField()
-  stoptime = models.DateTimeField()
-  status   = models.PositiveSmallIntegerField()
+    process     = models.ForeignKey('ProcessDef', related_name="instances")
+    currentstep = models.ForeignKey('ProcessStep', blank=True, null=True)
+    starttime= models.DateTimeField()
+    stoptime = models.DateTimeField() # FIXME: needs to be nullable, while process is in progress
+    status   = models.PositiveSmallIntegerField()
     # etwa 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
-  def __str__(self):
+    def __str__(self):
         return str(self.id)
 
 @python_2_unicode_compatible

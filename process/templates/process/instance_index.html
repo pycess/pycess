@@ -1,0 +1,34 @@
+{% load staticfiles %}
+{% load json_filters %}
+{% load pdb %}
+<!doctype html>
+<html>
+<head>
+	<script src="{% static 'js/jquery-2.1.3.js' %}"></script>
+	<script src="{% static 'js/jsoneditor-27f2e16.js' %}"></script>
+	<script>
+	$(function() {
+		var json_schema = {{ instance.currentstep.json_schema | jsonify }};
+		var current_step_data = {{ instance.current_step.json_data | jsonify }};
+		var editor = new JSONEditor(
+			document.getElementById("editor_holder"), 
+			{ schema: json_schema }
+		);
+		editor.setValue(current_step_data);
+		var errors = editor.validate();
+		if(errors.length) {
+		  // Not valid
+		}
+
+		editor.on("change",  function() {
+		  // Do something...
+		});
+		
+	});
+	</script>
+</head>
+<body>
+	<h2>Instance for Process: {{instance.process.name}}</h2>
+	<div id="editor_holder"></div>
+</body>
+</html>

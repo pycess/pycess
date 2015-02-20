@@ -6,6 +6,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'pycess.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^$', include('process.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'', include('process.urls')),
 )
