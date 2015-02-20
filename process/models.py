@@ -143,9 +143,11 @@ class RoleDef(models.Model):
 @python_2_unicode_compatible
 class ProcInstance(models.Model):
     process     = models.ForeignKey('ProcessDef', related_name="instances")
+    # procdata = models.JSONdata() .. TODO
+    procdata = models.TextField(default='')
     currentstep = models.ForeignKey('ProcessStep', blank=True, null=True)
     starttime= models.DateTimeField()
-    stoptime = models.DateTimeField() # FIXME: needs to be nullable, while process is in progress
+    stoptime = models.DateTimeField(null=True) # FIXed: needs to be nullable, while process is in progress
     status   = models.PositiveSmallIntegerField()
     # etwa 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
     def __str__(self):
@@ -154,7 +156,7 @@ class ProcInstance(models.Model):
 @python_2_unicode_compatible
 class RoleInstance(models.Model):
   role      = models.ForeignKey('RoleDef')
-  procinst  = models.ForeignKey('ProcInstance')
+  procinst  = models.ForeignKey('ProcInstance', blank=True, null=True)
   # user = models.ForeignKey(erweitertes Django User-Modell)
   entrytime = models.DateTimeField()
   exittime  = models.DateTimeField()
@@ -168,4 +170,4 @@ class PycLog(models.Model):
   def __str__(self):
         return str(self.id)
   
-# - Ende models.py V. 0.13 -
+# - Ende models.py V. 0.14 -
