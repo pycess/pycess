@@ -7,7 +7,7 @@ import json
 
 register = Library()
 
+
 @register.filter
 def jsonify(object):
     return mark_safe(json.dumps(object, cls=DjangoJSONEncoder))
-

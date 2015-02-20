@@ -6,8 +6,9 @@ from django.test import TestCase
 from process.models import *
 from pyexpect import expect
 
+
 class FirstProcess(TestCase):
-    
+
     def _create_murksmeldung(self):
         self.murksmeldung = ProcessDef(
             name="Murksmeldung",
@@ -21,7 +22,7 @@ class FirstProcess(TestCase):
             name="Erstmeldung",
             descript="Jemand meldet sich mit einer Fehlermeldung",
             actiontype=0,
-            index=1, # first step
+            index=1,  # first step
             process=self.murksmeldung,
         )
         self.first_step.save()
@@ -69,7 +70,7 @@ class FirstProcess(TestCase):
             prestep=self.decision,
         )
         self.trashed.save()
-        
+
         self.device_description = FieldDef(
             name='device_description',
             descript="Gerätebeschreibung",
@@ -86,28 +87,32 @@ class FirstProcess(TestCase):
             type=1,
         )
         self.error_description.save()
-        FieldPerstep(step=self.first_step, field=self.device_description, interaction=2).save()
-        FieldPerstep(step=self.first_step, field=self.error_description, interaction=2).save()
-        
-        FieldPerstep(step=self.decision, field=self.device_description, interaction=1).save()
-        FieldPerstep(step=self.decision, field=self.error_description, interaction=1).save()
+        FieldPerstep(
+            step=self.first_step, field=self.device_description, interaction=2).save()
+        FieldPerstep(
+            step=self.first_step, field=self.error_description, interaction=2).save()
+
+        FieldPerstep(
+            step=self.decision, field=self.device_description, interaction=1).save()
+        FieldPerstep(
+            step=self.decision, field=self.error_description, interaction=1).save()
         return self.murksmeldung
-    
+
     def test_can_define_murksmeldung(self):
         self._create_murksmeldung()
-    
+
     def test_serialize_step_to_json_form_schema(self):
         self._create_murksmeldung()
         expect(self.device_description.json_schema()) == {
             'type': 'string',
             'format': 'textarea',
         }
-        
+
         expect(self.error_description.json_schema()) == {
             'type': 'string',
             'format': 'textarea',
         }
-        
+
         expect(self.first_step.json_schema()) == {
             'type': 'object',
             'properties': {
@@ -121,6 +126,3 @@ class FirstProcess(TestCase):
                 },
             },
         }
-        
-    
-        

@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 os.environ['DJANGO_SETTINGS_MODULE'] = 'pycess.settings'
 # test_dir = os.path.dirname(__file__)
 # sys.path.insert(0, test_dir)
@@ -6,6 +7,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'pycess.settings'
 from django.test.utils import get_runner
 from django.conf import settings
 import django
+
 
 def runtests():
     django.setup()

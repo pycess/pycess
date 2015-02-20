@@ -14,13 +14,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='fieldperstep',
             name='step',
-            field=models.ForeignKey(related_name='fields', to='process.ProcessStep'),
+            field=models.ForeignKey(
+                related_name='fields', to='process.ProcessStep'),
             preserve_default=True,
         ),
         migrations.AlterField(
             model_name='procinstance',
             name='process',
-            field=models.ForeignKey(related_name='instances', to='process.ProcessDef'),
+            field=models.ForeignKey(
+                related_name='instances', to='process.ProcessDef'),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -32,7 +34,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='roleinstance',
             name='procinst',
-            field=models.ForeignKey(blank=True, to='process.ProcInstance', null=True),
+            field=models.ForeignKey(
+                blank=True, to='process.ProcInstance', null=True),
             preserve_default=True,
         ),
     ]

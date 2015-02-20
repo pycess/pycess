@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='procinstance',
             name='currentstep',
-            field=models.ForeignKey(blank=True, to='process.ProcessStep', null=True),
+            field=models.ForeignKey(
+                blank=True, to='process.ProcessStep', null=True),
             preserve_default=True,
         ),
     ]

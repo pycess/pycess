@@ -2,7 +2,9 @@ from django.template import Library
 
 register = Library()
 
-@register.filter 
+
+@register.filter
 def pdb(element):
-    import pdb; pdb.set_trace()
+    import pdb
+    pdb.set_trace()
     return element

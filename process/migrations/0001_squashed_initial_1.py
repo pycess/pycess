@@ -6,7 +6,8 @@ from django.db import models, migrations
 
 class Migration(migrations.Migration):
 
-    replaces = [('process', '0001_initial'), ('process', '0002_rename_step_to_status_scheme'), ('process', '0003_rename_and_add_fields')]
+    replaces = [('process', '0001_initial'), ('process',
+                                              '0002_rename_step_to_status_scheme'), ('process', '0003_rename_and_add_fields')]
 
     dependencies = [
     ]
@@ -15,7 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldDef',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
+                ('id', models.AutoField(
+                    primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('name', models.CharField(max_length=200)),
                 ('descript', models.CharField(max_length=200)),
                 ('fieldhelp', models.CharField(max_length=200)),
@@ -33,7 +35,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FieldPerstep',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
+                ('id', models.AutoField(
+                    primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('field', models.ForeignKey(to='process.FieldDef')),
             ],
             options={
@@ -43,7 +46,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProcessDef',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
+                ('id', models.AutoField(
+                    primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('name', models.CharField(max_length=200)),
                 ('descript', models.CharField(max_length=200)),
                 ('status', models.PositiveSmallIntegerField()),
@@ -57,7 +61,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProcessStep',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
+                ('id', models.AutoField(
+                    primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('name', models.CharField(max_length=200)),
                 ('descript', models.CharField(max_length=200)),
                 ('index', models.PositiveSmallIntegerField()),
@@ -71,7 +76,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProcInstance',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
+                ('id', models.AutoField(
+                    primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('starttime', models.DateTimeField()),
                 ('stoptime', models.DateTimeField()),
                 ('status', models.PositiveSmallIntegerField()),
@@ -84,7 +90,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PycLog',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
+                ('id', models.AutoField(
+                    primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('time', models.DateTimeField()),
                 ('action', models.CharField(max_length=200)),
             ],
@@ -95,7 +102,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RoleDef',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
+                ('id', models.AutoField(
+                    primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('name', models.CharField(max_length=200)),
                 ('descript', models.CharField(max_length=200)),
                 ('process', models.ForeignKey(to='process.ProcessDef')),
@@ -107,7 +115,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RoleInstance',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
+                ('id', models.AutoField(
+                    primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('entrytime', models.DateTimeField()),
                 ('exittime', models.DateTimeField()),
                 ('procinst', models.ForeignKey(to='process.ProcInstance')),
@@ -120,11 +129,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StatusScheme',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
+                ('id', models.AutoField(
+                    primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('remark', models.CharField(max_length=200)),
                 ('logic', models.CharField(max_length=200)),
-                ('prestep', models.ForeignKey(related_name='prestep', to='process.ProcessStep')),
-                ('selfstep', models.ForeignKey(related_name='selfstep', to='process.ProcessStep')),
+                ('prestep', models.ForeignKey(
+                    related_name='prestep', to='process.ProcessStep')),
+                ('selfstep', models.ForeignKey(
+                    related_name='selfstep', to='process.ProcessStep')),
                 ('name', models.CharField(max_length=20, default='')),
             ],
             options={

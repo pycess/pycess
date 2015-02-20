@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='fielddef',
             name='parent',
-            field=models.ForeignKey(blank=True, to='process.FieldDef', null=True),
+            field=models.ForeignKey(
+                blank=True, to='process.FieldDef', null=True),
             preserve_default=True,
         ),
     ]

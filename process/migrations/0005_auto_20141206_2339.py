@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='processdef',
             name='refering',
-            field=models.ForeignKey(blank=True, to='process.ProcessDef', null=True),
+            field=models.ForeignKey(
+                blank=True, to='process.ProcessDef', null=True),
         ),
     ]
