@@ -47,11 +47,11 @@ class ProcessStep(models.Model):
         return {
             'type':'object',
             'properties': dict(
-            # REFACT: consider moving key generation into field
-			# REFACT: find a way to get a better css id/class on the fields
-			# should be id-name or something like that
-            (field.field.descript, field.json_schema()) for  field in self.fields.all()
-            )
+	            # REFACT: consider moving key generation into field
+				# REFACT: find a way to get a better css id/class on the fields
+				# should be id-name or something like that
+				(field.field.descript, field.json_schema()) for  field in self.fields.all()
+			)
         }
 
     def json_data(self):
@@ -123,7 +123,9 @@ class FieldDef(models.Model):
 			5: 'date',
 		}
 		if self.fieldtype not in type_mapping:
-			print("Missing mapping for type %s" % self.fieldtype)
+			print("Missing type mapping for type %s" % self.fieldtype)
+		if self.fieldtype not in format_mapping:
+			print("Missing format mapping for type %s" % self.fieldtype)
 		
 		return {
 			'type': type_mapping.get(self.fieldtype, 'string'),
