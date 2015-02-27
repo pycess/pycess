@@ -3,24 +3,22 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
 # pycess models - gem. Workshop 27 June 2013
-#   Version 0.12 - MIT Syntaxpruefung - OHNE Kardinalitaet
-#   Bernd Brincken - 12. Sept 2014
+#   Version 0.14 - 
+#   V 0.1 Bernd Brincken - 12. Sept 2014
 
 ## I - Prozess-Definition
-
 
 @python_2_unicode_compatible
 class ProcessDef(models.Model):
     name = models.CharField(max_length=200)
-    descript = models.CharField(max_length=200)
+    descript = models.CharField(max_length=200, blank=True)
     status = models.PositiveSmallIntegerField()
     # etwa 1-geplant 2-Definitionsphase 3-nutzbar 4-aktiv 5-postponed 6-deaktiv
-    # REFACT: add constants for status
-    version = models.PositiveSmallIntegerField()
+    #   REFACT: add constants for status
+    version = models.PositiveSmallIntegerField(default=1)
     # von 1..2^16 hochgezaehlt für jede neue Version
     refering = models.ForeignKey('ProcessDef', null=True, blank=True)
-    # optional: Verweis auf Vorgaenger-Version oder Vorlage (Templates, Kopien
-    # etc.)
+    # optional: Verweis auf Vorgaenger-Version oder Templates, Kopien etc.
 
     def __str__(self):
         return self.name
@@ -38,10 +36,10 @@ class ProcessStep(models.Model):
     process = models.ForeignKey('ProcessDef', null=True)
     role = models.ForeignKey('RoleDef',    null=True)
     name = models.CharField(max_length=200)
-    descript = models.CharField(max_length=200)
+    descript = models.CharField(max_length=200, blank=True)
     index = models.PositiveSmallIntegerField()
     # Id innerhalb der ProcDef
-    # REFACT: could/ should we replace index by a relation from ProcessDeff to
+    #   REFACT: could/ should we replace index by a relation from ProcessDeff to
     # its first ProcessStep?
     actiontype = models.PositiveSmallIntegerField()
     # Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
@@ -75,9 +73,9 @@ class StatusScheme(models.Model):
     prestep = models.ForeignKey(
         'ProcessStep', related_name='prestep', null=True)
     # Erster Schritt: Prestep = Selfstep
-    name = models.CharField(max_length=20)
+    name   = models.CharField(max_length=20)
     remark = models.CharField(max_length=200, blank=True)
-    logic = models.CharField(max_length=200, blank=True)
+    logic  = models.CharField(max_length=200, blank=True)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift
     #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt
 
@@ -95,6 +93,9 @@ class FieldPerstep(models.Model):
     field = models.ForeignKey('FieldDef')
     interaction = models.PositiveSmallIntegerField(default=0)
     # 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
+    editdefault = models.CharField(max_length=200, blank=True)
+    # wird bei interaction>0 und leerem Feld eingesetzt
+    #   Typ ist ggf. umzusetzen, z.B. text>integer
 
     def __str__(self):
         return str(self.id)
@@ -108,22 +109,21 @@ class FieldPerstep(models.Model):
 
 @python_2_unicode_compatible
 class FieldDef(models.Model):
-    process = models.ForeignKey('ProcessDef', null=True)
-    name = models.CharField(max_length=200)
-    descript = models.CharField(max_length=200)
-    fieldhelp = models.CharField(max_length=200)
+    process   = models.ForeignKey('ProcessDef', null=True)
+    name      = models.CharField(max_length=200)
+    descript  = models.CharField(max_length=200, blank=True)
+    fieldhelp = models.CharField(max_length=200, blank=True)
     # In einem Formular ggf. angezeigte ausfuehrlichere Erklaerung zur Bedeutung des Feldes
-    # REFACT: consider to replace with real enum so that we can write the constructor as
-    # FieldDef(fieldType=FieldDef.STRING)
+    #   REFACT: consider to replace with real enum so that we can write the constructor as
+    #     FieldDef(fieldType=FieldDef.STRING)
     fieldtype = models.PositiveSmallIntegerField()
     # Datentyp: 1-char, 2-int-number, 3-finance-number, 4-float-num, 5-Date,
     #	6-Datetime, 7 blob, 8-Enum (tbd)
     length = models.PositiveSmallIntegerField(default=1)
-    # Lenght 1 bei Typen mit impliziter Laenge, etwa Date
-    # editable & must per V 0.13 durch fieldPerstep.interaction ersetzt
+    # Length 1 bei Typen mit impliziter Laenge, etwa Date
     parent = models.ForeignKey('FieldDef', null=True, blank=True)
     # Field-Struktur ermoeglicht 1:n Datenbeziehungen auf Instanz-Ebene
-    type = models.PositiveSmallIntegerField()
+    type = models.PositiveSmallIntegerField(default=1)
     # etwa 1-normal 2-pycess-intern 3-javascript-intern
 
     def __str__(self):
@@ -153,7 +153,7 @@ class FieldDef(models.Model):
 class RoleDef(models.Model):
     process = models.ForeignKey('ProcessDef')
     name = models.CharField(max_length=200)
-    descript = models.CharField(max_length=200)
+    descript = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
@@ -184,7 +184,7 @@ class RoleInstance(models.Model):
     procinst = models.ForeignKey('ProcInstance', blank=True, null=True)
     # user = models.ForeignKey(erweitertes Django User-Modell)
     entrytime = models.DateTimeField()
-    exittime = models.DateTimeField()
+    exittime = models.DateTimeField(null=True)
 
     def __str__(self):
         return str(self.id)
@@ -198,4 +198,4 @@ class PycLog(models.Model):
     def __str__(self):
         return str(self.id)
 
-# - Ende models.py V. 0.14 -
+# - Ende models.py -
