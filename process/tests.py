@@ -71,7 +71,7 @@ class FirstProcess(TestCase):
         )
         self.trashed.save()
 
-        self.device_description = FieldDef(
+        self.device_description = FieldDefinition(
             name='device_description',
             descript="Gerätebeschreibung",
             fieldhelp="Typennummern, Hersteller, alles was man braucht",
@@ -79,7 +79,7 @@ class FirstProcess(TestCase):
             type=1,
         )
         self.device_description.save()
-        self.error_description = FieldDef(
+        self.error_description = FieldDefinition(
             name='error_description',
             descript="Murksbeschreibung",
             fieldhelp="Ausführliche beschreibung was defekt ist und wieso das ein Murks ist.",
