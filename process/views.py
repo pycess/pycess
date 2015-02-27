@@ -44,6 +44,5 @@ class ProcessInstanceView(View):
         # TODO: validate json
         instance.procdata = request.POST['json']
         instance.save()
-        print(instance.procdata)
         return self.get(request, process_id, instance_id)
     
