@@ -88,14 +88,14 @@ class FirstProcess(TestCase):
         )
         self.error_description.save()
         FieldPerstep(
-            step=self.first_step, field=self.device_description, interaction=2).save()
+            step=self.first_step, field_definition=self.device_description, interaction=2).save()
         FieldPerstep(
-            step=self.first_step, field=self.error_description, interaction=2).save()
+            step=self.first_step, field_definition=self.error_description, interaction=2).save()
 
         FieldPerstep(
-            step=self.decision, field=self.device_description, interaction=1).save()
+            step=self.decision, field_definition=self.device_description, interaction=1).save()
         FieldPerstep(
-            step=self.decision, field=self.error_description, interaction=1).save()
+            step=self.decision, field_definition=self.error_description, interaction=1).save()
         return self.murksmeldung
 
     def test_can_define_murksmeldung(self):

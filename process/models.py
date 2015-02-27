@@ -55,7 +55,7 @@ class ProcessStep(models.Model):
                 # REFACT: consider moving key generation into field
                 # REFACT: find a way to get a better css id/class on the fields
                 # should be id-name or something like that
-                (field.field.descript, field.json_schema()) 
+                (field.field_definition.descript, field.json_schema()) 
                     for field in self.step_fields.all()
             )
         }
@@ -104,7 +104,7 @@ class FieldPerstep(models.Model):
         unique_together = ('step', 'field_definition', )
 
     def json_schema(self):
-        return self.field.json_schema()
+        return self.field_definition.json_schema()
 
 
 @python_2_unicode_compatible
