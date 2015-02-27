@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from process.models import *
 from django.utils import timezone
+from django.views.generic import View
 from datetime import datetime
 import json
 
@@ -23,18 +24,25 @@ def process_instance_create(request, process_id):
     process = get_object_or_404(ProcessDef, pk=process_id)
     instance = ProcInstance.objects.create(
         process=process,
-        currentstep=process.first_status(),
-        # procdata = json.dumps({}) # FIXME: set initial data
+        currentstep=process.first_step(),
+        procdata = json.dumps({}), # FIXME: set initial data
         starttime=timezone.now(),
         stoptime=timezone.now(),
         status=3)
     return redirect('instance_detail', process_id=process.id, instance_id=instance.id)
 
 
-def process_instance_detail(request, process_id, instance_id):
-    instance = get_object_or_404(ProcInstance, pk=instance_id)
-    return HttpResponse(render(request, 'process/instance_index.html', locals()))
-
-
-def process_instance_step(request, process_id, instance_id):
-    pass
+class ProcessInstanceView(View):
+    
+    def get(self, request, process_id, instance_id):
+        instance = get_object_or_404(ProcInstance, pk=instance_id)
+        print(instance.procdata)
+        return HttpResponse(render(request, 'process/instance_index.html', locals()))
+    
+    def post(self, request, process_id, instance_id):
+        instance = get_object_or_404(ProcInstance, pk=instance_id)
+        # TODO: validate json
+        instance.procdata = request.POST['json']
+        instance.save()
+        return self.get(request, process_id, instance_id)
+    
