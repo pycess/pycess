@@ -9,26 +9,33 @@
 	<script>
 	$(function() {
 		var json_schema = {{ instance.currentstep.json_schema | jsonify }};
-		var current_step_data = {{ instance.current_step.json_data | jsonify }};
+		var current_step_data = {{ instance.procdata | safe}};
 		var editor = new JSONEditor(
 			document.getElementById("editor_holder"), 
-			{ schema: json_schema }
+			{
+				schema: json_schema,
+				startval: current_step_data
+			}
 		);
-		editor.setValue(current_step_data);
-		var errors = editor.validate();
-		if(errors.length) {
-		  // Not valid
-		}
+		// editor.setValue(current_step_data);
+		// var errors = editor.validate();
+		// if(errors.length) {
+		//   // Not valid
+		// }
 
 		editor.on("change",  function() {
-		  // Do something...
+			$('input#json').val(JSON.stringify(editor.getValue()));
 		});
-		
 	});
 	</script>
 </head>
 <body>
 	<h2>Instance for Process: {{instance.process.name}}</h2>
 	<div id="editor_holder"></div>
+	<form method="post">
+		{% csrf_token %}
+		<input type="hidden" name="json" id="json" />
+		<input type="submit">
+	</form>
 </body>
 </html>

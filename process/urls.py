@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^(?P<process_id>\d+)/create$',
         views.process_instance_create, name='instance_create'),
     url(r'^(?P<process_id>\d+)/(?P<instance_id>\d+)/?$',
-        views.process_instance_detail, name='instance_detail'),
+        views.ProcessInstanceView.as_view(), name='instance_detail'),
 ]
