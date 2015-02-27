@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from process.models import ProcessStep, ProcessDef, StatusScheme, FieldPerstep,  FieldDef, RoleDef, ProcInstance, RoleInstance, PycLog
+from process.models import ProcessStep, ProcessDef, StatusScheme, FieldPerstep,  FieldDefinition, RoleDef, ProcInstance, RoleInstance, PycLog
 
 
 class FieldperstepInline(admin.TabularInline):
@@ -43,7 +43,7 @@ class FielddefAdmin(admin.ModelAdmin):
     ordering = ['id']
     save_on_top = True
 #  list_filter = ('process') > funktioniert nicht (?)
-admin.site.register(FieldDef, FielddefAdmin)
+admin.site.register(FieldDefinition, FielddefAdmin)
 
 
 class RoledefAdmin(admin.ModelAdmin):

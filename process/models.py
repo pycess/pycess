@@ -25,7 +25,7 @@ class ProcessDef(models.Model):
 
     def first_status(self):
         # consider: StatusScheme.objects.raw('SELECT * FROM
-        # process_statusscheme WHERE selfstep_id = prestep_id')
+        #     process_statusscheme WHERE selfstep_id = prestep_id')
         return ProcessStep.objects.get(process=self, selfstep=models.F('prestep'))
 
 
@@ -53,8 +53,8 @@ class ProcessStep(models.Model):
             'properties': dict(
                 # REFACT: consider moving key generation into field
                 # REFACT: find a way to get a better css id/class on the fields
-                # should be id-name or something like that
-                (field.field.descript, field.json_schema()) for field in self.fields.all()
+                #   should be id-name or something like that
+                (field.field.descript, field.json_schema()) for field in self.step_fields.all()
             )
         }
 
@@ -87,8 +87,8 @@ class StatusScheme(models.Model):
 @python_2_unicode_compatible
 class FieldPerstep(models.Model):
     # Fields, die pro Schritt angezeigt/abgefragt werden
-    step = models.ForeignKey('ProcessStep', related_name='fields')
-    field = models.ForeignKey('FieldDef')
+    step  = models.ForeignKey('ProcessStep', related_name='step_fields')
+    field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
     # 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
     editdefault = models.CharField(max_length=200, blank=True)
@@ -99,27 +99,27 @@ class FieldPerstep(models.Model):
         return str(self.id)
 
     class Meta:
-        unique_together = ('step', 'field', )
+        unique_together = ('step', 'field_definition', )
 
     def json_schema(self):
         return self.field.json_schema()
 
 
 @python_2_unicode_compatible
-class FieldDef(models.Model):
+class FieldDefinition(models.Model):
     process   = models.ForeignKey('ProcessDef', null=True)
     name      = models.CharField(max_length=200)
     descript  = models.CharField(max_length=200, blank=True)
     fieldhelp = models.CharField(max_length=200, blank=True)
     # In einem Formular ggf. angezeigte ausfuehrlichere Erklaerung zur Bedeutung des Feldes
     #   REFACT: consider to replace with real enum so that we can write the constructor as
-    #     FieldDef(fieldType=FieldDef.STRING)
+    #     FieldDefinition(fieldType=FieldDefinition.STRING)
     fieldtype = models.PositiveSmallIntegerField()
     # Datentyp: 1-char, 2-int-number, 3-finance-number, 4-float-num, 5-Date,
     #	6-Datetime, 7 blob, 8-Enum (tbd)
     length = models.PositiveSmallIntegerField(default=1)
     # Length 1 bei Typen mit impliziter Laenge, etwa Date
-    parent = models.ForeignKey('FieldDef', null=True, blank=True)
+    parent = models.ForeignKey('FieldDefinition', null=True, blank=True)
     # Field-Struktur ermoeglicht 1:n Datenbeziehungen auf Instanz-Ebene
     type = models.PositiveSmallIntegerField(default=1)
     # etwa 1-normal 2-pycess-intern 3-javascript-intern
