@@ -25,7 +25,7 @@ class ProcessDef(models.Model):
     def __str__(self):
         return self.name
 
-    def first_status(self):
+    def first_step(self):
         # consider: StatusScheme.objects.raw('SELECT * FROM
         # process_statusscheme WHERE selfstep_id = prestep_id')
         return ProcessStep.objects.get(process=self, selfstep=models.F('prestep'))
@@ -50,13 +50,15 @@ class ProcessStep(models.Model):
         return self.name
 
     def json_schema(self):
+        # See: https://github.com/jdorn/json-editor
         return {
             'type': 'object',
             'properties': dict(
                 # REFACT: consider moving key generation into field
                 # REFACT: find a way to get a better css id/class on the fields
                 # should be id-name or something like that
-                (field.field.descript, field.json_schema()) for field in self.fields.all()
+                (field.field.descript, field.json_schema()) 
+                    for field in self.fields.all()
             )
         }
 
@@ -88,7 +90,7 @@ class StatusScheme(models.Model):
 
 @python_2_unicode_compatible
 class FieldPerstep(models.Model):
-        # Fields, die pro Schritt angezeigt/abgefragt werden
+    # Fields, die pro Schritt angezeigt/abgefragt werden
     step = models.ForeignKey('ProcessStep', related_name='fields')
     field = models.ForeignKey('FieldDef')
     interaction = models.PositiveSmallIntegerField(default=0)
