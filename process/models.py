@@ -31,16 +31,15 @@ class ProcessDef(models.Model):
 
 @python_2_unicode_compatible
 class ProcessStep(models.Model):
-    # Prozess-spezifischer Schritt, umfasst definierte Felder (FieldPerstep)
-    #   kann wiederum mehrfach pro Process vorkommen > StatusScheme
+    # Prozess-spezifischer Bearbeitungs-Schritt, umfasst definierte Felder (FieldPerstep)
     process = models.ForeignKey('ProcessDef', null=True)
-    role = models.ForeignKey('RoleDef',    null=True)
-    name = models.CharField(max_length=200)
-    descript = models.CharField(max_length=200, blank=True)
-    index = models.PositiveSmallIntegerField()
-    # Id innerhalb der ProcDef
-    #   REFACT: could/ should we replace index by a relation from ProcessDeff to
-    # its first ProcessStep?
+    role    = models.ForeignKey('RoleDef',    null=True)
+    name    = models.CharField(max_length=200)
+    descript= models.CharField(max_length=200, blank=True)
+    index   = models.PositiveSmallIntegerField()
+    #  Id innerhalb der ProcDef 
+    #   REFACT: replace index by a relation from ProcessDef to its first ProcessStep?
+    #   REFACT vdB: This field might be useless > can be derived from StatusScheme
     actiontype = models.PositiveSmallIntegerField()
     # Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
 
@@ -56,7 +55,7 @@ class ProcessStep(models.Model):
                 # REFACT: find a way to get a better css id/class on the fields
                 # should be id-name or something like that
                 (field.field_definition.descript, field.json_schema()) 
-                    for field in self.step_fields.all()
+                    for field in self.field_perstep.all()
             )
         }
 
@@ -66,12 +65,12 @@ class ProcessStep(models.Model):
 
 @python_2_unicode_compatible
 class StatusScheme(models.Model):
-    # Zulaessige Folge-Status fuer jeden Status > 1..n prestep-Nodes
+    # Alle Status des Prozesses, dazu deren moegliche Vorgaenger-Status
     process = models.ForeignKey('ProcessDef', null=True)
     selfstep = models.ForeignKey(
-        'ProcessStep', related_name='selfstep', null=True)
+        'ProcessStep', related_name='status_thisstep', null=True)
     prestep = models.ForeignKey(
-        'ProcessStep', related_name='prestep', null=True)
+        'ProcessStep', related_name='status_prestep' , null=True)
     # Erster Schritt: Prestep = Selfstep
     name   = models.CharField(max_length=20)
     remark = models.CharField(max_length=200, blank=True)
@@ -82,21 +81,23 @@ class StatusScheme(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta:
-        unique_together = ('process', 'selfstep', 'prestep',)
+    # Deprecated:   unique_together = ('process', 'selfstep', 'prestep',)
+    #   Denn es kann durchaus mehrere Status fuer die gleiche pre>step Folge geben 
 
 
 @python_2_unicode_compatible
 class FieldPerstep(models.Model):
-    # Fields, die pro Schritt angezeigt/abgefragt werden
-    step  = models.ForeignKey('ProcessStep', related_name='step_fields')
+    # Fields, die pro ProcessStep im Formular erscheinen
+    step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
     # 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
     editdefault = models.CharField(max_length=200, blank=True)
     # wird bei interaction>0 und leerem Feld eingesetzt
     #   Typ ist ggf. umzusetzen, z.B. text>integer
-
+    order = models.PositiveSmallIntegerField(default=1)
+    #   Abfolge des Felds im Formular. Evt. in 10er Stufen, 
+    #     damit bei Umstellungen nicht alle order-s zu aendern sind.
     def __str__(self):
         return str(self.id)
 
@@ -109,6 +110,7 @@ class FieldPerstep(models.Model):
 
 @python_2_unicode_compatible
 class FieldDefinition(models.Model):
+    # Im Process insgesamt verfuegbare Felder
     process   = models.ForeignKey('ProcessDef', null=True)
     name      = models.CharField(max_length=200)
     descript  = models.CharField(max_length=200, blank=True)
@@ -151,28 +153,26 @@ class FieldDefinition(models.Model):
 
 @python_2_unicode_compatible
 class RoleDef(models.Model):
+    # Roles available for a process
     process = models.ForeignKey('ProcessDef')
-    name = models.CharField(max_length=200)
-    descript = models.CharField(max_length=200, blank=True)
+    name    = models.CharField(max_length=200)
+    descript= models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.name
 
-## II - Prozess-Instanz
-
 
 @python_2_unicode_compatible
 class ProcInstance(models.Model):
-    process = models.ForeignKey('ProcessDef', related_name="instances")
-    # procdata = models.JSONdata() .. TODO
-    procdata = models.TextField(default='')
+    # Runtime Instances for a process
+    process   = models.ForeignKey('ProcessDef', related_name="instances")
+    # procdata= models.JSONdata() .. TODO
+    procdata  = models.TextField(default='')
     currentstep = models.ForeignKey('ProcessStep', blank=True, null=True)
     starttime = models.DateTimeField()
-    # FIXed: needs to be nullable, while process is in progress
-    stoptime = models.DateTimeField(null=True)
-    status = models.PositiveSmallIntegerField()
-    # etwa 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv
-    # 6-abgeschlossen
+    stoptime  = models.DateTimeField(null=True)
+    status    = models.PositiveSmallIntegerField()
+    # Status: 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
 
     def __str__(self):
         return str(self.id)
@@ -180,11 +180,12 @@ class ProcInstance(models.Model):
 
 @python_2_unicode_compatible
 class RoleInstance(models.Model):
-    role = models.ForeignKey('RoleDef')
-    procinst = models.ForeignKey('ProcInstance', blank=True, null=True)
-    # user = models.ForeignKey(erweitertes Django User-Modell)
+    # Roles assigned for a process instance
+    role      = models.ForeignKey('RoleDef')
+    procinst  = models.ForeignKey('ProcInstance', blank=True, null=True)
+    # user  = models.ForeignKey(erweitertes Django User-Modell)
     entrytime = models.DateTimeField()
-    exittime = models.DateTimeField(null=True)
+    exittime  = models.DateTimeField(null=True)
 
     def __str__(self):
         return str(self.id)
@@ -192,8 +193,9 @@ class RoleInstance(models.Model):
 
 @python_2_unicode_compatible
 class PycLog(models.Model):
-    time = models.DateTimeField()
-    action = models.CharField(max_length=200)
+    # Log der Aktionen auf Pycess-Anwendungs-Ebene
+    time    = models.DateTimeField()
+    action  = models.CharField(max_length=200)
 
     def __str__(self):
         return str(self.id)
