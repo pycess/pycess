@@ -29,7 +29,7 @@ class ProcessDef(models.Model):
     def first_step(self):
         # consider: StatusScheme.objects.raw('SELECT * FROM
         #     process_statusscheme WHERE selfstep_id = prestep_id')
-        return ProcessStep.objects.get(process=self, selfstep=models.F('prestep'))
+        return ProcessStep.objects.get(process=self, status_thisstep=models.F('status_prestep'))
 
 
 @python_2_unicode_compatible
