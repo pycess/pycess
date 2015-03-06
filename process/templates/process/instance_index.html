@@ -35,8 +35,11 @@
 		// if(errors.length) {
 		//   // Not valid
 		// }
-
-		editor.on("change",  function() {
+		
+		// editor.on("change",  function() {
+		// 	$('input#json').val(JSON.stringify(editor.getValue()));
+		// });
+		$('button[type=submit]').click(function() {
 			$('input#json').val(JSON.stringify(editor.getValue()));
 		});
 	});
