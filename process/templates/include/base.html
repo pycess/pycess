@@ -14,14 +14,17 @@
 	
 </head>
 <body role="document">
+	{# See: http://a11yproject.com/posts/skip-nav-links/ #}
+	<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
 	{% include "include/nav.html" %}
 	
-	<div class="container" style="margin-top: 60px">
+	<div id="content" class="container" style="margin-top: 60px">
 		{% block content %}{% endblock %}
 	</div>
 	<script src="{% static 'vendor/jquery/dist/jquery.js' %}"></script>
 	<script src="{% static 'vendor/json-editor/dist/jsoneditor.js' %}"></script>
 	<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.js' %}"></script>
+	
 	{% block scripts %}{% endblock %}
 </body>
 </html>
