@@ -124,7 +124,9 @@ class FieldPerstep(models.Model):
         unique_together = ('step', 'field_definition', )
 
     def json_schema(self):
-        return self.field_definition.json_schema()
+        schema = self.field_definition.json_schema()
+        schema['propertyOrder'] = self.order
+        return schema
 
 
 @python_2_unicode_compatible

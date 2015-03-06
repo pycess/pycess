@@ -96,26 +96,30 @@ class FirstProcess(TestCase):
             fieldtype=1,
             type=1,
         )
-        FieldPerstep.objects.create(
+        self.first_step_device_description = FieldPerstep.objects.create(
             step=self.first_step, 
             field_definition=self.device_description, 
-            interaction=2
+            order=1,
+            interaction=2,
         )
-        FieldPerstep.objects.create(
+        self.first_step_error_description = FieldPerstep.objects.create(
             step=self.first_step, 
             field_definition=self.error_description, 
-            interaction=2
+            order=2,
+            interaction=2,
         )
         
         FieldPerstep.objects.create(
             step=self.decision, 
             field_definition=self.device_description, 
-            interaction=1
+            order=1,
+            interaction=1,
         )
         FieldPerstep.objects.create(
             step=self.decision, 
             field_definition=self.error_description, 
-            interaction=1
+            order=2,
+            interaction=1,
         )
         return self.murksmeldung
     
@@ -136,23 +140,28 @@ class FirstProcess(TestCase):
         schema = self.first_step.json_schema()
         expect(schema).has_subdict(
             properties=dict(
-                error_description=self.error_description.json_schema(),
-                device_description=self.device_description.json_schema(),
+                error_description=self.first_step_error_description.json_schema(),
+                device_description=self.first_step_device_description.json_schema(),
             ),
             defaultProperties=['device_description', 'error_description']
         )
     
     def test_should_sort_fields(self):
-        expect(self.device_description.json_schema()) == {
+        schema = self.first_step.json_schema()
+        device_description = self.first_step_device_description.json_schema()
+        error_description = self.first_step_error_description.json_schema()
+        expect(device_description) == {
             'title': 'Gerätebeschreibung',
             'type': 'string',
             'format': 'textarea',
+            'propertyOrder': 1,
         }
         
-        expect(self.error_description.json_schema()) == {
+        expect(error_description) == {
             'title': 'Murksbeschreibung',
             'type': 'string',
             'format': 'textarea',
+            'propertyOrder': 2
         }
     
     def test_should_have_process_step_metadata_on_form(self):
