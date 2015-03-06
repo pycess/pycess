@@ -51,12 +51,12 @@
 			<input type="hidden" name="json" id="json" />
 			<div class="form-group">
 				{% for transition in instance.currentstep.possible_transitions %}
-					<button type="submit" class="btn" name="{{ transition.name }}">{{ transition.remark }}</button>
+					<button type="submit" class="btn" name="requested_transition" value="{{ transition.id }}">{{ transition.name }} - {{ transition.remark }}</button>
 				{% endfor %}
 				{# TODO: Consider if an automatic self-step could be desireable, to allow saving changes without also having to choose what the next step is #}
 				{# Should this get a value? Or is the absence of a value the best identifier? #}
 				{# Could also use this to autosave periodically via ajax call? #}
-				<button type="submit" class="btn btn-default">Save</button>
+				<button type="submit" class="btn btn-default">Save and continue editing</button>
 			</div>
 		</form>
 	</div>

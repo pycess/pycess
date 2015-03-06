@@ -2,9 +2,11 @@
 from __future__ import unicode_literals
 
 from django.test import TestCase
+from django.utils import timezone
 
 from process.models import *
 from pyexpect import expect
+import json
 
 
 class FirstProcess(TestCase):
@@ -34,6 +36,7 @@ class FirstProcess(TestCase):
             remark="Initialer Zustand",
             name='Init',
             selfstep=self.first_step,
+            prestep=self.first_step,
         )
         self.data_provider = RoleDef.objects.create(
             name="Murksmelder",
@@ -123,7 +126,14 @@ class FirstProcess(TestCase):
             order=2,
             interaction=1,
         )
-        return self.murksmeldung
+        
+        self.instance = ProcInstance.objects.create(
+            process=self.murksmeldung,
+            currentstep=self.murksmeldung.first_step(),
+            procdata=json.dumps({}), # FIXME: set initial data from somewhere
+            starttime=timezone.now(),
+            stoptime=timezone.now(),
+            status=3)
     
     def test_should_know_format_of_fields(self):
         expect(self.device_description.json_schema()) == {
@@ -177,4 +187,15 @@ class FirstProcess(TestCase):
         expect(transitions).has_length(2)
         # Stupid django returns something array like, but that doesn't implement the __equals__ protocol.
         expect(transitions).to_contain(self.publish, self.trash)
+    
+    def test_should_find_status_by_name(self):
+        pass
+    
+    def test_should_transition_to_valid_states(self):
+        self.instance.transition_with_status(self.enter_data)
+        expect(self.instance.currentstep) == self.decision
+    
+    def test_should_fail_when_transitioning_to_invalid_states(self):
+        expect(lambda: self.instance.transition_with_status(self.publish)) \
+            .to_raise(AssertionError, r"Invalid transition")
     

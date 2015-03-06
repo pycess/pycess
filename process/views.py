@@ -42,8 +42,11 @@ class ProcessInstanceView(View):
     
     def post(self, request, process_id, instance_id):
         instance = get_object_or_404(ProcInstance, pk=instance_id)
-        # TODO: validate json
+        # FIXME: validate json and then update procdata with it
         instance.procdata = request.POST['json']
+        # FIXME: validate requested_transition
+        transition = get_object_or_404(StatusScheme, pk=request.POST['requested_transition'])
+        instance.transition_with_status(transition)
         instance.save()
         return self.get(request, process_id, instance_id)
     

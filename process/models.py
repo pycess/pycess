@@ -211,6 +211,11 @@ class ProcInstance(models.Model):
     
     def __str__(self):
         return str(self.id)
+    
+    def transition_with_status(self, a_status):
+        assert a_status in self.currentstep.possible_transitions(), "Invalid transition"
+        # TODO: this is probably where the logic of the transition needs to be computed / done
+        self.currentstep = a_status.selfstep
 
 
 @python_2_unicode_compatible
