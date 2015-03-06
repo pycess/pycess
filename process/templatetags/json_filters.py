@@ -10,4 +10,4 @@ register = Library()
 
 @register.filter
 def jsonify(object):
-    return mark_safe(json.dumps(object, cls=DjangoJSONEncoder))
+    return json.dumps(object, cls=DjangoJSONEncoder)
