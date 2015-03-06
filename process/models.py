@@ -198,6 +198,8 @@ class RoleDef(models.Model):
 class ProcInstance(models.Model):
     """Runtime Instances for a process"""
     
+    # TODO: need a standard way to get a meaningfull abbreviation of the current step data to serve as headline
+    
     process   = models.ForeignKey('ProcessDef', related_name="instances")
     
     # TODO: Need a way to merge in updates to this field
