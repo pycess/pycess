@@ -11,10 +11,10 @@
 	</div>
 	<div id="navbar" class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">
-			{# See: https://code.djangoproject.com/ticket/18584 for ideas how to make this better #}
+			{# See: https://code.djangoproject.com/ticket/18584 for ideas how to make highlighting the current url better #}
 			{% url 'index' as index_url %}
-			<li {% if request.path_info == index_url %}class="active"{% endif %}><a href="{{index_url}}">Process List</a></li>
-			<li><a href="">TODO: My Processes</a></li>
+			<li {% if request.path_info == index_url %}class="active"{% endif %}><a href="{{index_url}}">Start Process</a></li>
+			<li><a href="">TODO: Work on process</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="/admin/">Admin</a></li>
