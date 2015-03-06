@@ -136,6 +136,7 @@ class FieldPerstep(models.Model):
 @python_2_unicode_compatible
 class FieldDefinition(models.Model):
     """ Im Process insgesamt verfuegbare Felder"""
+    
     process   = models.ForeignKey('ProcessDef', null=True)
     name      = models.CharField(max_length=200)
     descript  = models.CharField(max_length=200, blank=True)
@@ -181,7 +182,8 @@ class FieldDefinition(models.Model):
 
 @python_2_unicode_compatible
 class RoleDef(models.Model):
-    # Roles available for a process
+    """Roles available for a process"""
+    
     process = models.ForeignKey('ProcessDef')
     name    = models.CharField(max_length=200)
     descript= models.CharField(max_length=200, blank=True)
@@ -192,8 +194,11 @@ class RoleDef(models.Model):
 
 @python_2_unicode_compatible
 class ProcInstance(models.Model):
-    # Runtime Instances for a process
+    """Runtime Instances for a process"""
+    
     process   = models.ForeignKey('ProcessDef', related_name="instances")
+    
+    # TODO: Need a way to merge in updates to this field
     # procdata= models.JSONdata() .. TODO
     procdata  = models.TextField(default='')
     currentstep = models.ForeignKey('ProcessStep', blank=True, null=True)
@@ -201,27 +206,29 @@ class ProcInstance(models.Model):
     stoptime  = models.DateTimeField(null=True)
     status    = models.PositiveSmallIntegerField()
     # Status: 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
-
+    
     def __str__(self):
         return str(self.id)
 
 
 @python_2_unicode_compatible
 class RoleInstance(models.Model):
-    # Roles assigned for a process instance
+    """Roles assigned for a process instance"""
+    
     role      = models.ForeignKey('RoleDef')
     procinst  = models.ForeignKey('ProcInstance', blank=True, null=True)
     # user  = models.ForeignKey(erweitertes Django User-Modell)
     entrytime = models.DateTimeField()
     exittime  = models.DateTimeField(null=True)
-
+    
     def __str__(self):
         return str(self.id)
 
 
 @python_2_unicode_compatible
 class PycLog(models.Model):
-    # Log der Aktionen auf Pycess-Anwendungs-Ebene
+    """Log der Aktionen auf Pycess-Anwendungs-Ebene"""
+    
     time    = models.DateTimeField()
     action  = models.CharField(max_length=200)
 
