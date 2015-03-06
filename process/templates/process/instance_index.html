@@ -11,7 +11,7 @@
 	<link href="{% static 'vendor/bootstrap/dist/css/bootstrap-theme.css' %}" rel="stylesheet">
 	<script>
 	$(function() {
-		var json_schema = {{ instance.currentstep.json_schema | jsonify }};
+		var json_schema = {{ json_schema | jsonify | safe }};
 		// TODO: need to use JSON.parse to prevent code injections
 		var current_step_data = {{ current_json | safe}};
 		var editor = new JSONEditor(

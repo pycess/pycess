@@ -36,7 +36,7 @@ class ProcessInstanceView(View):
     
     def get(self, request, process_id, instance_id):
         instance = get_object_or_404(ProcInstance, pk=instance_id)
-        print(instance.procdata)
+        json_schema = instance.currentstep.json_schema
         current_json = instance.currentstep.json_data(instance)
         return HttpResponse(render(request, 'process/instance_index.html', locals()))
     
