@@ -1,12 +1,17 @@
+{% extends "include/base.html" %}
+
+{% block title %}{{process.name}}{% endblock %}
+
+{% block body %}
 {% if process %}
 	<h2>{{process.name}}</h2>
 	<div><a href="{% url 'instance_create' process.id %}">Create Process</a>
 	<ul>
 	{% for instance in process.instances.all %}
-		{# TODO: need a standard way to get a meaningfull abbreviation of the current step data to serve as headline #}
 		<li><a href="{% url 'instance_detail' process.id instance.id %}/">Status: {{instance.currentstep.name}} Role: {{instance.currentstep.role.name}}</a></li>
 	{% endfor %}
 	</ul>
 {% else %}
 	<p>No process instances are available.</p>
 {% endif %}
+{% endblock body %}
