@@ -12,12 +12,12 @@ import json
 
 def process_index(request):
     processes = ProcessDef.objects.all()
-    return HttpResponse(render(request, 'process/index.html', locals()))
+    return HttpResponse(render(request, 'process/process_list.html', locals()))
 
 
 def process_detail(request, process_id):
     process = get_object_or_404(ProcessDef, pk=process_id)
-    return HttpResponse(render(request, 'process/detail.html', locals()))
+    return HttpResponse(render(request, 'process/process_instance_list.html', locals()))
 
 
 def process_instance_create(request, process_id):
@@ -38,7 +38,7 @@ class ProcessInstanceView(View):
         instance = get_object_or_404(ProcInstance, pk=instance_id)
         json_schema = instance.currentstep.json_schema
         current_json = instance.currentstep.json_data(instance)
-        return HttpResponse(render(request, 'process/instance_index.html', locals()))
+        return HttpResponse(render(request, 'process/process_instance_detail.html', locals()))
     
     def post(self, request, process_id, instance_id):
         instance = get_object_or_404(ProcInstance, pk=instance_id)
