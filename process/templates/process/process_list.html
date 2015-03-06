@@ -1,6 +1,6 @@
 {% extends "include/base.html" %}
 
-{% block body %}
+{% block content %}
 {% if processes %}
     <ul>
     {% for process in processes %}
@@ -10,4 +10,4 @@
 {% else %}
     <p>No processes are available.</p>
 {% endif %}
-{% endblock body %}
+{% endblock content %}

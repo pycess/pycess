@@ -2,7 +2,7 @@
 
 {% block title %}{{process.name}}{% endblock %}
 
-{% block body %}
+{% block content %}
 {% if process %}
 	<h2>{{process.name}}</h2>
 	<div><a href="{% url 'instance_create' process.id %}">Create Process</a>
@@ -14,4 +14,4 @@
 {% else %}
 	<p>No process instances are available.</p>
 {% endif %}
-{% endblock body %}
+{% endblock content %}
