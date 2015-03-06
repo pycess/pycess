@@ -48,6 +48,9 @@ class ProcessStep(models.Model):
     actiontype = models.PositiveSmallIntegerField()
     """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
     
+    def next_seps(self):
+        return ProcessStep.objects.filter(selfstep__prestep=self).all()
+    
     def __str__(self):
         return self.name
 
@@ -55,13 +58,15 @@ class ProcessStep(models.Model):
         # See: https://github.com/jdorn/json-editor
         return {
             'type': 'object',
+            'title': self.name,
             'properties': dict(
                 # REFACT: consider moving key generation into field
                 # REFACT: find a way to get a better css id/class on the fields
                 # should be id-name or something like that
-                (field.field_definition.descript, field.json_schema()) 
+                (field.field_definition.name, field.json_schema()) 
                     for field in self.field_perstep.all()
-            )
+            ),
+            'defaultProperties': [field.field_definition.name for field in self.step_fields.all()]
         }
 
     def json_data(self):
@@ -163,6 +168,7 @@ class FieldDefinition(models.Model):
 
         return {
             'type': type_mapping.get(self.fieldtype, 'string'),
+            'title': self.descript,
             'format': format_mapping.get(self.fieldtype, 'string')
         }
 

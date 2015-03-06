@@ -118,29 +118,46 @@ class FirstProcess(TestCase):
             interaction=1
         )
         return self.murksmeldung
-
-
-    def test_serialize_step_to_json_form_schema(self):
+    
+    def test_should_know_format_of_fields(self):
         expect(self.device_description.json_schema()) == {
+            'title': 'Gerätebeschreibung',
             'type': 'string',
             'format': 'textarea',
         }
-
+        
         expect(self.error_description.json_schema()) == {
+            'title': 'Murksbeschreibung',
             'type': 'string',
             'format': 'textarea',
         }
-
-        expect(self.first_step.json_schema()) == {
-            'type': 'object',
-            'properties': {
-                'Gerätebeschreibung': {
-                    'type': 'string',
-                    'format': 'textarea',
-                },
-                'Murksbeschreibung': {
-                    'type': 'string',
-                    'format': 'textarea',
-                },
-            },
+    
+    def test_should_know_fields_in_process_step(self):
+        schema = self.first_step.json_schema()
+        expect(schema).has_subdict(
+            properties=dict(
+                error_description=self.error_description.json_schema(),
+                device_description=self.device_description.json_schema(),
+            ),
+            defaultProperties=['device_description', 'error_description']
+        )
+    
+    def test_should_sort_fields(self):
+        expect(self.device_description.json_schema()) == {
+            'title': 'Gerätebeschreibung',
+            'type': 'string',
+            'format': 'textarea',
         }
+        
+        expect(self.error_description.json_schema()) == {
+            'title': 'Murksbeschreibung',
+            'type': 'string',
+            'format': 'textarea',
+        }
+    
+    def test_should_have_process_step_metadata_on_form(self):
+        expect(self.first_step.json_schema()).has_subdict({
+            'title': "Erstmeldung",
+            'type': 'object',
+        })
+    
