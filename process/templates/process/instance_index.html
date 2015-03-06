@@ -18,7 +18,15 @@
 			document.getElementById("editor_holder"), 
 			{
 				schema: json_schema,
-				startval: current_step_data
+				startval: current_step_data,
+				
+				theme: 'bootstrap3',
+				iconlib: 'bootstrap3',
+				disable_edit_json: true,
+				disable_properties: true,
+				disable_collapse: true,
+				no_additional_properties: true,
+				required_by_default: true
 			}
 		);
 		// editor.setValue(current_step_data);
