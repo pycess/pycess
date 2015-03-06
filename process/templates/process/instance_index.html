@@ -13,7 +13,7 @@
 	$(function() {
 		var json_schema = {{ instance.currentstep.json_schema | jsonify }};
 		// TODO: need to use JSON.parse to prevent code injections
-		var current_step_data = {{ instance.procdata | safe}};
+		var current_step_data = {{ current_json | safe}};
 		var editor = new JSONEditor(
 			document.getElementById("editor_holder"), 
 			{

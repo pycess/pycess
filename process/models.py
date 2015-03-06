@@ -68,14 +68,18 @@ class ProcessStep(models.Model):
             ),
             'defaultProperties': [field.field_definition.name for field in self.field_perstep.all()]
         }
-
-    def json_data(self):
-        return {}  # TODO: add real data
+    
+    def json_data(self, an_instance):
+        # FIXME: need to filter out only the values interesting for the current step
+        return an_instance.procdata
 
 
 @python_2_unicode_compatible
 class StatusScheme(models.Model):
     """Alle Status des Prozesses, dazu deren moegliche Vorgaenger-Status"""
+    
+    # REFACT: could it be sensible to consider all steps prestep == NULL entry possible entry steps into the process?
+    # Use case: process which can be started at many places - by different roles?
     
     process = models.ForeignKey('ProcessDef', null=True)
     
