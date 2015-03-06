@@ -27,9 +27,10 @@ class ProcessDef(models.Model):
         return self.name
 
     def first_step(self):
-        # consider: StatusScheme.objects.raw('SELECT * FROM
-        #     process_statusscheme WHERE selfstep_id = prestep_id')
+        # REFACT: might need to switch this protocoll to consider objects without a prestep
+        # initial objects
         return ProcessStep.objects.get(process=self, status_thisstep=models.F('status_prestep'))
+    
 
 
 @python_2_unicode_compatible
@@ -80,6 +81,7 @@ class StatusScheme(models.Model):
     
     # REFACT: could it be sensible to consider all steps prestep == NULL entry possible entry steps into the process?
     # Use case: process which can be started at many places - by different roles?
+    # Use case: allowing steps that loop on the same state, but with logic. E.g.: remind me after x days.
     
     process = models.ForeignKey('ProcessDef', null=True)
     
