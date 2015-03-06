@@ -15,9 +15,11 @@
 			{% url 'index' as index_url %}
 			<li {% if request.path_info == index_url %}class="active"{% endif %}><a href="{{index_url}}">Start Process</a></li>
 			<li><a href="">TODO: Work on process</a></li>
+			{# TODO: Consider adding a popup menu to create processes instantly without having to go to a list first? #}
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="/admin/">Admin</a></li>
+			<li><a href='javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();'>Bootlint current page</a></li>
 		</ul>
 	</div><!--/.nav-collapse -->
 	</div>
