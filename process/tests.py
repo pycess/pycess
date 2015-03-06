@@ -8,101 +8,119 @@ from pyexpect import expect
 
 
 class FirstProcess(TestCase):
-
+    
+    def setUp(self):
+        super(FirstProcess, self).setUp()
+        self._create_murksmeldung()
+    
     def _create_murksmeldung(self):
-        self.murksmeldung = ProcessDef(
+        self.murksmeldung = ProcessDef.objects.create(
             name="Murksmeldung",
             descript="Meldungen über Geräte an denen geplante Obsoleszenz sichtbar wird.",
             status=0,
             version=1,
             # REFACT: consider to move first step into a relation on this
         )
-        self.murksmeldung.save()
-        self.first_step = ProcessStep(
+        self.first_step = ProcessStep.objects.create(
             name="Erstmeldung",
             descript="Jemand meldet sich mit einer Fehlermeldung",
             actiontype=0,
             index=1,  # first step
             process=self.murksmeldung,
         )
-        self.first_step.save()
-        self.initial_status = StatusScheme(
+        self.initial_status = StatusScheme.objects.create(
             remark="Initialer Zustand",
             name='Init',
             selfstep=self.first_step,
         )
-        self.initial_status.save()
-        self.data_provider = RoleDef(
+        self.data_provider = RoleDef.objects.create(
             name="Murksmelder",
             descript="Meldet einen Murks.",
             process=self.murksmeldung,
         )
-        self.data_provider.save()
-        self.data_processor = RoleDef(
+        self.data_processor = RoleDef.objects.create(
             name="Redaktör",
             descript="Nimmt Murksmeldungen entgegen, bearbeitet diese und entscheidet ob Sie veröffentlicht werden sollen.",
             process=self.murksmeldung,
         )
-        self.data_processor.save()
-        self.decision = ProcessStep(
+        self.decision = ProcessStep.objects.create(
             name="Veröffentlichungsentscheidung",
             descript="Der Redaktör entscheidet was mit der Meldung passieren soll.",
             actiontype=0,
             index=1,
             process=self.murksmeldung,
         )
-        self.decision.save()
-        self.data_entered = StatusScheme(
+        self.enter_data = StatusScheme.objects.create(
             name="Daten eingegeben",
             prestep=self.first_step,
             selfstep=self.decision,
         )
-        self.data_entered.save()
-        self.data_published = StatusScheme(
-            name='Report_Published',
-            remark="Murksmeldung veröffentlicht",
-            prestep=self.decision,
+        self.published = ProcessStep.objects.create(
+            name="Daten veröffentlicht",
+            descript="Murksmeldung Veröffentlicht",
+            actiontype=0,
+            index=2,
+            process=self.murksmeldung,
         )
-        self.data_published.save()
-        self.trashed = StatusScheme(
-            name='Declined',
-            remark="Murksmeldung verworfen",
+        self.publish = StatusScheme.objects.create(
+            name='Veröffentlichen',
+            remark="Murksmeldung veröffentlichen",
             prestep=self.decision,
+            selfstep=self.published,
         )
-        self.trashed.save()
-
-        self.device_description = FieldDefinition(
+        self.trashed = ProcessStep.objects.create(
+            name="Abgelehnt / Verworfen",
+            descript="Murksmeldung verworfen",
+            actiontype=0,
+            index=3,
+            process=self.murksmeldung,
+        )
+        self.thrash = StatusScheme.objects.create(
+            name='Verwerfen',
+            remark="Murksmeldung verwerfen",
+            prestep=self.decision,
+            selfstep=self.trashed,
+        )
+        
+        self.device_description = FieldDefinition.objects.create(
             name='device_description',
             descript="Gerätebeschreibung",
             fieldhelp="Typennummern, Hersteller, alles was man braucht",
             fieldtype=1,
             type=1,
         )
-        self.device_description.save()
-        self.error_description = FieldDefinition(
+        self.error_description = FieldDefinition.objects.create(
             name='error_description',
             descript="Murksbeschreibung",
             fieldhelp="Ausführliche beschreibung was defekt ist und wieso das ein Murks ist.",
             fieldtype=1,
             type=1,
         )
-        self.error_description.save()
-        FieldPerstep(
-            step=self.first_step, field_definition=self.device_description, interaction=2).save()
-        FieldPerstep(
-            step=self.first_step, field_definition=self.error_description, interaction=2).save()
-
-        FieldPerstep(
-            step=self.decision, field_definition=self.device_description, interaction=1).save()
-        FieldPerstep(
-            step=self.decision, field_definition=self.error_description, interaction=1).save()
+        FieldPerstep.objects.create(
+            step=self.first_step, 
+            field_definition=self.device_description, 
+            interaction=2
+        )
+        FieldPerstep.objects.create(
+            step=self.first_step, 
+            field_definition=self.error_description, 
+            interaction=2
+        )
+        
+        FieldPerstep.objects.create(
+            step=self.decision, 
+            field_definition=self.device_description, 
+            interaction=1
+        )
+        FieldPerstep.objects.create(
+            step=self.decision, 
+            field_definition=self.error_description, 
+            interaction=1
+        )
         return self.murksmeldung
 
-    def test_can_define_murksmeldung(self):
-        self._create_murksmeldung()
 
     def test_serialize_step_to_json_form_schema(self):
-        self._create_murksmeldung()
         expect(self.device_description.json_schema()) == {
             'type': 'string',
             'format': 'textarea',
