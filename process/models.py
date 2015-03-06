@@ -49,7 +49,7 @@ class ProcessStep(models.Model):
     """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
     
     def next_seps(self):
-        return ProcessStep.objects.filter(selfstep__prestep=self).all()
+        return ProcessStep.objects.filter(status_thisstep__prestep=self).all()
     
     def __str__(self):
         return self.name
@@ -66,7 +66,7 @@ class ProcessStep(models.Model):
                 (field.field_definition.name, field.json_schema()) 
                     for field in self.field_perstep.all()
             ),
-            'defaultProperties': [field.field_definition.name for field in self.step_fields.all()]
+            'defaultProperties': [field.field_definition.name for field in self.field_perstep.all()]
         }
 
     def json_data(self):
