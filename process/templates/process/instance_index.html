@@ -42,12 +42,20 @@
 	</script>
 </head>
 <body>
-	<h2>Instance for Process: {{instance.process.name}}</h2>
-	<div id="editor_holder"></div>
-	<form method="post">
-		{% csrf_token %}
-		<input type="hidden" name="json" id="json" />
-		<input type="submit" value="Submit" />
-	</form>
+	<div class="container">
+            {# <div class="columns"</div> #}
+		<h2>Instance for Process: {{instance.process.name}}</h2>
+		<div id="editor_holder" class="row"></div>
+		<form method="post">
+			{% csrf_token %}
+			<input type="hidden" name="json" id="json" />
+			{% for transition in instance.currentstep.next_steps %}
+				<button type="submit" class="btn btn" name="{{ transition.name }}">{{ transition.descript }}</button>
+			{% endfor %}
+			{# TODO: Consider if an automatic self-step could be desireable, to allow saving changes without also having to choose what the next step is #}
+			<button type="submit" class="btn btn-default">Save</button>
+		</form>
+        </div></div>
+	</body>
 </body>
 </html>

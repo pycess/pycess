@@ -14,6 +14,8 @@ class FirstProcess(TestCase):
         self._create_murksmeldung()
     
     def _create_murksmeldung(self):
+        # REFACT: investigate how django default data works, some json / yaml file perhaps?
+        # Would be very usefull if this can be preloaded into the gui easily as play data
         self.murksmeldung = ProcessDef.objects.create(
             name="Murksmeldung",
             descript="Meldungen über Geräte an denen geplante Obsoleszenz sichtbar wird.",
@@ -169,4 +171,10 @@ class FirstProcess(TestCase):
             'title': "Erstmeldung",
             'type': 'object',
         })
+    
+    def test_get_next_steps(self):
+        next_steps = self.decision.next_seps()
+        expect(next_steps).has_length(2)
+        expect(next_steps[0]) == self.published
+        expect(next_steps[1]) == self.trashed
     
