@@ -37,14 +37,14 @@ class ProcessStep(models.Model):
     """Prozess-spezifischer Bearbeitungs-Schritt, umfasst definierte Felder (FieldPerstep)"""
     
     process = models.ForeignKey('ProcessDef', null=True)
-    role    = models.ForeignKey('RoleDef',    null=True)
-    name    = models.CharField(max_length=200)
-    descript= models.CharField(max_length=200, blank=True)
-    #   REFACT: replace index by a relation from ProcessDef to its first ProcessStep?
-    #   REFACT vdB: This field might be useless > can be derived from StatusScheme
+    role = models.ForeignKey('RoleDef',    null=True)
+    name = models.CharField(max_length=200)
+    descript = models.CharField(max_length=200, blank=True)
     index = models.PositiveSmallIntegerField()
     """Id innerhalb der ProcDef"""
     
+    #   REFACT: could/ should we replace index by a relation from ProcessDeff to
+    # its first ProcessStep?
     actiontype = models.PositiveSmallIntegerField()
     """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
     
@@ -73,13 +73,20 @@ class StatusScheme(models.Model):
     """Alle Status des Prozesses, dazu deren moegliche Vorgaenger-Status"""
     
     process = models.ForeignKey('ProcessDef', null=True)
+    
+    # REFACT: consider requiring selfstep and prestep to be non null --dwt
+    # REFACT: rename related_name to something more unique
     selfstep = models.ForeignKey(
         'ProcessStep', related_name='status_thisstep', null=True)
+        
+    # REFACT: rename related_name to something more unique
     prestep = models.ForeignKey(
         'ProcessStep', related_name='status_prestep' , null=True)
     # Erster Schritt: Prestep = Selfstep
+    
     name   = models.CharField(max_length=20)
     remark = models.CharField(max_length=200, blank=True)
+    
     logic  = models.CharField(max_length=200, blank=True)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift
     #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt
@@ -134,6 +141,8 @@ class FieldDefinition(models.Model):
     # Field-Struktur ermoeglicht 1:n Datenbeziehungen auf Instanz-Ebene
     type = models.PositiveSmallIntegerField(default=1)
     # etwa 1-normal 2-pycess-intern 3-javascript-intern
+    
+    # REFACT: I think we need a way to order FieldDefinition --dwt
 
     def __str__(self):
         return self.name
