@@ -8,6 +8,7 @@ from process.models import *
 from pyexpect import expect
 import json
 
+# TODO: understand how to do integration tests with django testing - or if it is better to switch to something specialized like rspec
 
 class FirstProcess(TestCase):
     
@@ -187,9 +188,6 @@ class FirstProcess(TestCase):
         expect(transitions).has_length(2)
         # Stupid django returns something array like, but that doesn't implement the __equals__ protocol.
         expect(transitions).to_contain(self.publish, self.trash)
-    
-    def test_should_find_status_by_name(self):
-        pass
     
     def test_should_transition_to_valid_states(self):
         self.instance.transition_with_status(self.enter_data)
