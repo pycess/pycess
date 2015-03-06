@@ -77,7 +77,7 @@ class FirstProcess(TestCase):
             index=3,
             process=self.murksmeldung,
         )
-        self.thrash = StatusScheme.objects.create(
+        self.trash = StatusScheme.objects.create(
             name='Verwerfen',
             remark="Murksmeldung verwerfen",
             prestep=self.decision,
@@ -172,9 +172,9 @@ class FirstProcess(TestCase):
             'type': 'object',
         })
     
-    def test_get_next_steps(self):
-        next_steps = self.decision.next_seps()
-        expect(next_steps).has_length(2)
-        expect(next_steps[0]) == self.published
-        expect(next_steps[1]) == self.trashed
+    def test_get_outgoing_transitions(self):
+        transitions = self.decision.possible_transitions()
+        expect(transitions).has_length(2)
+        # Stupid django returns something array like, but that doesn't implement the __equals__ protocol.
+        expect(transitions).to_contain(self.publish, self.trash)
     

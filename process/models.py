@@ -48,8 +48,8 @@ class ProcessStep(models.Model):
     actiontype = models.PositiveSmallIntegerField()
     """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
     
-    def next_seps(self):
-        return ProcessStep.objects.filter(status_thisstep__prestep=self).all()
+    def possible_transitions(self):
+        return StatusScheme.objects.filter(prestep=self).all()
     
     def __str__(self):
         return self.name
