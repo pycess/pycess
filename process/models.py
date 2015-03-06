@@ -12,13 +12,16 @@ from django.utils.encoding import python_2_unicode_compatible
 class ProcessDef(models.Model):
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)
-    status = models.PositiveSmallIntegerField()
-    # etwa 1-geplant 2-Definitionsphase 3-nutzbar 4-aktiv 5-postponed 6-deaktiv
-    #   REFACT: add constants for status
-    version = models.PositiveSmallIntegerField(default=1)
+    
     # von 1..2^16 hochgezaehlt für jede neue Version
-    refering = models.ForeignKey('ProcessDef', null=True, blank=True)
+    version = models.PositiveSmallIntegerField(default=1)
+    
+    #   REFACT: add constants for status
+    # etwa 1-geplant 2-Definitionsphase 3-nutzbar 4-aktiv 5-postponed 6-deaktiv
+    status = models.PositiveSmallIntegerField()
+    
     # optional: Verweis auf Vorgaenger-Version oder Templates, Kopien etc.
+    refering = models.ForeignKey('ProcessDef', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -31,18 +34,20 @@ class ProcessDef(models.Model):
 
 @python_2_unicode_compatible
 class ProcessStep(models.Model):
-    # Prozess-spezifischer Bearbeitungs-Schritt, umfasst definierte Felder (FieldPerstep)
+    """Prozess-spezifischer Bearbeitungs-Schritt, umfasst definierte Felder (FieldPerstep)"""
+    
     process = models.ForeignKey('ProcessDef', null=True)
     role    = models.ForeignKey('RoleDef',    null=True)
     name    = models.CharField(max_length=200)
     descript= models.CharField(max_length=200, blank=True)
-    index   = models.PositiveSmallIntegerField()
-    #  Id innerhalb der ProcDef 
     #   REFACT: replace index by a relation from ProcessDef to its first ProcessStep?
     #   REFACT vdB: This field might be useless > can be derived from StatusScheme
+    index = models.PositiveSmallIntegerField()
+    """Id innerhalb der ProcDef"""
+    
     actiontype = models.PositiveSmallIntegerField()
-    # Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter
-
+    """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
+    
     def __str__(self):
         return self.name
 
@@ -65,7 +70,8 @@ class ProcessStep(models.Model):
 
 @python_2_unicode_compatible
 class StatusScheme(models.Model):
-    # Alle Status des Prozesses, dazu deren moegliche Vorgaenger-Status
+    """Alle Status des Prozesses, dazu deren moegliche Vorgaenger-Status"""
+    
     process = models.ForeignKey('ProcessDef', null=True)
     selfstep = models.ForeignKey(
         'ProcessStep', related_name='status_thisstep', null=True)
@@ -87,7 +93,8 @@ class StatusScheme(models.Model):
 
 @python_2_unicode_compatible
 class FieldPerstep(models.Model):
-    # Fields, die pro ProcessStep im Formular erscheinen
+    """Fields, die pro Schritt angezeigt/abgefragt werden"""
+    
     step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
@@ -110,7 +117,7 @@ class FieldPerstep(models.Model):
 
 @python_2_unicode_compatible
 class FieldDefinition(models.Model):
-    # Im Process insgesamt verfuegbare Felder
+    """ Im Process insgesamt verfuegbare Felder"""
     process   = models.ForeignKey('ProcessDef', null=True)
     name      = models.CharField(max_length=200)
     descript  = models.CharField(max_length=200, blank=True)
