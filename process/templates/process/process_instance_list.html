@@ -3,7 +3,7 @@
 {% block content %}
 {% if process %}
 	<h1>{% block title %}{{process.name}}{% endblock %}</h1>
-	<div><a href="{% url 'instance_create' process.id %}">Create Process</a>
+	<a class="btn btn-default" href="{% url 'instance_create' process.id %}">Start new</a>
 	<ul>
 	{% for instance in process.instances.all %}
 		<li><a href="{% url 'instance_detail' process.id instance.id %}/">Status: {{instance.currentstep.name}} Role: {{instance.currentstep.role.name}}</a></li>
