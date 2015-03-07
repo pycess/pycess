@@ -2,8 +2,6 @@
 
 {% load json_filters %}
 
-{% block title %}{{instance.process.name}}{% endblock %}
-
 {% block scripts%}
 <script>
 	$(function() {
@@ -44,7 +42,7 @@
 
 
 {% block content %}
-<h2>Instance for Process: {{instance.process.name}}</h2>
+<h1>{% block title %}Instance of: {{instance.process.name}}{% endblock %}</h1>
 <div id="editor_holder"></div>
 <form method="post">
 	{% csrf_token %}

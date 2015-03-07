@@ -1,10 +1,8 @@
 {% extends "include/base.html" %}
 
-{% block title %}{{process.name}}{% endblock %}
-
 {% block content %}
 {% if process %}
-	<h2>{{process.name}}</h2>
+	<h1>{% block title %}{{process.name}}{% endblock %}</h1>
 	<div><a href="{% url 'instance_create' process.id %}">Create Process</a>
 	<ul>
 	{% for instance in process.instances.all %}
