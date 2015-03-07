@@ -21,10 +21,12 @@
 	<div id="content" class="container" style="margin-top: 60px">
 		{% block content %}{% endblock %}
 	</div>
-	<script src="{% static 'vendor/jquery/dist/jquery.js' %}"></script>
-	<script src="{% static 'vendor/json-editor/dist/jsoneditor.js' %}"></script>
-	<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.js' %}"></script>
+	<div id="js">
+		<script src="{% static 'vendor/jquery/dist/jquery.js' %}"></script>
+		<script src="{% static 'vendor/json-editor/dist/jsoneditor.js' %}"></script>
+		<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.js' %}"></script>
 	
-	{% block scripts %}{% endblock %}
+		{% block scripts %}{% endblock %}
+	</div>
 </body>
 </html>
