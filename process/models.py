@@ -1,6 +1,7 @@
 # coding: utf8
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+import json
 
 # pycess models - gem. Workshop 27. June 2013
 #   Version 0.14 - 
@@ -74,6 +75,7 @@ class ProcessStep(models.Model):
             'defaultProperties': [field.field_definition.name for field in self.field_perstep.all()]
         }
     
+    # REFACT: inline? --dwt
     def json_data(self, an_instance):
         # FIXME: need to filter out only the values interesting for the current step
         return an_instance.procdata
@@ -106,10 +108,10 @@ class StatusScheme(models.Model):
     logic  = models.CharField(max_length=200, blank=True)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift
     #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt
-
+    
     def __str__(self):
         return self.name
-
+    
     # Deprecated:   unique_together = ('process', 'selfstep', 'prestep',)
     #   Denn es kann durchaus mehrere Status fuer die gleiche pre>step Folge geben 
 
@@ -122,7 +124,6 @@ class FieldPerstep(models.Model):
     step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
-    INTERACTION_OVERVIEW, INTERACTION_SHOW, INTERACTION_EDIT, INTERACTION_FORCED = range(4)
     # 0 (oder NULL): Show-in-Overview - 1: Show  3: Editable - 4: Not-NULL forced
     editdefault = models.CharField(max_length=200, blank=True)
     # wird bei interaction>0 und leerem Feld eingesetzt
@@ -132,10 +133,14 @@ class FieldPerstep(models.Model):
     #     damit bei Umstellungen nicht alle order-s zu aendern sind.
     def __str__(self):
         return str(self.id)
-
+    
+    @property
+    def should_show_in_overview(self):
+        return True
+    
     class Meta:
         unique_together = ('step', 'field_definition', )
-
+    
     def json_schema(self):
         schema = self.field_definition.json_schema()
         schema['propertyOrder'] = self.order
@@ -215,6 +220,15 @@ class ProcInstance(models.Model):
     stoptime  = models.DateTimeField(null=True)
     status    = models.PositiveSmallIntegerField()
     # Status: 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
+    
+    def json_data(self):
+        return json.loads(self.procdata)
+    
+    def overview_fields(self):
+        return [
+            (field, self.json_data()[field.field_definition.name]) \
+            for field in self.currentstep.overview_fields()
+        ]
     
     def __str__(self):
         return str(self.id)

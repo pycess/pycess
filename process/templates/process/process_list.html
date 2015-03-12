@@ -1,13 +1,40 @@
 {% extends "include/base.html" %}
 
+{% load pdb %}
+
 {% block content %}
-{% if processes %}
-    <ul>
-    {% for process in processes %}
-        <li><a href="{% url 'detail' process.id %}/">{{ process.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No processes are available.</p>
-{% endif %}
+    {% if processes %}
+        {% for process in processes %}
+            <h2>{{process.name}}
+                <small style="margin-left: 20px">
+                    <a class="btn btn-default" href="{% url 'instance_create' process.id %}">
+                        Start new
+                    </a>
+                </small>
+            </h2>
+            <ul>
+                {% for instance in process.instances.all %}
+                    <li>
+                        <a href="{% url 'instance_detail' process.id instance.id %}/">
+                            <span>Current state: {{instance.currentstep.name}}</span>
+                            <br>
+                            Detail:
+                            {% for field, value in instance.overview_fields %}
+                                {% if field.should_show_in_overview %}
+                                    <span class="field {{field.field_definition.name}}">{{field.field_definition.name}}: {{value}}</span>
+                                {% else %}
+                                    {{value.should_show_in_overview}}
+                                {% endif %}
+                            {% endfor %}
+                            
+                        </a>
+                    </li>
+                {% empty %}
+                    <p>No instances are available.</p>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>No processes are available.</p>
+    {% endif %}
 {% endblock content %}
