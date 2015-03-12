@@ -118,10 +118,10 @@ class FieldPerstep(models.Model):
     step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
-        INTERACTION_OVERVIEW = 0
-        INTERACTION_SHOW = 1 
-        INTERACTION_EDIT = 3
-        INTERACTION_FORCED = 4 
+    INTERACTION_OVERVIEW = 0
+    INTERACTION_SHOW = 1 
+    INTERACTION_EDIT = 3
+    INTERACTION_FORCED = 4 
     # 0 (oder NULL): Show-in-Overview - 1: Show  3: Editable - 4: Not-NULL forced
     editdefault = models.CharField(max_length=200, blank=True)
     # wird bei interaction>0 und leerem Feld eingesetzt
