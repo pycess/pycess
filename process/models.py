@@ -53,7 +53,11 @@ class ProcessStep(models.Model):
     """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
     
     def overview_fields(self):
-        return self.field_perstep.order_by('order').all()
+        return [
+            field 
+            for field in self.field_perstep.order_by('order').all()
+            if field.should_show_in_overview
+        ]
     
     def possible_transitions(self):
         return StatusScheme.objects.filter(prestep=self).all()
@@ -125,7 +129,7 @@ class FieldPerstep(models.Model):
     field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
     # 0: Show  2: Editable - 3: Not-NULL forced
-    parameter   = models.TextField(default='')
+    parameter   = models.TextField(default='{}')
     # JSON-Parameter, etwa  Anzeigeoptionen bei overview-Liste
     editdefault = models.CharField(max_length=200, blank=True)
     # wird bei interaction>0 und leerem Feld eingesetzt
@@ -136,9 +140,14 @@ class FieldPerstep(models.Model):
     def __str__(self):
         return str(self.id)
     
+    # REFACT: research if there is a way to route accesses to parameters through this method
+    def json_parameter(self):
+        return json.loads(self.parameter or '{}')
+        # REFACT: remove or '{}'? --dwt
+    
     @property
     def should_show_in_overview(self):
-        return True
+        return self.json_parameter().get('should_show_in_overview', False)
     
     class Meta:
         unique_together = ('step', 'field_definition', )

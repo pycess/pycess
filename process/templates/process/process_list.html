@@ -17,14 +17,12 @@
                     <li>
                         <a href="{% url 'instance_detail' process.id instance.id %}/">
                             <span>Current state: {{instance.currentstep.name}}</span>
-                            <br>
-                            Detail:
                             {% for field, value in instance.overview_fields %}
-                                {% if field.should_show_in_overview %}
-                                    <span class="field {{field.field_definition.name}}">{{field.field_definition.name}}: {{value}}</span>
-                                {% else %}
-                                    {{value.should_show_in_overview}}
+                                {% if forloop.first %}
+                                <br>
+                                Detail:
                                 {% endif %}
+                                <span class="field {{field.field_definition.name}}">{{field.field_definition.name}}: {{value}}</span>
                             {% endfor %}
                             
                         </a>
