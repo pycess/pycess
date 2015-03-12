@@ -231,7 +231,7 @@ class RoleInstance(models.Model):
     
     role      = models.ForeignKey('RoleDef')
     procinst  = models.ForeignKey('ProcInstance', blank=True, null=True)
-    # user  = models.ForeignKey(erweitertes Django User-Modell)
+    pycuser   = models.ForeignKey(settings.AUTH_USER_MODEL)
     entrytime = models.DateTimeField()
     exittime  = models.DateTimeField(null=True)
     
