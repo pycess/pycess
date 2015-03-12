@@ -50,6 +50,9 @@ class ProcessStep(models.Model):
     actiontype = models.PositiveSmallIntegerField()
     """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
     
+    def overview_fields(self):
+        return self.field_perstep.order_by('order').all()
+    
     def possible_transitions(self):
         return StatusScheme.objects.filter(prestep=self).all()
     
@@ -114,14 +117,12 @@ class StatusScheme(models.Model):
 @python_2_unicode_compatible
 class FieldPerstep(models.Model):
     """Fields, die pro Schritt angezeigt/abgefragt werden"""
+    # REFACT: consider adding a flag wether this field should be shown in the overview of this process --dwt
     
     step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
-        INTERACTION_OVERVIEW = 0
-        INTERACTION_SHOW = 1 
-        INTERACTION_EDIT = 3
-        INTERACTION_FORCED = 4 
+    INTERACTION_OVERVIEW, INTERACTION_SHOW, INTERACTION_EDIT, INTERACTION_FORCED = range(4)
     # 0 (oder NULL): Show-in-Overview - 1: Show  3: Editable - 4: Not-NULL forced
     editdefault = models.CharField(max_length=200, blank=True)
     # wird bei interaction>0 und leerem Feld eingesetzt
