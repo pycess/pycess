@@ -9,7 +9,6 @@ import json
 
 # Serialize process steps with https://github.com/jdorn/json-editor
 
-
 def process_index(request):
     processes = ProcessDef.objects.all()
     return HttpResponse(render(request, 'process/process_list.html', locals()))
