@@ -1,4 +1,5 @@
 # coding: utf8
+from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 import json
@@ -119,12 +120,13 @@ class StatusScheme(models.Model):
 @python_2_unicode_compatible
 class FieldPerstep(models.Model):
     """Fields, die pro Schritt angezeigt/abgefragt werden"""
-    # REFACT: consider adding a flag wether this field should be shown in the overview of this process --dwt
     
     step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
-    # 0 (oder NULL): Show-in-Overview - 1: Show  3: Editable - 4: Not-NULL forced
+    # 0: Show  2: Editable - 3: Not-NULL forced
+    parameter   = models.TextField(default='')
+    # JSON-Parameter, etwa  Anzeigeoptionen bei overview-Liste
     editdefault = models.CharField(max_length=200, blank=True)
     # wird bei interaction>0 und leerem Feld eingesetzt
     #   Typ ist ggf. umzusetzen, z.B. text>integer
@@ -245,9 +247,9 @@ class RoleInstance(models.Model):
     
     role      = models.ForeignKey('RoleDef')
     procinst  = models.ForeignKey('ProcInstance', blank=True, null=True)
-    # user  = models.ForeignKey(erweitertes Django User-Modell)
+    pycuser   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     entrytime = models.DateTimeField()
-    exittime  = models.DateTimeField(null=True)
+    exittime  = models.DateTimeField(blank=True, null=True)
     
     def __str__(self):
         return str(self.id)
