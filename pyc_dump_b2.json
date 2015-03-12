@@ -1,0 +1,2084 @@
+[
+{
+    "fields": {
+        "model": "permission",
+        "name": "permission",
+        "app_label": "auth"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 1
+},
+{
+    "fields": {
+        "model": "group",
+        "name": "group",
+        "app_label": "auth"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 2
+},
+{
+    "fields": {
+        "model": "user",
+        "name": "user",
+        "app_label": "auth"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 3
+},
+{
+    "fields": {
+        "model": "contenttype",
+        "name": "content type",
+        "app_label": "contenttypes"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 4
+},
+{
+    "fields": {
+        "model": "session",
+        "name": "session",
+        "app_label": "sessions"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 5
+},
+{
+    "fields": {
+        "model": "site",
+        "name": "site",
+        "app_label": "sites"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 6
+},
+{
+    "fields": {
+        "model": "logentry",
+        "name": "log entry",
+        "app_label": "admin"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 7
+},
+{
+    "fields": {
+        "model": "choice",
+        "name": "choice",
+        "app_label": "polls"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 9
+},
+{
+    "fields": {
+        "model": "processdef",
+        "name": "process def",
+        "app_label": "process"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 10
+},
+{
+    "fields": {
+        "model": "processstep",
+        "name": "process step",
+        "app_label": "process"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 11
+},
+{
+    "fields": {
+        "model": "fieldperstep",
+        "name": "field perstep",
+        "app_label": "process"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 13
+},
+{
+    "fields": {
+        "model": "roledef",
+        "name": "role def",
+        "app_label": "process"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 15
+},
+{
+    "fields": {
+        "model": "procinstance",
+        "name": "proc instance",
+        "app_label": "process"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 16
+},
+{
+    "fields": {
+        "model": "roleinstance",
+        "name": "role instance",
+        "app_label": "process"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 17
+},
+{
+    "fields": {
+        "model": "pyclog",
+        "name": "pyc log",
+        "app_label": "process"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 18
+},
+{
+    "fields": {
+        "model": "statusscheme",
+        "name": "status scheme",
+        "app_label": "process"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 19
+},
+{
+    "fields": {
+        "model": "question",
+        "name": "question",
+        "app_label": "polls"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 20
+},
+{
+    "fields": {
+        "model": "fielddefinition",
+        "name": "field definition",
+        "app_label": "process"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 21
+},
+{
+    "fields": {
+        "expire_date": "2014-08-25T20:00:02.455Z",
+        "session_data": "ZWE1YzkwMzEyNjdmNjkxMGJiZDk0OWQ5NWNjMDU4NjVkM2FjNDY2NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNmYjE4YjNjZTY2Mzk4ZDZhNmQzZTBlMGZhMTgxMjc2NGZlMDRiZjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "0hz5588gxh9fo0q8xw3o8vuaxqss2hie"
+},
+{
+    "fields": {
+        "expire_date": "2015-03-05T19:11:41.300Z",
+        "session_data": "OWQ5Mjg4N2ExYTBmZmI0NzIwMDNiODVhYWU1OGRhOTI5NmRkYjBlOTp7Il9hdXRoX3VzZXJfaGFzaCI6IjkzOTVkNDY5M2QxMWFhMDg2MzhjYmE5YjA5ZWRiNjI5MDJhZjAzOTEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "4h08h1j5ydfzl40jjahelxc3phtodx81"
+},
+{
+    "fields": {
+        "expire_date": "2014-12-20T22:00:48.103Z",
+        "session_data": "ZWE1YzkwMzEyNjdmNjkxMGJiZDk0OWQ5NWNjMDU4NjVkM2FjNDY2NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNmYjE4YjNjZTY2Mzk4ZDZhNmQzZTBlMGZhMTgxMjc2NGZlMDRiZjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "7lrabl6e2z2wr4hxt40titjkiml23zou"
+},
+{
+    "fields": {
+        "expire_date": "2014-11-21T11:10:40.179Z",
+        "session_data": "ZWE1YzkwMzEyNjdmNjkxMGJiZDk0OWQ5NWNjMDU4NjVkM2FjNDY2NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNmYjE4YjNjZTY2Mzk4ZDZhNmQzZTBlMGZhMTgxMjc2NGZlMDRiZjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "7upbks6j9jbvaycbtvr37efi47k7wwx1"
+},
+{
+    "fields": {
+        "expire_date": "2014-06-09T13:15:17.224Z",
+        "session_data": "ZWE1YzkwMzEyNjdmNjkxMGJiZDk0OWQ5NWNjMDU4NjVkM2FjNDY2NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNmYjE4YjNjZTY2Mzk4ZDZhNmQzZTBlMGZhMTgxMjc2NGZlMDRiZjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "gq87awamgqi53mov9t6ueowu8nfq2m7m"
+},
+{
+    "fields": {
+        "expire_date": "2014-09-12T15:39:58.849Z",
+        "session_data": "ZWE1YzkwMzEyNjdmNjkxMGJiZDk0OWQ5NWNjMDU4NjVkM2FjNDY2NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNmYjE4YjNjZTY2Mzk4ZDZhNmQzZTBlMGZhMTgxMjc2NGZlMDRiZjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "ipyniacjtlcs5ts14yszcjca6e5b5ucq"
+},
+{
+    "fields": {
+        "expire_date": "2014-04-01T21:43:55.491Z",
+        "session_data": "YmRkMDY2MWNkNzU2MThkM2RkMWZkODQ4YTRlZmZmNDk3NTU5YzQ2Njp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0="
+    },
+    "model": "sessions.session",
+    "pk": "irwb3hy7hn14y3haa91sil7ennjjz6oa"
+},
+{
+    "fields": {
+        "expire_date": "2015-02-26T16:14:16.605Z",
+        "session_data": "OWQ5Mjg4N2ExYTBmZmI0NzIwMDNiODVhYWU1OGRhOTI5NmRkYjBlOTp7Il9hdXRoX3VzZXJfaGFzaCI6IjkzOTVkNDY5M2QxMWFhMDg2MzhjYmE5YjA5ZWRiNjI5MDJhZjAzOTEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "kijut8knpqrcxm4987gdroyiqh73kzt8"
+},
+{
+    "fields": {
+        "expire_date": "2015-02-19T01:29:18.618Z",
+        "session_data": "OWQ5Mjg4N2ExYTBmZmI0NzIwMDNiODVhYWU1OGRhOTI5NmRkYjBlOTp7Il9hdXRoX3VzZXJfaGFzaCI6IjkzOTVkNDY5M2QxMWFhMDg2MzhjYmE5YjA5ZWRiNjI5MDJhZjAzOTEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "kxebk55wcdilpa7z2e2srseu21wty0w4"
+},
+{
+    "fields": {
+        "expire_date": "2015-03-24T10:44:43.782Z",
+        "session_data": "OWQ5Mjg4N2ExYTBmZmI0NzIwMDNiODVhYWU1OGRhOTI5NmRkYjBlOTp7Il9hdXRoX3VzZXJfaGFzaCI6IjkzOTVkNDY5M2QxMWFhMDg2MzhjYmE5YjA5ZWRiNjI5MDJhZjAzOTEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "lmljjyutte9epk427pvhmrd9rm6rk8sz"
+},
+{
+    "fields": {
+        "expire_date": "2015-03-19T21:14:16.168Z",
+        "session_data": "OWQ5Mjg4N2ExYTBmZmI0NzIwMDNiODVhYWU1OGRhOTI5NmRkYjBlOTp7Il9hdXRoX3VzZXJfaGFzaCI6IjkzOTVkNDY5M2QxMWFhMDg2MzhjYmE5YjA5ZWRiNjI5MDJhZjAzOTEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "op43qon0ganfepftfwp8cukqelxwsmc5"
+},
+{
+    "fields": {
+        "expire_date": "2014-09-26T19:14:07.040Z",
+        "session_data": "ZWE1YzkwMzEyNjdmNjkxMGJiZDk0OWQ5NWNjMDU4NjVkM2FjNDY2NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNmYjE4YjNjZTY2Mzk4ZDZhNmQzZTBlMGZhMTgxMjc2NGZlMDRiZjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "qzd4hmy2wikn130ce9ovr4pucvu5a162"
+},
+{
+    "fields": {
+        "expire_date": "2015-02-21T12:43:11.413Z",
+        "session_data": "OWQ5Mjg4N2ExYTBmZmI0NzIwMDNiODVhYWU1OGRhOTI5NmRkYjBlOTp7Il9hdXRoX3VzZXJfaGFzaCI6IjkzOTVkNDY5M2QxMWFhMDg2MzhjYmE5YjA5ZWRiNjI5MDJhZjAzOTEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "r1rpds802r7q983y6czumo8gzf3l52ua"
+},
+{
+    "fields": {
+        "expire_date": "2014-03-01T17:43:42.549Z",
+        "session_data": "YmRkMDY2MWNkNzU2MThkM2RkMWZkODQ4YTRlZmZmNDk3NTU5YzQ2Njp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0="
+    },
+    "model": "sessions.session",
+    "pk": "sdw12mwlejniu3d8wclhmqz052z7qm4f"
+},
+{
+    "fields": {
+        "expire_date": "2015-02-14T15:54:56.140Z",
+        "session_data": "YjJlMzM1MDZkODNjMmMyN2ViYzNkNDllYzk2YTY2M2EzNmQxYWU4NTp7Il9hdXRoX3VzZXJfaGFzaCI6ImYzNjBmNDk4ZjlkNzQ3MTUyMTRhNWRiZWMzNGMyNjc0ZGM5YmEzOTAiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "u1kodn7etcql5cjrynvcbpa2udci0i5i"
+},
+{
+    "fields": {
+        "expire_date": "2015-03-26T16:32:00.361Z",
+        "session_data": "OWQ5Mjg4N2ExYTBmZmI0NzIwMDNiODVhYWU1OGRhOTI5NmRkYjBlOTp7Il9hdXRoX3VzZXJfaGFzaCI6IjkzOTVkNDY5M2QxMWFhMDg2MzhjYmE5YjA5ZWRiNjI5MDJhZjAzOTEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "vo08syr77h3ru1e495g2o3j9aysi1isk"
+},
+{
+    "fields": {
+        "expire_date": "2014-05-22T18:38:14.754Z",
+        "session_data": "ZWE1YzkwMzEyNjdmNjkxMGJiZDk0OWQ5NWNjMDU4NjVkM2FjNDY2NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNmYjE4YjNjZTY2Mzk4ZDZhNmQzZTBlMGZhMTgxMjc2NGZlMDRiZjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "wevxh2xel3gx7q4nyl7alwo7a3y6mpks"
+},
+{
+    "fields": {
+        "expire_date": "2014-09-23T19:28:20.044Z",
+        "session_data": "ZWE1YzkwMzEyNjdmNjkxMGJiZDk0OWQ5NWNjMDU4NjVkM2FjNDY2NDp7Il9hdXRoX3VzZXJfaGFzaCI6ImNmYjE4YjNjZTY2Mzk4ZDZhNmQzZTBlMGZhMTgxMjc2NGZlMDRiZjUiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjF9"
+    },
+    "model": "sessions.session",
+    "pk": "y3zddb5q1jjvu5dw6qdp23ul08fwre05"
+},
+{
+    "fields": {
+        "status": 1,
+        "version": 1,
+        "descript": "Murks-Report about devices failing based on possible Planned obsolescence",
+        "name": "Mk_report",
+        "refering": null
+    },
+    "model": "process.processdef",
+    "pk": 1
+},
+{
+    "fields": {
+        "index": 1,
+        "name": "Edit_report",
+        "process": 1,
+        "descript": "Report added/edited by web user aka 'Murksreporter'",
+        "actiontype": 1,
+        "role": 1
+    },
+    "model": "process.processstep",
+    "pk": 1
+},
+{
+    "fields": {
+        "index": 2,
+        "name": "Value_report",
+        "process": 1,
+        "descript": "Editor aka Murksredakteur values report of a Murksreporter",
+        "actiontype": 1,
+        "role": 2
+    },
+    "model": "process.processstep",
+    "pk": 2
+},
+{
+    "fields": {
+        "remark": "User re-/submitted Murksreport",
+        "name": "Edited",
+        "process": 1,
+        "selfstep": 1,
+        "prestep": 1,
+        "logic": "0"
+    },
+    "model": "process.statusscheme",
+    "pk": 1
+},
+{
+    "fields": {
+        "remark": "Editor cleared report for Publishing",
+        "name": "Cleared",
+        "process": 1,
+        "selfstep": 2,
+        "prestep": 1,
+        "logic": "0"
+    },
+    "model": "process.statusscheme",
+    "pk": 2
+},
+{
+    "fields": {
+        "remark": "Murksreporter has to review his report, after question of editor.",
+        "name": "Revision_requested",
+        "process": 1,
+        "selfstep": 2,
+        "prestep": 1,
+        "logic": "0"
+    },
+    "model": "process.statusscheme",
+    "pk": 6
+},
+{
+    "fields": {
+        "remark": "Report finally declined",
+        "name": "Declined",
+        "process": 1,
+        "selfstep": 2,
+        "prestep": 1,
+        "logic": "0"
+    },
+    "model": "process.statusscheme",
+    "pk": 8
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 1,
+        "interaction": 2,
+        "field_definition": 1,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 1
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 1,
+        "interaction": 2,
+        "field_definition": 2,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 2
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 1,
+        "interaction": 2,
+        "field_definition": 3,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 3
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 1,
+        "interaction": 1,
+        "field_definition": 4,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 4
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 1,
+        "interaction": 1,
+        "field_definition": 5,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 5
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 1,
+        "interaction": 2,
+        "field_definition": 6,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 6
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 1,
+        "interaction": 1,
+        "field_definition": 7,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 7
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 2,
+        "interaction": 0,
+        "field_definition": 1,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 8
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 2,
+        "interaction": 0,
+        "field_definition": 2,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 9
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 2,
+        "interaction": 0,
+        "field_definition": 3,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 10
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 2,
+        "interaction": 0,
+        "field_definition": 4,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 11
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 2,
+        "interaction": 0,
+        "field_definition": 5,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 12
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 2,
+        "interaction": 0,
+        "field_definition": 6,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 13
+},
+{
+    "fields": {
+        "editdefault": "",
+        "step": 2,
+        "interaction": 0,
+        "field_definition": 7,
+        "order": 1
+    },
+    "model": "process.fieldperstep",
+    "pk": 14
+},
+{
+    "fields": {
+        "name": "category",
+        "parent": null,
+        "process": 1,
+        "descript": "Device category",
+        "fieldhelp": "Kategorie des gemeldeten Ger\u00e4ts, entsprechend einer (noch zu definierenden) Liste",
+        "length": 8,
+        "fieldtype": 1,
+        "type": 1
+    },
+    "model": "process.fielddefinition",
+    "pk": 1
+},
+{
+    "fields": {
+        "name": "producer",
+        "parent": null,
+        "process": 1,
+        "descript": "Company or brand name",
+        "fieldhelp": "Hersteller oder Marke des Ger\u00e4ts",
+        "length": 40,
+        "fieldtype": 1,
+        "type": 1
+    },
+    "model": "process.fielddefinition",
+    "pk": 2
+},
+{
+    "fields": {
+        "name": "model",
+        "parent": null,
+        "process": 1,
+        "descript": "Model Code ",
+        "fieldhelp": "Modellbezeichnung oder Typnummer des Ger\u00e4ts",
+        "length": 40,
+        "fieldtype": 1,
+        "type": 1
+    },
+    "model": "process.fielddefinition",
+    "pk": 3
+},
+{
+    "fields": {
+        "name": "date_bought",
+        "parent": null,
+        "process": 1,
+        "descript": "Date when the device was bought new",
+        "fieldhelp": "Kaufdatum als Neuger\u00e4ts",
+        "length": 1,
+        "fieldtype": 5,
+        "type": 1
+    },
+    "model": "process.fielddefinition",
+    "pk": 4
+},
+{
+    "fields": {
+        "name": "date_failed",
+        "parent": null,
+        "process": 1,
+        "descript": "Date when the device failed first",
+        "fieldhelp": "Datum an dem das Ger\u00e4t erstmals ausfiel ",
+        "length": 1,
+        "fieldtype": 5,
+        "type": 1
+    },
+    "model": "process.fielddefinition",
+    "pk": 5
+},
+{
+    "fields": {
+        "name": "failure",
+        "parent": null,
+        "process": 1,
+        "descript": "Failure or error description",
+        "fieldhelp": "Fehlerbeschreibung",
+        "length": 400,
+        "fieldtype": 1,
+        "type": 1
+    },
+    "model": "process.fielddefinition",
+    "pk": 6
+},
+{
+    "fields": {
+        "name": "fail_planned",
+        "parent": null,
+        "process": 1,
+        "descript": "planned aspect of failure ",
+        "fieldhelp": "Aspekt des Fehlers, der auf geplanten Verschleiss hinweist",
+        "length": 200,
+        "fieldtype": 1,
+        "type": 1
+    },
+    "model": "process.fielddefinition",
+    "pk": 7
+},
+{
+    "fields": {
+        "process": 1,
+        "descript": "Registered User allowed to send Murksreports",
+        "name": "User"
+    },
+    "model": "process.roledef",
+    "pk": 1
+},
+{
+    "fields": {
+        "process": 1,
+        "descript": "Murksredakteur who values user reports",
+        "name": "Editor"
+    },
+    "model": "process.roledef",
+    "pk": 2
+},
+{
+    "fields": {
+        "process": 1,
+        "descript": "Web user reading reports or statistics",
+        "name": "Reader"
+    },
+    "model": "process.roledef",
+    "pk": 3
+},
+{
+    "fields": {
+        "status": 2,
+        "process": 1,
+        "currentstep": null,
+        "stoptime": "2015-02-13T17:53:13Z",
+        "starttime": "2015-02-12T17:53:01Z",
+        "procdata": ""
+    },
+    "model": "process.procinstance",
+    "pk": 1
+},
+{
+    "fields": {
+        "status": 3,
+        "process": 1,
+        "currentstep": 1,
+        "stoptime": "2015-02-20T12:50:44.279Z",
+        "starttime": "2015-02-20T12:50:44.279Z",
+        "procdata": ""
+    },
+    "model": "process.procinstance",
+    "pk": 2
+},
+{
+    "fields": {
+        "status": 3,
+        "process": 1,
+        "currentstep": 1,
+        "stoptime": "2015-02-20T13:18:04.673Z",
+        "starttime": "2015-02-20T13:18:04.673Z",
+        "procdata": ""
+    },
+    "model": "process.procinstance",
+    "pk": 3
+},
+{
+    "fields": {
+        "status": 3,
+        "process": 1,
+        "currentstep": 1,
+        "stoptime": "2015-02-27T13:56:22.209Z",
+        "starttime": "2015-02-27T13:56:22.209Z",
+        "procdata": "{}"
+    },
+    "model": "process.procinstance",
+    "pk": 4
+},
+{
+    "fields": {
+        "status": 3,
+        "process": 1,
+        "currentstep": 1,
+        "stoptime": "2015-02-27T14:00:46.071Z",
+        "starttime": "2015-02-27T14:00:46.071Z",
+        "procdata": "{}"
+    },
+    "model": "process.procinstance",
+    "pk": 5
+},
+{
+    "fields": {
+        "status": 3,
+        "process": 1,
+        "currentstep": 1,
+        "stoptime": "2015-02-27T14:02:59.239Z",
+        "starttime": "2015-02-27T14:02:59.239Z",
+        "procdata": "{\"Device category\":\"Smart-TV\",\"Model Code \":\"KZ-88\",\"Failure or error description\":\"Geht nach exakt 6 Monate plus 1 Tag kaputt und raucht. \",\"Company or brand name\":\"Seamens\"}"
+    },
+    "model": "process.procinstance",
+    "pk": 6
+},
+{
+    "fields": {
+        "status": 3,
+        "process": 1,
+        "currentstep": 2,
+        "stoptime": "2015-03-12T16:34:54.131Z",
+        "starttime": "2015-03-12T16:34:54.131Z",
+        "procdata": "{\"category\":\"Unterhaltungselektronik\",\"producer\":\"Grundig\",\"model\":\"WS-22\",\"date_bought\":\"12.12.13\",\"date_failed\":\"13.12.14\",\"failure\":\"RauchT!\",\"fail_planned\":\"Zeitgenaues Abrauchen\"}"
+    },
+    "model": "process.procinstance",
+    "pk": 7
+},
+{
+    "fields": {
+        "action": "Log Demo manuell ",
+        "time": "2015-02-07T13:10:02Z"
+    },
+    "model": "process.pyclog",
+    "pk": 2
+},
+{
+    "fields": {
+        "codename": "add_permission",
+        "name": "Can add permission",
+        "content_type": 1
+    },
+    "model": "auth.permission",
+    "pk": 1
+},
+{
+    "fields": {
+        "codename": "change_permission",
+        "name": "Can change permission",
+        "content_type": 1
+    },
+    "model": "auth.permission",
+    "pk": 2
+},
+{
+    "fields": {
+        "codename": "delete_permission",
+        "name": "Can delete permission",
+        "content_type": 1
+    },
+    "model": "auth.permission",
+    "pk": 3
+},
+{
+    "fields": {
+        "codename": "add_group",
+        "name": "Can add group",
+        "content_type": 2
+    },
+    "model": "auth.permission",
+    "pk": 4
+},
+{
+    "fields": {
+        "codename": "change_group",
+        "name": "Can change group",
+        "content_type": 2
+    },
+    "model": "auth.permission",
+    "pk": 5
+},
+{
+    "fields": {
+        "codename": "delete_group",
+        "name": "Can delete group",
+        "content_type": 2
+    },
+    "model": "auth.permission",
+    "pk": 6
+},
+{
+    "fields": {
+        "codename": "add_user",
+        "name": "Can add user",
+        "content_type": 3
+    },
+    "model": "auth.permission",
+    "pk": 7
+},
+{
+    "fields": {
+        "codename": "change_user",
+        "name": "Can change user",
+        "content_type": 3
+    },
+    "model": "auth.permission",
+    "pk": 8
+},
+{
+    "fields": {
+        "codename": "delete_user",
+        "name": "Can delete user",
+        "content_type": 3
+    },
+    "model": "auth.permission",
+    "pk": 9
+},
+{
+    "fields": {
+        "codename": "add_contenttype",
+        "name": "Can add content type",
+        "content_type": 4
+    },
+    "model": "auth.permission",
+    "pk": 10
+},
+{
+    "fields": {
+        "codename": "change_contenttype",
+        "name": "Can change content type",
+        "content_type": 4
+    },
+    "model": "auth.permission",
+    "pk": 11
+},
+{
+    "fields": {
+        "codename": "delete_contenttype",
+        "name": "Can delete content type",
+        "content_type": 4
+    },
+    "model": "auth.permission",
+    "pk": 12
+},
+{
+    "fields": {
+        "codename": "add_session",
+        "name": "Can add session",
+        "content_type": 5
+    },
+    "model": "auth.permission",
+    "pk": 13
+},
+{
+    "fields": {
+        "codename": "change_session",
+        "name": "Can change session",
+        "content_type": 5
+    },
+    "model": "auth.permission",
+    "pk": 14
+},
+{
+    "fields": {
+        "codename": "delete_session",
+        "name": "Can delete session",
+        "content_type": 5
+    },
+    "model": "auth.permission",
+    "pk": 15
+},
+{
+    "fields": {
+        "codename": "add_site",
+        "name": "Can add site",
+        "content_type": 6
+    },
+    "model": "auth.permission",
+    "pk": 16
+},
+{
+    "fields": {
+        "codename": "change_site",
+        "name": "Can change site",
+        "content_type": 6
+    },
+    "model": "auth.permission",
+    "pk": 17
+},
+{
+    "fields": {
+        "codename": "delete_site",
+        "name": "Can delete site",
+        "content_type": 6
+    },
+    "model": "auth.permission",
+    "pk": 18
+},
+{
+    "fields": {
+        "codename": "add_logentry",
+        "name": "Can add log entry",
+        "content_type": 7
+    },
+    "model": "auth.permission",
+    "pk": 19
+},
+{
+    "fields": {
+        "codename": "change_logentry",
+        "name": "Can change log entry",
+        "content_type": 7
+    },
+    "model": "auth.permission",
+    "pk": 20
+},
+{
+    "fields": {
+        "codename": "delete_logentry",
+        "name": "Can delete log entry",
+        "content_type": 7
+    },
+    "model": "auth.permission",
+    "pk": 21
+},
+{
+    "fields": {
+        "codename": "add_choice",
+        "name": "Can add choice",
+        "content_type": 9
+    },
+    "model": "auth.permission",
+    "pk": 25
+},
+{
+    "fields": {
+        "codename": "change_choice",
+        "name": "Can change choice",
+        "content_type": 9
+    },
+    "model": "auth.permission",
+    "pk": 26
+},
+{
+    "fields": {
+        "codename": "delete_choice",
+        "name": "Can delete choice",
+        "content_type": 9
+    },
+    "model": "auth.permission",
+    "pk": 27
+},
+{
+    "fields": {
+        "codename": "add_processdef",
+        "name": "Can add process def",
+        "content_type": 10
+    },
+    "model": "auth.permission",
+    "pk": 28
+},
+{
+    "fields": {
+        "codename": "change_processdef",
+        "name": "Can change process def",
+        "content_type": 10
+    },
+    "model": "auth.permission",
+    "pk": 29
+},
+{
+    "fields": {
+        "codename": "delete_processdef",
+        "name": "Can delete process def",
+        "content_type": 10
+    },
+    "model": "auth.permission",
+    "pk": 30
+},
+{
+    "fields": {
+        "codename": "add_processstep",
+        "name": "Can add process step",
+        "content_type": 11
+    },
+    "model": "auth.permission",
+    "pk": 31
+},
+{
+    "fields": {
+        "codename": "change_processstep",
+        "name": "Can change process step",
+        "content_type": 11
+    },
+    "model": "auth.permission",
+    "pk": 32
+},
+{
+    "fields": {
+        "codename": "delete_processstep",
+        "name": "Can delete process step",
+        "content_type": 11
+    },
+    "model": "auth.permission",
+    "pk": 33
+},
+{
+    "fields": {
+        "codename": "add_fieldperstep",
+        "name": "Can add field perstep",
+        "content_type": 13
+    },
+    "model": "auth.permission",
+    "pk": 37
+},
+{
+    "fields": {
+        "codename": "change_fieldperstep",
+        "name": "Can change field perstep",
+        "content_type": 13
+    },
+    "model": "auth.permission",
+    "pk": 38
+},
+{
+    "fields": {
+        "codename": "delete_fieldperstep",
+        "name": "Can delete field perstep",
+        "content_type": 13
+    },
+    "model": "auth.permission",
+    "pk": 39
+},
+{
+    "fields": {
+        "codename": "add_roledef",
+        "name": "Can add role def",
+        "content_type": 15
+    },
+    "model": "auth.permission",
+    "pk": 43
+},
+{
+    "fields": {
+        "codename": "change_roledef",
+        "name": "Can change role def",
+        "content_type": 15
+    },
+    "model": "auth.permission",
+    "pk": 44
+},
+{
+    "fields": {
+        "codename": "delete_roledef",
+        "name": "Can delete role def",
+        "content_type": 15
+    },
+    "model": "auth.permission",
+    "pk": 45
+},
+{
+    "fields": {
+        "codename": "add_procinstance",
+        "name": "Can add proc instance",
+        "content_type": 16
+    },
+    "model": "auth.permission",
+    "pk": 46
+},
+{
+    "fields": {
+        "codename": "change_procinstance",
+        "name": "Can change proc instance",
+        "content_type": 16
+    },
+    "model": "auth.permission",
+    "pk": 47
+},
+{
+    "fields": {
+        "codename": "delete_procinstance",
+        "name": "Can delete proc instance",
+        "content_type": 16
+    },
+    "model": "auth.permission",
+    "pk": 48
+},
+{
+    "fields": {
+        "codename": "add_roleinstance",
+        "name": "Can add role instance",
+        "content_type": 17
+    },
+    "model": "auth.permission",
+    "pk": 49
+},
+{
+    "fields": {
+        "codename": "change_roleinstance",
+        "name": "Can change role instance",
+        "content_type": 17
+    },
+    "model": "auth.permission",
+    "pk": 50
+},
+{
+    "fields": {
+        "codename": "delete_roleinstance",
+        "name": "Can delete role instance",
+        "content_type": 17
+    },
+    "model": "auth.permission",
+    "pk": 51
+},
+{
+    "fields": {
+        "codename": "add_pyclog",
+        "name": "Can add pyc log",
+        "content_type": 18
+    },
+    "model": "auth.permission",
+    "pk": 52
+},
+{
+    "fields": {
+        "codename": "change_pyclog",
+        "name": "Can change pyc log",
+        "content_type": 18
+    },
+    "model": "auth.permission",
+    "pk": 53
+},
+{
+    "fields": {
+        "codename": "delete_pyclog",
+        "name": "Can delete pyc log",
+        "content_type": 18
+    },
+    "model": "auth.permission",
+    "pk": 54
+},
+{
+    "fields": {
+        "codename": "add_statusscheme",
+        "name": "Can add status scheme",
+        "content_type": 19
+    },
+    "model": "auth.permission",
+    "pk": 55
+},
+{
+    "fields": {
+        "codename": "change_statusscheme",
+        "name": "Can change status scheme",
+        "content_type": 19
+    },
+    "model": "auth.permission",
+    "pk": 56
+},
+{
+    "fields": {
+        "codename": "delete_statusscheme",
+        "name": "Can delete status scheme",
+        "content_type": 19
+    },
+    "model": "auth.permission",
+    "pk": 57
+},
+{
+    "fields": {
+        "codename": "add_question",
+        "name": "Can add question",
+        "content_type": 20
+    },
+    "model": "auth.permission",
+    "pk": 58
+},
+{
+    "fields": {
+        "codename": "change_question",
+        "name": "Can change question",
+        "content_type": 20
+    },
+    "model": "auth.permission",
+    "pk": 59
+},
+{
+    "fields": {
+        "codename": "delete_question",
+        "name": "Can delete question",
+        "content_type": 20
+    },
+    "model": "auth.permission",
+    "pk": 60
+},
+{
+    "fields": {
+        "codename": "add_fielddefinition",
+        "name": "Can add field definition",
+        "content_type": 21
+    },
+    "model": "auth.permission",
+    "pk": 61
+},
+{
+    "fields": {
+        "codename": "change_fielddefinition",
+        "name": "Can change field definition",
+        "content_type": 21
+    },
+    "model": "auth.permission",
+    "pk": 62
+},
+{
+    "fields": {
+        "codename": "delete_fielddefinition",
+        "name": "Can delete field definition",
+        "content_type": 21
+    },
+    "model": "auth.permission",
+    "pk": 63
+},
+{
+    "fields": {
+        "username": "bvdb",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2015-03-12T16:32:00.357Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$Yok8AAZDtDgJ$ce56dclIKnNXeKCEXRW3XHo+qtPXFz9P4spmOqPxzIk=",
+        "email": "bvdb@kanka.de",
+        "date_joined": "2014-02-15T17:37:36.635Z"
+    },
+    "model": "auth.user",
+    "pk": 1
+},
+{
+    "fields": {
+        "username": "kasi",
+        "first_name": "Kasimir",
+        "last_name": "Schulze-b",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2014-02-15T17:46:16Z",
+        "groups": [],
+        "user_permissions": [
+            10
+        ],
+        "password": "pbkdf2_sha256$12000$t6pNPwboU89a$T2c0HhcKdyFMdFWW5QtBBfjQGRwxcEeuD2uSvERDm0o=",
+        "email": "kasi@email.de",
+        "date_joined": "2014-02-15T17:46:16Z"
+    },
+    "model": "auth.user",
+    "pk": 2
+},
+{
+    "fields": {
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2014-12-06T21:56:15.697Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$12000$wFMG982X99o1$UipDhrbPvEe3i+dNkIu8RXZuU/b9fzHhpPTeZflgG6U=",
+        "email": "admin@kanka.de",
+        "date_joined": "2014-12-06T21:47:03.588Z"
+    },
+    "model": "auth.user",
+    "pk": 3
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2014-02-15T17:46:16.719Z",
+        "object_repr": "kasi",
+        "object_id": "2",
+        "change_message": "",
+        "user": 1,
+        "content_type": 3
+    },
+    "model": "admin.logentry",
+    "pk": 1
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2014-02-15T17:47:00.739Z",
+        "object_repr": "kasi",
+        "object_id": "2",
+        "change_message": "Changed first_name, last_name and email.",
+        "user": 1,
+        "content_type": 3
+    },
+    "model": "admin.logentry",
+    "pk": 2
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2014-08-17T21:55:44.420Z",
+        "object_repr": "kasi",
+        "object_id": "2",
+        "change_message": "Changed user_permissions.",
+        "user": 1,
+        "content_type": 3
+    },
+    "model": "admin.logentry",
+    "pk": 3
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2014-09-12T12:46:40.503Z",
+        "object_repr": "kasi",
+        "object_id": "2",
+        "change_message": "Changed last_name.",
+        "user": 1,
+        "content_type": 3
+    },
+    "model": "admin.logentry",
+    "pk": 4
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2014-09-12T12:49:12.426Z",
+        "object_repr": "kasi",
+        "object_id": "2",
+        "change_message": "Changed last_name.",
+        "user": 1,
+        "content_type": 3
+    },
+    "model": "admin.logentry",
+    "pk": 5
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2014-09-12T19:27:32.428Z",
+        "object_repr": "kasi",
+        "object_id": "2",
+        "change_message": "Changed last_name.",
+        "user": 1,
+        "content_type": 3
+    },
+    "model": "admin.logentry",
+    "pk": 6
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2014-12-06T21:51:57.144Z",
+        "object_repr": "Question object",
+        "object_id": "1",
+        "change_message": "",
+        "user": 3,
+        "content_type": 20
+    },
+    "model": "admin.logentry",
+    "pk": 7
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2014-12-06T22:40:56.859Z",
+        "object_repr": "ProcessDef object",
+        "object_id": "1",
+        "change_message": "",
+        "user": 1,
+        "content_type": 10
+    },
+    "model": "admin.logentry",
+    "pk": 8
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-01-31T15:50:55.932Z",
+        "object_repr": "ProcessDef object",
+        "object_id": "2",
+        "change_message": "",
+        "user": 1,
+        "content_type": 10
+    },
+    "model": "admin.logentry",
+    "pk": 9
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-01-31T15:51:17.792Z",
+        "object_repr": "ProcessDef object",
+        "object_id": "2",
+        "change_message": "Changed refering.",
+        "user": 1,
+        "content_type": 10
+    },
+    "model": "admin.logentry",
+    "pk": 10
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-02-05T01:14:13.656Z",
+        "object_repr": "Wieviele Kakadus?",
+        "object_id": "1",
+        "change_message": "Changed question_text.",
+        "user": 1,
+        "content_type": 20
+    },
+    "model": "admin.logentry",
+    "pk": 11
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-02-05T01:14:38.944Z",
+        "object_repr": "How much nerds?",
+        "object_id": "2",
+        "change_message": "Changed pub_date.",
+        "user": 1,
+        "content_type": 20
+    },
+    "model": "admin.logentry",
+    "pk": 12
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T12:51:50.538Z",
+        "object_repr": "ProcessDef object",
+        "object_id": "1",
+        "change_message": "",
+        "user": 1,
+        "content_type": 10
+    },
+    "model": "admin.logentry",
+    "pk": 13
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T13:14:52.253Z",
+        "object_repr": "2",
+        "object_id": "2",
+        "change_message": "",
+        "user": 1,
+        "content_type": 18
+    },
+    "model": "admin.logentry",
+    "pk": 14
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T13:19:16.538Z",
+        "object_repr": "Add_report",
+        "object_id": "1",
+        "change_message": "",
+        "user": 1,
+        "content_type": 11
+    },
+    "model": "admin.logentry",
+    "pk": 15
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T13:20:27.391Z",
+        "object_repr": "Value_report",
+        "object_id": "2",
+        "change_message": "",
+        "user": 1,
+        "content_type": 11
+    },
+    "model": "admin.logentry",
+    "pk": 16
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T13:21:27.727Z",
+        "object_repr": "Published_report",
+        "object_id": "3",
+        "change_message": "",
+        "user": 1,
+        "content_type": 11
+    },
+    "model": "admin.logentry",
+    "pk": 17
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T13:22:57.616Z",
+        "object_repr": "User",
+        "object_id": "1",
+        "change_message": "",
+        "user": 1,
+        "content_type": 15
+    },
+    "model": "admin.logentry",
+    "pk": 18
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T13:23:27.305Z",
+        "object_repr": "Editor",
+        "object_id": "2",
+        "change_message": "",
+        "user": 1,
+        "content_type": 15
+    },
+    "model": "admin.logentry",
+    "pk": 19
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-02-07T22:08:28.137Z",
+        "object_repr": "Publish_report",
+        "object_id": "3",
+        "change_message": "Changed name.",
+        "user": 1,
+        "content_type": 11
+    },
+    "model": "admin.logentry",
+    "pk": 28
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:14:43.139Z",
+        "object_repr": "Initiate process",
+        "object_id": "1",
+        "change_message": "",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 29
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:16:50.285Z",
+        "object_repr": "Valuation",
+        "object_id": "2",
+        "change_message": "",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 30
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:18:25.547Z",
+        "object_repr": "Clearance",
+        "object_id": "3",
+        "change_message": "",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 31
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:19:36.406Z",
+        "object_repr": "1",
+        "object_id": "1",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 32
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:19:51.768Z",
+        "object_repr": "2",
+        "object_id": "2",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 33
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:20:09.479Z",
+        "object_repr": "3",
+        "object_id": "3",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 34
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:20:43.989Z",
+        "object_repr": "4",
+        "object_id": "4",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 35
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:20:53.310Z",
+        "object_repr": "5",
+        "object_id": "5",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 36
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:21:06.199Z",
+        "object_repr": "6",
+        "object_id": "6",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 37
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T22:21:24.232Z",
+        "object_repr": "7",
+        "object_id": "7",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 38
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-02-07T22:21:59.255Z",
+        "object_repr": "7",
+        "object_id": "7",
+        "change_message": "Changed field.",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 39
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:18:56.991Z",
+        "object_repr": "Reader",
+        "object_id": "3",
+        "change_message": "",
+        "user": 1,
+        "content_type": 15
+    },
+    "model": "admin.logentry",
+    "pk": 40
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-02-07T23:21:20.461Z",
+        "object_repr": "Add_report",
+        "object_id": "1",
+        "change_message": "Changed role.",
+        "user": 1,
+        "content_type": 11
+    },
+    "model": "admin.logentry",
+    "pk": 41
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-02-07T23:22:50.162Z",
+        "object_repr": "Value_report",
+        "object_id": "2",
+        "change_message": "Changed role.",
+        "user": 1,
+        "content_type": 11
+    },
+    "model": "admin.logentry",
+    "pk": 42
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-02-07T23:23:24.364Z",
+        "object_repr": "Publish_report",
+        "object_id": "3",
+        "change_message": "Changed role.",
+        "user": 1,
+        "content_type": 11
+    },
+    "model": "admin.logentry",
+    "pk": 43
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:25:39.941Z",
+        "object_repr": "8",
+        "object_id": "8",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 44
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:25:47.927Z",
+        "object_repr": "9",
+        "object_id": "9",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 45
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:25:55.914Z",
+        "object_repr": "10",
+        "object_id": "10",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 46
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:26:10.763Z",
+        "object_repr": "11",
+        "object_id": "11",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 47
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:26:17.008Z",
+        "object_repr": "12",
+        "object_id": "12",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 48
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:26:26.124Z",
+        "object_repr": "13",
+        "object_id": "13",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 49
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:26:35.440Z",
+        "object_repr": "14",
+        "object_id": "14",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 50
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-02-07T23:33:56.999Z",
+        "object_repr": "Initiate process",
+        "object_id": "1",
+        "change_message": "No fields changed.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 51
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:37:19.648Z",
+        "object_repr": "15",
+        "object_id": "15",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 52
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:37:26.713Z",
+        "object_repr": "16",
+        "object_id": "16",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 53
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:37:33.130Z",
+        "object_repr": "17",
+        "object_id": "17",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 54
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:37:46.987Z",
+        "object_repr": "18",
+        "object_id": "18",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 55
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-07T23:37:58.559Z",
+        "object_repr": "19",
+        "object_id": "19",
+        "change_message": "",
+        "user": 1,
+        "content_type": 13
+    },
+    "model": "admin.logentry",
+    "pk": 56
+},
+{
+    "fields": {
+        "action_flag": 1,
+        "action_time": "2015-02-12T17:54:38.320Z",
+        "object_repr": "1",
+        "object_id": "1",
+        "change_message": "",
+        "user": 1,
+        "content_type": 16
+    },
+    "model": "admin.logentry",
+    "pk": 57
+},
+{
+    "fields": {
+        "action_flag": 3,
+        "action_time": "2015-03-05T21:14:40.825Z",
+        "object_repr": "Publish_report",
+        "object_id": "3",
+        "change_message": "",
+        "user": 1,
+        "content_type": 11
+    },
+    "model": "admin.logentry",
+    "pk": 58
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-05T21:20:49.778Z",
+        "object_repr": "Edit_Murksreport",
+        "object_id": "1",
+        "change_message": "Changed name.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 59
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-05T21:22:09.108Z",
+        "object_repr": "Edited_Murksreport",
+        "object_id": "1",
+        "change_message": "Changed name.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 60
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-05T21:22:14.778Z",
+        "object_repr": "Valuation",
+        "object_id": "2",
+        "change_message": "No fields changed.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 61
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-05T21:22:36.306Z",
+        "object_repr": "Valued",
+        "object_id": "2",
+        "change_message": "Changed name and remark.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 62
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-05T21:23:28.789Z",
+        "object_repr": "Cleared",
+        "object_id": "2",
+        "change_message": "Changed name and remark.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 63
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-05T21:24:31.289Z",
+        "object_repr": "Revision_requested",
+        "object_id": "6",
+        "change_message": "Changed name and remark.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 64
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-05T21:26:20.464Z",
+        "object_repr": "Edited",
+        "object_id": "1",
+        "change_message": "Changed name and remark.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 65
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-12T16:32:15.974Z",
+        "object_repr": "Declined",
+        "object_id": "8",
+        "change_message": "Changed selfstep.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 66
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-12T16:32:56.400Z",
+        "object_repr": "Declined",
+        "object_id": "8",
+        "change_message": "Changed selfstep and prestep.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 67
+},
+{
+    "fields": {
+        "action_flag": 2,
+        "action_time": "2015-03-12T16:33:51.208Z",
+        "object_repr": "Revision_requested",
+        "object_id": "6",
+        "change_message": "Changed selfstep and prestep.",
+        "user": 1,
+        "content_type": 19
+    },
+    "model": "admin.logentry",
+    "pk": 68
+}
+]
