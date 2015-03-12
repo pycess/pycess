@@ -1,4 +1,5 @@
 # coding: utf8
+from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -231,9 +232,9 @@ class RoleInstance(models.Model):
     
     role      = models.ForeignKey('RoleDef')
     procinst  = models.ForeignKey('ProcInstance', blank=True, null=True)
-    pycuser   = models.ForeignKey(settings.AUTH_USER_MODEL)
+    pycuser   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     entrytime = models.DateTimeField()
-    exittime  = models.DateTimeField(null=True)
+    exittime  = models.DateTimeField(blank=True, null=True)
     
     def __str__(self):
         return str(self.id)
