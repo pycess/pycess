@@ -2,7 +2,7 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-# pycess models - gem. Workshop 27 June 2013
+# pycess models - gem. Workshop 27. June 2013
 #   Version 0.14 - 
 #   V 0.1 Bernd Brincken - 12. Sept 2014
 
@@ -30,6 +30,7 @@ class ProcessDef(models.Model):
         # REFACT: might need to switch this protocoll to consider objects without a prestep
         # initial objects
         return ProcessStep.objects.get(process=self, status_thisstep=models.F('status_prestep'))
+        ## Aendern > =NULL statt pre=self
     
 
 
@@ -44,8 +45,8 @@ class ProcessStep(models.Model):
     index = models.PositiveSmallIntegerField()
     """Id innerhalb der ProcDef"""
     
-    #   REFACT: could/ should we replace index by a relation from ProcessDeff to
-    # its first ProcessStep?
+    # REFACT: could/ should we replace index by a relation from ProcessDeff to
+    #  its first ProcessStep?
     actiontype = models.PositiveSmallIntegerField()
     """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
     
@@ -79,18 +80,19 @@ class ProcessStep(models.Model):
 class StatusScheme(models.Model):
     """Alle Status des Prozesses, dazu deren moegliche Vorgaenger-Status"""
     
-    # REFACT: could it be sensible to consider all steps prestep == NULL entry possible entry steps into the process?
+    # prestep == NULL for entry step into the process
     # Use case: process which can be started at many places - by different roles?
     # Use case: allowing steps that loop on the same state, but with logic. E.g.: remind me after x days.
     
     process = models.ForeignKey('ProcessDef', null=True)
     
-    # REFACT: consider requiring selfstep and prestep to be non null --dwt
-    # REFACT: rename related_name to something more unique
+    # REFACT: consider requiring selfstep and prestep to be non null --dwt 
+    #   vdB: Noe, denn Status koennen gern mal _vor_ den Steps definiert sein 
+    # REFACT: rename related_name to something more unique > schon geaendert
     selfstep = models.ForeignKey(
         'ProcessStep', related_name='status_thisstep', null=True)
         
-    # REFACT: rename related_name to something more unique
+    # REFACT: rename related_name to something more unique > schon geaendert
     prestep = models.ForeignKey(
         'ProcessStep', related_name='status_prestep' , null=True)
     # Erster Schritt: Prestep = Selfstep
@@ -116,7 +118,11 @@ class FieldPerstep(models.Model):
     step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
-    # 0 (oder NULL): Show - 1: Editable - 2: Not-NULL forced
+        INTERACTION_OVERVIEW = 0
+        INTERACTION_SHOW = 1 
+        INTERACTION_EDIT = 3
+        INTERACTION_FORCED = 4 
+    # 0 (oder NULL): Show-in-Overview - 1: Show  3: Editable - 4: Not-NULL forced
     editdefault = models.CharField(max_length=200, blank=True)
     # wird bei interaction>0 und leerem Feld eingesetzt
     #   Typ ist ggf. umzusetzen, z.B. text>integer
@@ -144,11 +150,11 @@ class FieldDefinition(models.Model):
     descript  = models.CharField(max_length=200, blank=True)
     fieldhelp = models.CharField(max_length=200, blank=True)
     # In einem Formular ggf. angezeigte ausfuehrlichere Erklaerung zur Bedeutung des Feldes
-    #   REFACT: consider to replace with real enum so that we can write the constructor as
-    #     FieldDefinition(fieldType=FieldDefinition.STRING)
     fieldtype = models.PositiveSmallIntegerField()
     # Datentyp: 1-char, 2-int-number, 3-finance-number, 4-float-num, 5-Date,
     #	6-Datetime, 7 blob, 8-Enum (tbd)
+    #   REFACT: consider to replace with real enum so that we can write the constructor as
+    #     FieldDefinition(fieldType=FieldDefinition.STRING)
     length = models.PositiveSmallIntegerField(default=1)
     # Length 1 bei Typen mit impliziter Laenge, etwa Date
     parent = models.ForeignKey('FieldDefinition', null=True, blank=True)
@@ -156,7 +162,7 @@ class FieldDefinition(models.Model):
     type = models.PositiveSmallIntegerField(default=1)
     # etwa 1-normal 2-pycess-intern 3-javascript-intern
     
-    # REFACT: I think we need a way to order FieldDefinition --dwt
+    # REFACT: I think we need a way to order FieldDefinition --dwt > vdB: Fieldperstep 
 
     def __str__(self):
         return self.name
@@ -198,11 +204,9 @@ class RoleDef(models.Model):
 class ProcInstance(models.Model):
     """Runtime Instances for a process"""
     
-    # TODO: need a standard way to get a meaningfull abbreviation of the current step data to serve as headline
-    
     process   = models.ForeignKey('ProcessDef', related_name="instances")
-    
     # TODO: Need a way to merge in updates to this field
+    # TODO: need a standard way to get a meaningfull abbreviation of the current step data to serve as headline
     # procdata= models.JSONdata() .. TODO
     procdata  = models.TextField(default='')
     currentstep = models.ForeignKey('ProcessStep', blank=True, null=True)
