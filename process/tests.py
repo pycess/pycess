@@ -81,7 +81,7 @@ class JSONSchemaTests(TestCase):
 class StateMachineTests(TestCase):
     
     def setUp(self):
-        self.process = ProcessDef.objects.create(name='Murksmeldung', status=0)
+        self.process = ProcessDefinition.objects.create(name='Murksmeldung', status=0)
         
         self.decision = ProcessStep.objects.create(name="decision", process=self.process)
         self.published = ProcessStep.objects.create(name="published")

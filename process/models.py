@@ -12,7 +12,7 @@ import json
 ## I - Prozess-Definition
 
 @python_2_unicode_compatible
-class ProcessDef(models.Model):
+class ProcessDefinition(models.Model):
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)
     
@@ -24,13 +24,13 @@ class ProcessDef(models.Model):
     status = models.PositiveSmallIntegerField()
     
     # optional: Verweis auf Vorgaenger-Version oder Templates, Kopien etc.
-    refering = models.ForeignKey('ProcessDef', null=True, blank=True)
+    refering = models.ForeignKey('ProcessDefinition', null=True, blank=True)
     
     class Meta:
         verbose_name_plural = "1. Process Definitions"
     
     def create_instance(self):
-        return ProcInstance.objects.create(
+        return ProcessInstance.objects.create(
             process=self,
             currentstep=self.first_step(),
             starttime=timezone.now(),
@@ -50,8 +50,8 @@ class ProcessDef(models.Model):
 class ProcessStep(models.Model):
     """Prozess-spezifischer Bearbeitungs-Schritt, umfasst definierte Felder (FieldPerstep)"""
     
-    process = models.ForeignKey('ProcessDef', related_name='steps', null=True)
-    role = models.ForeignKey('RoleDef',    null=True)
+    process = models.ForeignKey('ProcessDefinition', related_name='steps', null=True)
+    role = models.ForeignKey('RoleDefinition',    null=True)
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)
     
@@ -101,6 +101,7 @@ class ProcessStep(models.Model):
         return an_instance.procdata
 
 
+# REFACT: consider renaming to ProcessTransition or something similar?
 @python_2_unicode_compatible
 class StatusScheme(models.Model):
     """Alle Status des Prozesses, dazu deren moegliche Vorgaenger-Status"""
@@ -109,7 +110,7 @@ class StatusScheme(models.Model):
     # Use case: process which can be started at many places - by different roles?
     # Use case: allowing steps that loop on the same state, but with logic. E.g.: remind me after x days.
     
-    process = models.ForeignKey('ProcessDef', null=True)
+    process = models.ForeignKey('ProcessDefinition', null=True)
     
     # REFACT: consider requiring selfstep and prestep to be non null --dwt 
     #   vdB: Noe, denn Status koennen gern mal _vor_ den Steps definiert sein 
@@ -185,7 +186,7 @@ class FieldPerstep(models.Model):
 class FieldDefinition(models.Model):
     """ Im Process insgesamt verfuegbare Felder"""
     
-    process   = models.ForeignKey('ProcessDef', null=True)
+    process   = models.ForeignKey('ProcessDefinition', null=True)
     name      = models.CharField(max_length=200)
     descript  = models.CharField(max_length=200, blank=True)
     fieldhelp = models.CharField(max_length=200, blank=True)
@@ -230,10 +231,10 @@ class FieldDefinition(models.Model):
 
 
 @python_2_unicode_compatible
-class RoleDef(models.Model):
+class RoleDefinition(models.Model):
     """Roles available for a process"""
     
-    process = models.ForeignKey('ProcessDef')
+    process = models.ForeignKey('ProcessDefinition')
     name    = models.CharField(max_length=200)
     descript= models.CharField(max_length=200, blank=True)
     
@@ -245,10 +246,10 @@ class RoleDef(models.Model):
 
 
 @python_2_unicode_compatible
-class ProcInstance(models.Model):
+class ProcessInstance(models.Model):
     """Runtime Instances for a process"""
     
-    process   = models.ForeignKey('ProcessDef', related_name="instances")
+    process   = models.ForeignKey('ProcessDefinition', related_name="instances")
     # TODO: Need a way to merge in updates to this field
     # TODO: need a standard way to get a meaningfull abbreviation of the current step data to serve as headline
     # procdata= models.JSONdata() .. TODO
@@ -284,8 +285,8 @@ class ProcInstance(models.Model):
 class RoleInstance(models.Model):
     """Roles assigned for a process instance"""
     
-    role      = models.ForeignKey('RoleDef', related_name='role_instance')
-    procinst  = models.ForeignKey('ProcInstance', blank=True, null=True)
+    role      = models.ForeignKey('RoleDefinition', related_name='role_instance')
+    procinst  = models.ForeignKey('ProcessInstance', blank=True, null=True)
     pycuser   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     entrytime = models.DateTimeField()
     exittime  = models.DateTimeField(blank=True, null=True)
