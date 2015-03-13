@@ -13,7 +13,7 @@
     <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             {# See: https://code.djangoproject.com/ticket/18584 for ideas how to make highlighting the current url better #}
-            {% eval [('index', "Get Stuff Done™"), ('index_all_roles', "PyCess Overview"),] as navigation_targets %}
+            {% eval [('index', "Get Stuff Done™"), ('index_all_roles', "Process Overview"),] as navigation_targets %}
             {% for url_name, link_name in navigation_targets %}
                 {% url url_name as a_url %}
                 <li {% if request.path_info == a_url %}class="active"{% endif %}><a href="{{a_url}}">{{link_name}}</a></li>
