@@ -1,511 +1,505 @@
 [
 {
-    "model": "auth.user",
     "fields": {
-        "date_joined": "2015-03-12T22:37:30.033Z",
-        "groups": [],
-        "last_name": "",
-        "is_staff": false,
-        "first_name": "",
-        "is_superuser": false,
-        "username": "dwt",
-        "email": "",
-        "last_login": "2015-03-12T22:37:35.180Z",
-        "is_active": true,
-        "user_permissions": [],
-        "password": ""
+        "status": 1,
+        "version": 1,
+        "refering": null,
+        "descript": "Murks-Report about devices failing based on possible Planned obsolescence",
+        "name": "Mk_report"
     },
+    "model": "process.processdefinition",
     "pk": 1
 },
 {
     "fields": {
-        "name": "Murksmeldung",
-        "version": 1,
-        "refering": null,
-        "status": 1,
-        "descript": "Murks-Report über Geräte die aufgrund geplanter obsoleszenz ausgefallen sind."
-    },
-    "pk": 1,
-    "model": "process.processdef"
-},
-{
-    "fields": {
-        "name": "Add_report",
-        "role": 1,
-        "process": 1,
-        "actiontype": 1,
         "index": 1,
-        "descript": "Der 'Murksreporter' berichtet über einen neuen Murks."
+        "descript": "Report added by web user aka 'Murksreporter'",
+        "name": "Add_report",
+        "actiontype": 1,
+        "process": 1,
+        "role": 1
     },
-    "pk": 1,
-    "model": "process.processstep"
+    "model": "process.processstep",
+    "pk": 1
 },
 {
     "fields": {
-        "name": "Value_report",
-        "role": 2,
-        "process": 1,
-        "actiontype": 1,
         "index": 2,
-        "descript": "Der Murksreport wird auf vollständigkeit geprüft und entweder veröffentlicht oder rückgefragt."
-    },
-    "pk": 2,
-    "model": "process.processstep"
-},
-{
-    "fields": {
-        "name": "Publish_report",
-        "role": 3,
-        "process": 1,
+        "descript": "Editor aka Murksredakteur values report of a Murksreporter",
+        "name": "Value_report",
         "actiontype": 1,
-        "index": 3,
-        "descript": "Der Murksreport ist vollständig und wurde veröffentlicht"
+        "process": 1,
+        "role": 2
     },
-    "pk": 3,
-    "model": "process.processstep"
+    "model": "process.processstep",
+    "pk": 2
 },
 {
     "fields": {
-        "name": "Initiate process",
+        "index": 3,
+        "descript": "Murksreport cleared by Editor > published",
+        "name": "Publish_report",
+        "actiontype": 1,
         "process": 1,
-        "selfstep": 1,
-        "remark": "Markiert den initialen Schritt bei der erzeugung eines Murksreports",
+        "role": 3
+    },
+    "model": "process.processstep",
+    "pk": 3
+},
+{
+    "fields": {
         "logic": "0",
+        "remark": "User submits new Murks report",
+        "name": "Initiate process",
+        "selfstep": 1,
+        "process": 1,
         "prestep": null
     },
-    "pk": 1,
-    "model": "process.statusscheme"
+    "model": "process.statusscheme",
+    "pk": 1
 },
 {
     "fields": {
-        "name": "Valuation",
-        "process": 1,
-        "selfstep": 2,
-        "remark": "Murksreport prüfen",
         "logic": "0",
+        "remark": "Editor decides status",
+        "name": "Valuation",
+        "selfstep": 2,
+        "process": 1,
         "prestep": 1
     },
-    "pk": 2,
-    "model": "process.statusscheme"
+    "model": "process.statusscheme",
+    "pk": 2
 },
 {
     "fields": {
-        "name": "Clearance",
-        "process": 1,
-        "selfstep": 3,
-        "remark": "Murksreport veröffentlichen",
         "logic": "0",
-        "prestep": 2
-    },
-    "pk": 3,
-    "model": "process.statusscheme"
-},
-{
-    "fields": {
-        "name": "Inquiry",
+        "remark": "Editor clears for publication",
+        "name": "Clearance",
+        "selfstep": 3,
         "process": 1,
-        "selfstep": 1,
-        "remark": "Wegen fehlenden Informationen nachhaken",
-        "logic": "",
         "prestep": 2
     },
-    "pk": 4,
-    "model": "process.statusscheme"
+    "model": "process.statusscheme",
+    "pk": 3
 },
 {
     "fields": {
-        "order": 1,
+        "logic": "",
+        "remark": "Some information is missing, please update",
+        "name": "Inquiry",
+        "selfstep": 1,
+        "process": 1,
+        "prestep": 2
+    },
+    "model": "process.statusscheme",
+    "pk": 4
+},
+{
+    "fields": {
+        "parameter": "{\"should_show_in_overview\":true}",
         "field_definition": 1,
         "editdefault": "",
-        "step": 1,
+        "order": 1,
         "interaction": 2,
-        "parameter": "{\"should_show_in_overview\":true}"
+        "step": 1
     },
-    "pk": 1,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 1
 },
 {
     "fields": {
-        "order": 2,
+        "parameter": "{}",
         "field_definition": 2,
         "editdefault": "",
-        "step": 1,
+        "order": 2,
         "interaction": 2,
-        "parameter": "{}"
+        "step": 1
     },
-    "pk": 2,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 2
 },
 {
     "fields": {
-        "order": 3,
+        "parameter": "{}",
         "field_definition": 3,
         "editdefault": "",
-        "step": 1,
+        "order": 3,
         "interaction": 2,
-        "parameter": "{}"
+        "step": 1
     },
-    "pk": 3,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 3
 },
 {
     "fields": {
-        "order": 4,
+        "parameter": "{}",
         "field_definition": 4,
         "editdefault": "",
-        "step": 1,
+        "order": 4,
         "interaction": 1,
-        "parameter": "{}"
+        "step": 1
     },
-    "pk": 4,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 4
 },
 {
     "fields": {
-        "order": 5,
+        "parameter": "{}",
         "field_definition": 5,
         "editdefault": "",
-        "step": 1,
+        "order": 5,
         "interaction": 1,
-        "parameter": "{}"
+        "step": 1
     },
-    "pk": 5,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 5
 },
 {
     "fields": {
-        "order": 6,
+        "parameter": "{}",
         "field_definition": 6,
         "editdefault": "",
-        "step": 1,
+        "order": 6,
         "interaction": 2,
-        "parameter": "{}"
+        "step": 1
     },
-    "pk": 6,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 6
 },
 {
     "fields": {
-        "order": 7,
+        "parameter": "{}",
         "field_definition": 7,
         "editdefault": "",
-        "step": 1,
+        "order": 7,
         "interaction": 1,
-        "parameter": "{}"
+        "step": 1
     },
-    "pk": 7,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 7
 },
 {
     "fields": {
-        "order": 1,
+        "parameter": "{\"should_show_in_overview\":true}",
         "field_definition": 1,
         "editdefault": "",
-        "step": 2,
+        "order": 1,
         "interaction": 0,
-        "parameter": "{\"should_show_in_overview\":true}"
+        "step": 2
     },
-    "pk": 8,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 8
 },
 {
     "fields": {
-        "order": 2,
+        "parameter": "{}",
         "field_definition": 2,
         "editdefault": "",
-        "step": 2,
+        "order": 2,
         "interaction": 0,
-        "parameter": "{}"
+        "step": 2
     },
-    "pk": 9,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 9
 },
 {
     "fields": {
-        "order": 3,
+        "parameter": "{}",
         "field_definition": 3,
         "editdefault": "",
-        "step": 2,
+        "order": 3,
         "interaction": 0,
-        "parameter": "{}"
+        "step": 2
     },
-    "pk": 10,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 10
 },
 {
     "fields": {
-        "order": 4,
+        "parameter": "{}",
         "field_definition": 4,
         "editdefault": "",
-        "step": 2,
+        "order": 4,
         "interaction": 0,
-        "parameter": "{}"
+        "step": 2
     },
-    "pk": 11,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 11
 },
 {
     "fields": {
-        "order": 5,
+        "parameter": "{}",
         "field_definition": 5,
         "editdefault": "",
-        "step": 2,
+        "order": 5,
         "interaction": 0,
-        "parameter": "{}"
+        "step": 2
     },
-    "pk": 12,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 12
 },
 {
     "fields": {
-        "order": 6,
+        "parameter": "{}",
         "field_definition": 6,
         "editdefault": "",
-        "step": 2,
+        "order": 6,
         "interaction": 0,
-        "parameter": "{}"
+        "step": 2
     },
-    "pk": 13,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 13
 },
 {
     "fields": {
-        "order": 7,
+        "parameter": "{}",
         "field_definition": 7,
         "editdefault": "",
-        "step": 2,
+        "order": 7,
         "interaction": 0,
-        "parameter": "{}"
+        "step": 2
     },
-    "pk": 14,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 14
 },
 {
     "fields": {
-        "order": 1,
+        "parameter": "",
         "field_definition": 1,
         "editdefault": "",
-        "step": 3,
+        "order": 1,
         "interaction": 0,
-        "parameter": ""
+        "step": 3
     },
-    "pk": 15,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 15
 },
 {
     "fields": {
-        "order": 2,
+        "parameter": "",
         "field_definition": 2,
         "editdefault": "",
-        "step": 3,
+        "order": 2,
         "interaction": 0,
-        "parameter": ""
+        "step": 3
     },
-    "pk": 16,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 16
 },
 {
     "fields": {
-        "order": 3,
+        "parameter": "",
         "field_definition": 3,
         "editdefault": "",
-        "step": 3,
+        "order": 3,
         "interaction": 0,
-        "parameter": ""
+        "step": 3
     },
-    "pk": 17,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 17
 },
 {
     "fields": {
-        "order": 4,
+        "parameter": "",
         "field_definition": 6,
         "editdefault": "",
-        "step": 3,
+        "order": 4,
         "interaction": 0,
-        "parameter": ""
+        "step": 3
     },
-    "pk": 18,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 18
 },
 {
     "fields": {
-        "order": 5,
+        "parameter": "",
         "field_definition": 7,
         "editdefault": "",
-        "step": 3,
+        "order": 5,
         "interaction": 0,
-        "parameter": ""
+        "step": 3
     },
-    "pk": 19,
-    "model": "process.fieldperstep"
+    "model": "process.fieldperstep",
+    "pk": 19
 },
 {
     "fields": {
-        "name": "category",
-        "fieldhelp": "Kategorie des gemeldeten Ger\u00e4ts, entsprechend einer (noch zu definierenden) Liste",
-        "process": null,
-        "length": 1,
         "fieldtype": 1,
         "type": 8,
+        "descript": "Device category",
+        "name": "category",
         "parent": 1,
-        "descript": "Device category"
+        "process": null,
+        "fieldhelp": "Kategorie des gemeldeten Ger\u00e4ts, entsprechend einer (noch zu definierenden) Liste",
+        "length": 1
     },
-    "pk": 1,
-    "model": "process.fielddefinition"
+    "model": "process.fielddefinition",
+    "pk": 1
 },
 {
     "fields": {
+        "fieldtype": 1,
+        "type": 40,
+        "descript": "Company or brand name",
         "name": "producer",
+        "parent": 1,
+        "process": null,
         "fieldhelp": "Hersteller oder Marke des Ger\u00e4ts",
-        "process": null,
-        "length": 1,
-        "fieldtype": 1,
-        "type": 40,
-        "parent": 1,
-        "descript": "Company or brand name"
+        "length": 1
     },
-    "pk": 2,
-    "model": "process.fielddefinition"
+    "model": "process.fielddefinition",
+    "pk": 2
 },
 {
     "fields": {
+        "fieldtype": 1,
+        "type": 40,
+        "descript": "Model Code ",
         "name": "model",
+        "parent": 1,
+        "process": null,
         "fieldhelp": "Modellbezeichnung oder Typnummer des Ger\u00e4ts",
-        "process": null,
-        "length": 1,
-        "fieldtype": 1,
-        "type": 40,
-        "parent": 1,
-        "descript": "Model Code"
+        "length": 1
     },
-    "pk": 3,
-    "model": "process.fielddefinition"
+    "model": "process.fielddefinition",
+    "pk": 3
 },
 {
     "fields": {
+        "fieldtype": 5,
+        "type": 1,
+        "descript": "Date when the device was bought new",
         "name": "date_bought",
+        "parent": 1,
+        "process": null,
         "fieldhelp": "Kaufdatum als Neuger\u00e4ts",
-        "process": null,
-        "length": 1,
-        "fieldtype": 5,
-        "type": 1,
-        "parent": 1,
-        "descript": "Date when the device was bought new"
+        "length": 1
     },
-    "pk": 4,
-    "model": "process.fielddefinition"
+    "model": "process.fielddefinition",
+    "pk": 4
 },
 {
     "fields": {
+        "fieldtype": 5,
+        "type": 1,
+        "descript": "Date when the device failed first",
         "name": "date_failed",
-        "fieldhelp": "Datum an dem das Ger\u00e4t erstmals ausfiel ",
-        "process": null,
-        "length": 1,
-        "fieldtype": 5,
-        "type": 1,
         "parent": 1,
-        "descript": "Date when the device failed first"
+        "process": null,
+        "fieldhelp": "Datum an dem das Ger\u00e4t erstmals ausfiel ",
+        "length": 1
     },
-    "pk": 5,
-    "model": "process.fielddefinition"
+    "model": "process.fielddefinition",
+    "pk": 5
 },
 {
     "fields": {
-        "name": "failure",
-        "fieldhelp": "Fehlerbeschreibung",
-        "process": null,
-        "length": 1,
         "fieldtype": 1,
         "type": 400,
+        "descript": "Failure or error description",
+        "name": "failure",
         "parent": 1,
-        "descript": "Failure or error description"
+        "process": null,
+        "fieldhelp": "Fehlerbeschreibung",
+        "length": 1
     },
-    "pk": 6,
-    "model": "process.fielddefinition"
+    "model": "process.fielddefinition",
+    "pk": 6
 },
 {
     "fields": {
-        "name": "fail_planned",
-        "fieldhelp": "Aspekt des Fehlers, der auf geplanten Verschleiss hinweist",
-        "process": null,
-        "length": 1,
         "fieldtype": 1,
         "type": 200,
+        "descript": "planned aspect of failure ",
+        "name": "fail_planned",
         "parent": 1,
-        "descript": "planned aspect of failure "
+        "process": null,
+        "fieldhelp": "Aspekt des Fehlers, der auf geplanten Verschleiss hinweist",
+        "length": 1
     },
-    "pk": 7,
-    "model": "process.fielddefinition"
+    "model": "process.fielddefinition",
+    "pk": 7
 },
 {
     "fields": {
-        "name": "User",
+        "descript": "Registered User allowed to send Murksreports",
         "process": 1,
-        "descript": "Registered User allowed to send Murksreports"
+        "name": "User"
     },
-    "pk": 1,
-    "model": "process.roledef"
+    "model": "process.roledefinition",
+    "pk": 1
 },
 {
     "fields": {
-        "name": "Editor",
+        "descript": "Murksredakteur who values user reports",
         "process": 1,
-        "descript": "Murksredakteur who values user reports"
+        "name": "Editor"
     },
-    "pk": 2,
-    "model": "process.roledef"
+    "model": "process.roledefinition",
+    "pk": 2
 },
 {
     "fields": {
-        "name": "Reader",
+        "descript": "Web user reading reports or statistics",
         "process": 1,
-        "descript": "Web user reading reports or statistics"
+        "name": "Reader"
     },
-    "pk": 3,
-    "model": "process.roledef"
+    "model": "process.roledefinition",
+    "pk": 3
 },
 {
     "fields": {
+        "status": 3,
+        "starttime": "2015-03-12T22:38:06Z",
         "procdata": "{\"category\":\"foo\",\"producer\":\"bar\",\"model\":\"\",\"date_bought\":\"\",\"date_failed\":\"\",\"failure\":\"\",\"fail_planned\":\"\"}",
         "process": 1,
-        "starttime": "2015-03-12T22:38:06Z",
         "stoptime": "2015-03-12T22:38:06Z",
-        "status": 3,
         "currentstep": 1
     },
-    "pk": 22,
-    "model": "process.procinstance"
+    "model": "process.processinstance",
+    "pk": 22
 },
 {
     "fields": {
+        "status": 3,
+        "starttime": "2015-03-13T09:09:32.728Z",
         "procdata": "{\"category\":\"\",\"producer\":\"\",\"model\":\"\",\"date_bought\":\"\",\"date_failed\":\"asdf\",\"failure\":\"\",\"fail_planned\":\"\"}",
         "process": 1,
-        "starttime": "2015-03-13T09:09:32.728Z",
         "stoptime": "2015-03-13T09:09:32.729Z",
-        "status": 3,
         "currentstep": 3
     },
-    "pk": 23,
-    "model": "process.procinstance"
+    "model": "process.processinstance",
+    "pk": 23
 },
 {
     "fields": {
+        "status": 3,
+        "starttime": "2015-03-13T12:30:00.261Z",
+        "procdata": "{}",
+        "process": 1,
+        "stoptime": "2015-03-13T12:30:00.262Z",
+        "currentstep": 3
+    },
+    "model": "process.processinstance",
+    "pk": 24
+},
+{
+    "fields": {
+        "procinst": 22,
         "entrytime": "2015-03-13T10:25:13Z",
         "pycuser": 1,
         "role": 1,
-        "procinst": 22,
         "exittime": null
     },
-    "pk": 1,
-    "model": "process.roleinstance"
+    "model": "process.roleinstance",
+    "pk": 1
 },
 {
     "fields": {
         "time": "2015-02-07T13:10:02Z",
         "action": "Log Demo manuell "
     },
-    "pk": 2,
-    "model": "process.pyclog"
+    "model": "process.pyclog",
+    "pk": 2
 }
 ]
