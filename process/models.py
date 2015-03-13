@@ -36,7 +36,7 @@ class ProcessDefinition(models.Model):
             stoptime=timezone.now(),
             status=3,
         )
-        if 0 == self.first_step().role.role_instance.filter(pycuser=creator).count():
+        if not self.first_step().role.role_instance.filter(pycuser=creator).exists():
             RoleInstance.objects.create(
                 role=self.first_step().role,
                 procinst=instance,
@@ -104,6 +104,7 @@ class ProcessStep(models.Model):
     # REFACT: inline? --dwt
     def json_data(self, an_instance):
         # FIXME: need to filter out only the values interesting for the current step
+        # that should be possible with some clever use of json schema
         return an_instance.procdata
     
     def is_editable_by_user(self, user):
