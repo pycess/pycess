@@ -1,24 +1,31 @@
 [
 {
+    "model": "auth.user",
     "fields": {
-        "name": "Mk_report",
-        "version": 1,
-        "refering": null,
-        "status": 1,
-        "descript": "Murks-Report about devices failing based on possible Planned obsolescence"
+        "date_joined": "2015-03-12T22:37:30.033Z",
+        "groups": [],
+        "last_name": "",
+        "is_staff": false,
+        "first_name": "",
+        "is_superuser": false,
+        "username": "dwt",
+        "email": "",
+        "last_login": "2015-03-12T22:37:35.180Z",
+        "is_active": true,
+        "user_permissions": [],
+        "password": ""
     },
-    "pk": 1,
-    "model": "process.processdef"
+    "pk": 1
 },
 {
     "fields": {
         "name": "Murksmeldung",
         "version": 1,
         "refering": null,
-        "status": 0,
-        "descript": "Meldungen \u00fcber Ger\u00e4te an denen geplante Obsoleszenz sichtbar wird."
+        "status": 1,
+        "descript": "Murks-Report über Geräte die aufgrund geplanter obsoleszenz ausgefallen sind."
     },
-    "pk": 2,
+    "pk": 1,
     "model": "process.processdef"
 },
 {
@@ -28,7 +35,7 @@
         "process": 1,
         "actiontype": 1,
         "index": 1,
-        "descript": "Report added by web user aka 'Murksreporter'"
+        "descript": "Der 'Murksreporter' berichtet über einen neuen Murks."
     },
     "pk": 1,
     "model": "process.processstep"
@@ -40,7 +47,7 @@
         "process": 1,
         "actiontype": 1,
         "index": 2,
-        "descript": "Editor aka Murksredakteur values report of a Murksreporter"
+        "descript": "Der Murksreport wird auf vollständigkeit geprüft und entweder veröffentlicht oder rückgefragt."
     },
     "pk": 2,
     "model": "process.processstep"
@@ -52,7 +59,7 @@
         "process": 1,
         "actiontype": 1,
         "index": 3,
-        "descript": "Murksreport cleared by Editor > published"
+        "descript": "Der Murksreport ist vollständig und wurde veröffentlicht"
     },
     "pk": 3,
     "model": "process.processstep"
@@ -62,7 +69,7 @@
         "name": "Initiate process",
         "process": 1,
         "selfstep": 1,
-        "remark": "User submits new Murks report",
+        "remark": "Markiert den initialen Schritt bei der erzeugung eines Murksreports",
         "logic": "0",
         "prestep": null
     },
@@ -74,7 +81,7 @@
         "name": "Valuation",
         "process": 1,
         "selfstep": 2,
-        "remark": "Editor decides status",
+        "remark": "Murksreport prüfen",
         "logic": "0",
         "prestep": 1
     },
@@ -86,7 +93,7 @@
         "name": "Clearance",
         "process": 1,
         "selfstep": 3,
-        "remark": "Editor clears for publication",
+        "remark": "Murksreport veröffentlichen",
         "logic": "0",
         "prestep": 2
     },
@@ -98,7 +105,7 @@
         "name": "Inquiry",
         "process": 1,
         "selfstep": 1,
-        "remark": "Some information is missing, please update",
+        "remark": "Wegen fehlenden Informationen nachhaken",
         "logic": "",
         "prestep": 2
     },
@@ -370,7 +377,7 @@
         "fieldtype": 1,
         "type": 40,
         "parent": 1,
-        "descript": "Model Code "
+        "descript": "Model Code"
     },
     "pk": 3,
     "model": "process.fielddefinition"
