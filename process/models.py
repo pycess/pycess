@@ -18,7 +18,7 @@ class ProcessDef(models.Model):
     # von 1..2^16 hochgezaehlt für jede neue Version
     version = models.PositiveSmallIntegerField(default=1)
     
-    #   REFACT: add constants for status
+    # REFACT: add constants for status
     # etwa 1-geplant 2-Definitionsphase 3-nutzbar 4-aktiv 5-postponed 6-deaktiv
     status = models.PositiveSmallIntegerField()
     
