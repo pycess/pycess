@@ -126,6 +126,9 @@ class StateMachineTests(TestCase):
         # doesn't create a second one
         instance = self.process.create_instance(creator=self.reporter)
         expect(self.decision.role.role_instance.filter(pycuser=self.reporter).count()) == 1
-
-        
+    
+    def test_should_know_if_current_step_is_editable_for_user(self):
+        expect(self.decision.is_editable_by_user(self.reporter)).is_false()
+        instance = self.process.create_instance(creator=self.reporter)
+        expect(self.decision.is_editable_by_user(self.reporter)).is_true()
 

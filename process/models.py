@@ -105,7 +105,9 @@ class ProcessStep(models.Model):
     def json_data(self, an_instance):
         # FIXME: need to filter out only the values interesting for the current step
         return an_instance.procdata
-
+    
+    def is_editable_by_user(self, user):
+        return self.role.role_instance.filter(pycuser=user).exists()
 
 # REFACT: consider renaming to ProcessTransition or something similar?
 class StatusScheme(models.Model):
