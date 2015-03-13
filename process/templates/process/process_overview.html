@@ -18,6 +18,7 @@
                             {% endfor %}
                         </span>
                         {# TODO: should list role instances with role #}
+                        {# FIXME: overview_fields is problematic as it might show data that the current user is _NOT_ supposed to see, it is computed for the currently assigned user --dwt #}
                         {% for field, value in instance.overview_fields %}
                             {% if forloop.first %}
                             <br>

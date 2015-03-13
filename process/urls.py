@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.process_index, name='index'),
-    url(r'^index_all_roles$', views.process_index_all_roles, name='index_all_roles'),
+    url(r'^overview$', views.process_overview, name='overview'),
     
     url(r'^(?P<process_id>\d+)/?$', views.process_detail, name='detail'),
     url(r'^(?P<process_id>\d+)/create$',

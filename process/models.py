@@ -43,7 +43,7 @@ class ProcessDef(models.Model):
 class ProcessStep(models.Model):
     """Prozess-spezifischer Bearbeitungs-Schritt, umfasst definierte Felder (FieldPerstep)"""
     
-    process = models.ForeignKey('ProcessDef', null=True)
+    process = models.ForeignKey('ProcessDef', related_name='steps', null=True)
     role = models.ForeignKey('RoleDef',    null=True)
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)

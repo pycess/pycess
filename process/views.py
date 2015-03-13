@@ -19,9 +19,13 @@ def process_index(request):
     return HttpResponse(render(request, 'process/process_index.html', locals()))
 
 # REFACT: introduce some sort of pagination?
-def process_index_all_roles(request):
+def process_overview(request):
     processes = ProcessDef.objects.all()
-    return HttpResponse(render(request, 'process/process_index_all_roles.html', locals()))
+    instances_by_process = dict(
+        (process, process.instances.filter(process__steps__role__role_instance__pycuser=request.user))
+        for process in processes
+    )
+    return HttpResponse(render(request, 'process/process_overview.html', locals()))
 
 def process_detail(request, process_id):
     process = get_object_or_404(ProcessDef, pk=process_id)
