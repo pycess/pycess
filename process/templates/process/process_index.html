@@ -1,0 +1,36 @@
+{% extends "include/base.html" %}
+
+{% load pdb %}
+
+{% block content %}
+    {% for process, instances in instances_by_process.items %}
+        <h2>{{process.name}}
+            <small style="margin-left: 20px">
+                <a class="btn btn-default" href="{% url 'instance_create' process.id %}">
+                    Start new
+                </a>
+            </small>
+        </h2>
+        <ul>
+            {% for instance in instances %}
+                <li>
+                    <a href="{% url 'instance_detail' process.id instance.id %}/">
+                        <span class="state">Current state: {{instance.currentstep.name}}</span>
+                        {% for field, value in instance.overview_fields %}
+                            {% if forloop.first %}
+                            <br>
+                            Detail:
+                            {% endif %}
+                            <span class="field {{field.field_definition.name}}">{{field.field_definition.name}}: {{value}}</span>
+                        {% endfor %}
+                        
+                    </a>
+                </li>
+            {% empty %}
+                <p>No instances are available.</p>
+            {% endfor %}
+        </ul>
+    {% empty %}
+        <p>No processes are available.</p>
+    {% endfor %}
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends "include/base.html" %}
+
+{% load pdb %}
+
+{% block content %}
+    {% for process in processes %}
+        <h2>{{process.name}}
+            <small style="margin-left: 20px">
+                <a class="btn btn-default" href="{% url 'instance_create' process.id %}">
+                    Start new
+                </a>
+            </small>
+        </h2>
+        <ul>
+            {% for instance in process.instances.all %}
+                <li>
+                    <a href="{% url 'instance_detail' process.id instance.id %}/">
+                        <span class="state">Current state: {{instance.currentstep.name}}</span>
+                        <span class="role">Current role: {{instance.currentstep.role.name}}</span>
+                        {# TODO: should list role instances with role #}
+                        {% for field, value in instance.overview_fields %}
+                            {% if forloop.first %}
+                            <br>
+                            Detail:
+                            {% endif %}
+                            <span class="field {{field.field_definition.name}}">{{field.field_definition.name}}: {{value}}</span>
+                        {% endfor %}
+                        
+                    </a>
+                </li>
+            {% empty %}
+                <p>No instances are available.</p>
+            {% endfor %}
+        </ul>
+    {% empty %}
+        <p>No processes are available.</p>
+    {% endfor %}
+{% endblock content %}
