@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils import timezone
 import json
 
 # pycess models - gem. Workshop 27. June 2013
@@ -27,6 +28,15 @@ class ProcessDef(models.Model):
     
     class Meta:
         verbose_name_plural = "1. Process Definitions"
+    
+    def create_instance(self):
+        return ProcInstance.objects.create(
+            process=self,
+            currentstep=self.first_step(),
+            starttime=timezone.now(),
+            stoptime=timezone.now(),
+            status=3,
+        )
     
     def __str__(self):
         return self.name
@@ -135,6 +145,7 @@ class FieldPerstep(models.Model):
     field_definition = models.ForeignKey('FieldDefinition')
     interaction = models.PositiveSmallIntegerField(default=0)
     # 0: Show  2: Editable - 3: Not-NULL forced
+    # REFACT: consider splitting this into several bools for 1. Ease of manipulation in django admin, 2. ease of debugging (no more json errors because somebody can't type perfect json in the django admin), ... --dwt
     parameter   = models.TextField(default='{}')
     # JSON-Parameter, etwa  Anzeigeoptionen bei overview-Liste
     editdefault = models.CharField(max_length=200, blank=True)
@@ -249,6 +260,9 @@ class ProcInstance(models.Model):
     class Meta:
         verbose_name_plural = "6. Process Instances"
     
+    def __str__(self):
+        return str(self.id)
+    
     def json_data(self):
         return json.loads(self.procdata)
     
@@ -257,9 +271,6 @@ class ProcInstance(models.Model):
             (field, self.json_data()[field.field_definition.name]) \
             for field in self.currentstep.overview_fields()
         ]
-    
-    def __str__(self):
-        return str(self.id)
     
     def transition_with_status(self, a_status):
         assert a_status in self.currentstep.possible_transitions(), "Invalid transition"
