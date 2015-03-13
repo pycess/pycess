@@ -142,7 +142,10 @@ class FieldPerstep(models.Model):
     
     # REFACT: research if there is a way to route accesses to parameters through this method
     def json_parameter(self):
-        return json.loads(self.parameter or '{}')
+        try:
+            return json.loads(self.parameter or '{}')
+        except ValueError as error:
+            raise ValueError("Erraneous JSON, check it. Original error: %s" % error)
         # REFACT: remove or '{}'? --dwt
     
     @property
