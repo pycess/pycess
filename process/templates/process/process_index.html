@@ -2,7 +2,10 @@
 
 {% load pdb %}
 
+
 {% block content %}
+    <h1>{% block title %}Get Stuff Done{% endblock %}</h1>
+    <p>Work on a process or create a new one.</p>
     {% for process, instances in instances_by_process.items %}
         <h2>{{process.name}}
             <small style="margin-left: 20px">

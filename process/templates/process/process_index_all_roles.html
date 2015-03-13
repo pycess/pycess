@@ -3,14 +3,10 @@
 {% load pdb %}
 
 {% block content %}
+    <h1>{% block title %}Process Overview{% endblock %}</h1>
+    <p>See whats up with the processes you participate.</p>
     {% for process in processes %}
-        <h2>{{process.name}}
-            <small style="margin-left: 20px">
-                <a class="btn btn-default" href="{% url 'instance_create' process.id %}">
-                    Start new
-                </a>
-            </small>
-        </h2>
+        <h2>{{process.name}}</h2>
         <ul>
             {% for instance in process.instances.all %}
                 <li>
