@@ -35,11 +35,7 @@ class JSONSchemaTests(TestCase):
         }
         
     def test_should_respect_ordering_of_fields(self):
-        first_step = ProcessStep.objects.create(
-            name="Add_report",
-            index=0,
-            actiontype=0,
-        )
+        first_step = ProcessStep.objects.create(name="Add_report")
         error_description = FieldDefinition.objects.create(
             name='error_description',
             descript="Failure or error description",
@@ -74,11 +70,7 @@ class JSONSchemaTests(TestCase):
         )
     
     def test_should_have_process_step_metadata_on_form(self):
-        first_step = ProcessStep.objects.create(
-            name="Add_report",
-            index=0,
-            actiontype=0,
-        )
+        first_step = ProcessStep.objects.create(name="Add_report")
         
         expect(first_step.json_schema()).has_subdict({
             'title': "Add_report",
@@ -91,8 +83,8 @@ class StateMachineTests(TestCase):
     def setUp(self):
         self.process = ProcessDef.objects.create(name='Murksmeldung', status=0)
         
-        self.decision = ProcessStep.objects.create(name="decision", process=self.process, index=0, actiontype=0,)
-        self.published = ProcessStep.objects.create(name="published", index=0, actiontype=0,)
+        self.decision = ProcessStep.objects.create(name="decision", process=self.process)
+        self.published = ProcessStep.objects.create(name="published")
         self.trashed = ProcessStep.objects.create(name="trashed", index=0, actiontype=0,)
         
         self.start = StatusScheme.objects.create(name="start", prestep=None, selfstep=self.decision)

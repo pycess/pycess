@@ -54,12 +54,14 @@ class ProcessStep(models.Model):
     role = models.ForeignKey('RoleDef',    null=True)
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)
-    index = models.PositiveSmallIntegerField()
+    
+    # REFACT: remove until we actually ue this for something? --dwt
+    # also: self.id is available and guaranteed to be unique within the process definition
+    index = models.PositiveSmallIntegerField(default=0)
     """Id innerhalb der ProcDef"""
     
-    # REFACT: could/ should we replace index by a relation from ProcessDeff to
-    #  its first ProcessStep?
-    actiontype = models.PositiveSmallIntegerField()
+    # REFACT: remove until we actually need / use this? --dwt
+    actiontype = models.PositiveSmallIntegerField(default=0)
     """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
     
     class Meta:
