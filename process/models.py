@@ -110,7 +110,7 @@ class StatusScheme(models.Model):
         
     # REFACT: rename related_name to something more unique > schon geaendert
     prestep = models.ForeignKey(
-        'ProcessStep', related_name='status_prestep' , null=True)
+        'ProcessStep', related_name='status_prestep' , blank=True, null=True)
     # Erster Schritt: Prestep = Selfstep
     
     name   = models.CharField(max_length=20)
@@ -242,7 +242,7 @@ class ProcInstance(models.Model):
     # TODO: Need a way to merge in updates to this field
     # TODO: need a standard way to get a meaningfull abbreviation of the current step data to serve as headline
     # procdata= models.JSONdata() .. TODO
-    procdata  = models.TextField(default='')
+    procdata  = models.TextField(default='{}')
     currentstep = models.ForeignKey('ProcessStep', blank=True, null=True)
     starttime = models.DateTimeField()
     stoptime  = models.DateTimeField(null=True)
