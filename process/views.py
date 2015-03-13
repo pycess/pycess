@@ -27,6 +27,7 @@ def process_overview(request):
     )
     return HttpResponse(render(request, 'process/process_overview.html', locals()))
 
+# REFACT: remove? Not really used anymore? --dwt
 def process_detail(request, process_id):
     process = get_object_or_404(ProcessDefinition, pk=process_id)
     return HttpResponse(render(request, 'process/process_instance_list.html', locals()))
