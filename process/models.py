@@ -11,7 +11,6 @@ import json
 
 ## I - Prozess-Definition
 
-@python_2_unicode_compatible
 class ProcessDefinition(models.Model):
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)
@@ -46,7 +45,6 @@ class ProcessDefinition(models.Model):
     
 
 
-@python_2_unicode_compatible
 class ProcessStep(models.Model):
     """Prozess-spezifischer Bearbeitungs-Schritt, umfasst definierte Felder (FieldPerstep)"""
     
@@ -102,7 +100,6 @@ class ProcessStep(models.Model):
 
 
 # REFACT: consider renaming to ProcessTransition or something similar?
-@python_2_unicode_compatible
 class StatusScheme(models.Model):
     """Alle Status des Prozesses, dazu deren moegliche Vorgaenger-Status"""
     
@@ -140,7 +137,6 @@ class StatusScheme(models.Model):
     #   Denn es kann durchaus mehrere Status fuer die gleiche pre>step Folge geben 
 
 
-@python_2_unicode_compatible
 class FieldPerstep(models.Model):
     """Fields, die pro Schritt angezeigt/abgefragt werden"""
     
@@ -182,7 +178,6 @@ class FieldPerstep(models.Model):
         return schema
 
 
-@python_2_unicode_compatible
 class FieldDefinition(models.Model):
     """ Im Process insgesamt verfuegbare Felder"""
     
@@ -230,7 +225,6 @@ class FieldDefinition(models.Model):
         }
 
 
-@python_2_unicode_compatible
 class RoleDefinition(models.Model):
     """Roles available for a process"""
     
@@ -245,7 +239,6 @@ class RoleDefinition(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class ProcessInstance(models.Model):
     """Runtime Instances for a process"""
     
@@ -281,7 +274,6 @@ class ProcessInstance(models.Model):
         self.currentstep = a_status.selfstep
 
 
-@python_2_unicode_compatible
 class RoleInstance(models.Model):
     """Roles assigned for a process instance"""
     
@@ -298,7 +290,7 @@ class RoleInstance(models.Model):
         return str(self.id)
 
 
-@python_2_unicode_compatible
+
 class PycLog(models.Model):
     """Log der Aktionen auf Pycess-Anwendungs-Ebene"""
     
@@ -309,3 +301,14 @@ class PycLog(models.Model):
         return str(self.id)
 
 # - Ende models.py -
+
+# For python 2/3 compatibility
+def safe_issubclass(a_class, a_superclass):
+    try:
+        return issubclass(a_class, a_superclass)
+    except TypeError as e:
+        return False
+
+for name, class_ in locals().copy().items():
+    if safe_issubclass(class_, models.Model):
+        locals()[name] = python_2_unicode_compatible(class_)
