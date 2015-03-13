@@ -268,7 +268,10 @@ class ProcessInstance(models.Model):
         return str(self.id)
     
     def json_data(self):
-        return json.loads(self.procdata)
+        try:
+            return json.loads(self.procdata or '{}')
+        except ValueError as error:
+            raise ValueError("Erraneous JSON, check it. Original error: %s" % error)
     
     def overview_fields(self):
         return [
