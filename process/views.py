@@ -61,5 +61,6 @@ class ProcessInstanceView(View):
             status = get_object_or_404(StatusScheme, pk=request.POST['requested_transition_id'])
             instance.transition_with_status(status)
         instance.save()
+        # REFACT: consider redirecting to the index page again - if I am not the role to work on the next step
         return self.get(request, process_id, instance_id)
     
