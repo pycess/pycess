@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 
 from django.test import TestCase
 from django.utils import timezone
+from django.conf import settings
+
+from django.contrib.auth.models import User
 
 from process.models import *
 from pyexpect import expect
@@ -81,11 +84,15 @@ class JSONSchemaTests(TestCase):
 class StateMachineTests(TestCase):
     
     def setUp(self):
-        self.process = ProcessDefinition.objects.create(name='Murksmeldung', status=0)
+        self.reporter = User.objects.create(username='reporter')
         
-        self.decision = ProcessStep.objects.create(name="decision", process=self.process)
+        self.process = ProcessDefinition.objects.create(name='murksmeldung', status=0)
+        
+        self.user = RoleDefinition.objects.create(name='user', process=self.process)
+        
+        self.decision = ProcessStep.objects.create(name="decision", role=self.user, process=self.process)
         self.published = ProcessStep.objects.create(name="published")
-        self.trashed = ProcessStep.objects.create(name="trashed", index=0, actiontype=0,)
+        self.trashed = ProcessStep.objects.create(name="trashed")
         
         self.start = StatusScheme.objects.create(name="start", prestep=None, selfstep=self.decision)
         self.publish = StatusScheme.objects.create(name="publish", prestep=self.decision, selfstep=self.published)
@@ -100,16 +107,25 @@ class StateMachineTests(TestCase):
         expect(transitions).to_contain(self.publish, self.trash)
     
     def test_should_transition_to_valid_states(self):
-        instance = self.process.create_instance()
-        instance.currentstep = self.decision
+        instance = self.process.create_instance(creator=self.reporter)
+        expect(instance.currentstep) == self.decision
         instance.transition_with_status(self.publish)
         expect(instance.currentstep) == self.published
     
     def test_should_only_transitioning_valid_states(self):
-        instance = self.process.create_instance()
+        instance = self.process.create_instance(creator=self.reporter)
         instance.currentstep = self.trashed
         
         expect(lambda: instance.transition_with_status(self.publish)) \
             .to_raise(AssertionError, r"Invalid transition")
     
+    def test_should_add_role_instance_with_self_if_neccessary_on_instance_creation(self):
+        expect(self.decision.role.role_instance.filter(pycuser=self.reporter).count()) == 0
+        instance = self.process.create_instance(creator=self.reporter)
+        expect(self.decision.role.role_instance.filter(pycuser=self.reporter).count()) == 1
+        # doesn't create a second one
+        instance = self.process.create_instance(creator=self.reporter)
+        expect(self.decision.role.role_instance.filter(pycuser=self.reporter).count()) == 1
+
+        
 

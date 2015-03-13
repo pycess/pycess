@@ -28,14 +28,22 @@ class ProcessDefinition(models.Model):
     class Meta:
         verbose_name_plural = "1. Process Definitions"
     
-    def create_instance(self):
-        return ProcessInstance.objects.create(
+    def create_instance(self, creator):
+        instance = ProcessInstance.objects.create(
             process=self,
             currentstep=self.first_step(),
             starttime=timezone.now(),
             stoptime=timezone.now(),
             status=3,
         )
+        if 0 == self.first_step().role.role_instance.filter(pycuser=creator).count():
+            RoleInstance.objects.create(
+                role=self.first_step().role,
+                procinst=instance,
+                pycuser=creator,
+                entrytime=timezone.now(),
+            )
+        return instance
     
     def __str__(self):
         return self.name
