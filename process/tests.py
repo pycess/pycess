@@ -39,8 +39,9 @@ class InitialTest(TestCase):
         self.initial_status = StatusScheme.objects.create(
             remark="Initialer Zustand",
             name='Init',
+            process=self.murksmeldung,
             selfstep=self.first_step,
-            prestep=self.first_step,
+            prestep=None,
         )
         self.data_provider = RoleDef.objects.create(
             name="Murksmelder",
@@ -61,6 +62,7 @@ class InitialTest(TestCase):
         )
         self.enter_data = StatusScheme.objects.create(
             name="Daten eingegeben",
+            process=self.murksmeldung,
             prestep=self.first_step,
             selfstep=self.decision,
         )
@@ -74,6 +76,7 @@ class InitialTest(TestCase):
         self.publish = StatusScheme.objects.create(
             name='Veröffentlichen',
             remark="Murksmeldung veröffentlichen",
+            process=self.murksmeldung,
             prestep=self.decision,
             selfstep=self.published,
         )
@@ -87,6 +90,7 @@ class InitialTest(TestCase):
         self.trash = StatusScheme.objects.create(
             name='Verwerfen',
             remark="Murksmeldung verwerfen",
+            process=self.murksmeldung,
             prestep=self.decision,
             selfstep=self.trashed,
         )
