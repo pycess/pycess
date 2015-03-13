@@ -257,7 +257,7 @@ class ProcInstance(models.Model):
 class RoleInstance(models.Model):
     """Roles assigned for a process instance"""
     
-    role      = models.ForeignKey('RoleDef')
+    role      = models.ForeignKey('RoleDef', related_name='role_instance')
     procinst  = models.ForeignKey('ProcInstance', blank=True, null=True)
     pycuser   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     entrytime = models.DateTimeField()
