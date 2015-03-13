@@ -24,10 +24,13 @@ class ProcessDef(models.Model):
     
     # optional: Verweis auf Vorgaenger-Version oder Templates, Kopien etc.
     refering = models.ForeignKey('ProcessDef', null=True, blank=True)
-
+    
+    class Meta:
+        verbose_name_plural = "1. Process Definitions"
+    
     def __str__(self):
         return self.name
-
+    
     def first_step(self):
         # REFACT: might need to switch this protocoll to consider objects without a prestep
         # initial objects
@@ -51,6 +54,9 @@ class ProcessStep(models.Model):
     #  its first ProcessStep?
     actiontype = models.PositiveSmallIntegerField()
     """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
+    
+    class Meta:
+        verbose_name_plural = "2. Process Steps"
     
     def overview_fields(self):
         return [
@@ -114,6 +120,9 @@ class StatusScheme(models.Model):
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift
     #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt
     
+    class Meta:
+        verbose_name_plural = "3. Status Schemes (Process Step Transitions)"
+    
     def __str__(self):
         return self.name
     
@@ -137,6 +146,10 @@ class FieldPerstep(models.Model):
     order = models.PositiveSmallIntegerField(default=1)
     #   Abfolge des Felds im Formular. Evt. in 10er Stufen, 
     #     damit bei Umstellungen nicht alle order-s zu aendern sind.
+    
+    class Meta:
+        unique_together = ('step', 'field_definition', )
+    
     def __str__(self):
         return str(self.id)
     
@@ -151,9 +164,6 @@ class FieldPerstep(models.Model):
     @property
     def should_show_in_overview(self):
         return self.json_parameter().get('should_show_in_overview', False)
-    
-    class Meta:
-        unique_together = ('step', 'field_definition', )
     
     def json_schema(self):
         schema = self.field_definition.json_schema()
@@ -182,8 +192,9 @@ class FieldDefinition(models.Model):
     type = models.PositiveSmallIntegerField(default=1)
     # etwa 1-normal 2-pycess-intern 3-javascript-intern
     
-    # REFACT: I think we need a way to order FieldDefinition --dwt > vdB: Fieldperstep 
-
+    class Meta:
+        verbose_name_plural = "4. Field Definitions"
+    
     def __str__(self):
         return self.name
 
@@ -215,7 +226,10 @@ class RoleDef(models.Model):
     process = models.ForeignKey('ProcessDef')
     name    = models.CharField(max_length=200)
     descript= models.CharField(max_length=200, blank=True)
-
+    
+    class Meta:
+        verbose_name_plural = "5. Role Definitions"
+    
     def __str__(self):
         return self.name
 
@@ -234,6 +248,9 @@ class ProcInstance(models.Model):
     stoptime  = models.DateTimeField(null=True)
     status    = models.PositiveSmallIntegerField()
     # Status: 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
+    
+    class Meta:
+        verbose_name_plural = "6. Process Instances"
     
     def json_data(self):
         return json.loads(self.procdata)
@@ -262,6 +279,9 @@ class RoleInstance(models.Model):
     pycuser   = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     entrytime = models.DateTimeField()
     exittime  = models.DateTimeField(blank=True, null=True)
+    
+    class Meta:
+        verbose_name_plural = "8. Role Instances"
     
     def __str__(self):
         return str(self.id)
