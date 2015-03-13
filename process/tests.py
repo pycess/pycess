@@ -10,13 +10,16 @@ import json
 
 # TODO: understand how to do integration tests with django testing - or if it is better to switch to something specialized like rspec
 
-class FirstProcess(TestCase):
+class InitialTest(TestCase):
     
     def setUp(self):
-        super(FirstProcess, self).setUp()
-        self._create_murksmeldung()
+        super(InitialTest, self).setUp()
+        self._create_murksmeldung_if_neccessary()
     
-    def _create_murksmeldung(self):
+    def _create_murksmeldung_if_neccessary(self):
+        if getattr(self.__class__, '__murksmeldung_created', False):
+            return
+        
         # REFACT: investigate how django default data works, some json / yaml file perhaps?
         # Would be very usefull if this can be preloaded into the gui easily as play data
         self.murksmeldung = ProcessDef.objects.create(
@@ -135,6 +138,8 @@ class FirstProcess(TestCase):
             starttime=timezone.now(),
             stoptime=timezone.now(),
             status=3)
+        
+        self.__class__.__murksmeldung_created = True
     
     def test_should_know_format_of_fields(self):
         expect(self.device_description.json_schema()) == {
