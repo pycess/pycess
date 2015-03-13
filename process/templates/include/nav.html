@@ -1,26 +1,29 @@
+{% load eval %}
 <nav class="navbar navbar-default navbar-fixed-top">
-	<div class="container">
-	<div class="navbar-header">
-		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<a class="navbar-brand" href="#">PyCess</a>
-	</div>
-	<div id="navbar" class="navbar-collapse collapse">
-		<ul class="nav navbar-nav">
-			{# See: https://code.djangoproject.com/ticket/18584 for ideas how to make highlighting the current url better #}
-			{% url 'index' as index_url %}
-			<li {% if request.path_info == index_url %}class="active"{% endif %}><a href="{{index_url}}">Start Process</a></li>
-			<li><a href="">TODO: Work on process</a></li>
-			{# TODO: Consider adding a popup menu to create processes instantly without having to go to a list first? #}
-		</ul>
-		<ul class="nav navbar-nav navbar-right">
-			<li><a href="/admin/">Admin</a></li>
-			<li><a href='javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();'>Bootlint current page</a></li>
-		</ul>
-	</div><!--/.nav-collapse -->
-	</div>
+    <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">PyCess</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            {# See: https://code.djangoproject.com/ticket/18584 for ideas how to make highlighting the current url better #}
+            {% eval [('index', "Get Stuff done"), ('index_all_roles', "PyCess Overview"),] as navigation_targets %}
+            {% for url_name, link_name in navigation_targets %}
+                {% url url_name as a_url %}
+                <li {% if request.path_info == a_url %}class="active"{% endif %}><a href="{{a_url}}">{{link_name}}</a></li>
+            {% endfor %}
+            {# TODO: Consider adding a popup menu to create processes instantly without having to go to a list first? #}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/admin/">Admin</a></li>
+            <li><a href='javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();'>Bootlint current page</a></li>
+        </ul>
+    </div><!--/.nav-collapse -->
+    </div>
 </nav>
