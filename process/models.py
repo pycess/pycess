@@ -278,7 +278,7 @@ class ProcessInstance(models.Model):
     
     def overview_fields(self):
         return [
-            (field, self.json_data()[field.field_definition.name]) \
+            (field, self.json_data().get(field.field_definition.name, None)) \
             for field in self.currentstep.overview_fields()
         ]
     
