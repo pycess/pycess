@@ -94,11 +94,11 @@ class StateMachineTests(TestCase):
         self.published = ProcessStep.objects.create(name="published")
         self.trashed = ProcessStep.objects.create(name="trashed")
         
-        self.start = StatusScheme.objects.create(name="start", prestep=None, selfstep=self.decision)
-        self.publish = StatusScheme.objects.create(name="publish", prestep=self.decision, selfstep=self.published)
-        self.trash = StatusScheme.objects.create(name="trash", prestep=self.decision, selfstep=self.trashed)
+        self.start = StatusScheme.objects.create(name="start", prestatus=None, step=self.decision)
+        self.publish = StatusScheme.objects.create(name="publish", prestatus=self.decision, step=self.published)
+        self.trash = StatusScheme.objects.create(name="trash", prestatus=self.decision, step=self.trashed)
         # Distractor
-        self.correct_error = StatusScheme.objects.create(name="correct_error", prestep=self.published, selfstep=self.trashed)
+        self.correct_error = StatusScheme.objects.create(name="correct_error", prestatus=self.published, step=self.trashed)
     
     def test_should_get_outgoing_transitions(self):
         transitions = self.decision.possible_transitions()
@@ -108,13 +108,13 @@ class StateMachineTests(TestCase):
     
     def test_should_transition_to_valid_states(self):
         instance = self.process.create_instance(creator=self.reporter)
-        expect(instance.currentstep) == self.decision
+        expect(instance.currentstatus) == self.decision
         instance.transition_with_status(self.publish)
-        expect(instance.currentstep) == self.published
+        expect(instance.currentstatus) == self.published
     
     def test_should_only_transitioning_valid_states(self):
         instance = self.process.create_instance(creator=self.reporter)
-        instance.currentstep = self.trashed
+        instance.currentstatus = self.trashed
         
         expect(lambda: instance.transition_with_status(self.publish)) \
             .to_raise(AssertionError, r"Invalid transition")

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from process.models import ProcessStep, ProcessDefinition, StatusScheme, FieldPerstep,  FieldDefinition, RoleDefinition, ProcessInstance, RoleInstance, PycLog
+from process.models import ProcessStep, ProcessDefinition, Statuslist, StatusScheme, FieldPerstep,  FieldDefinition, RoleDefinition, ProcessInstance, RoleInstance, PycLog
 
 
 class FieldperstepInline(admin.TabularInline):
@@ -24,9 +24,15 @@ class ProcdefAdmin(admin.ModelAdmin):
 admin.site.register(ProcessDefinition, ProcdefAdmin)
 
 
+class StatlistAdmin (admin.ModelAdmin):
+    list_display = ('id', 'process', 'name')
+    ordering = ['id']
+admin.site.register(Statuslist, StatlistAdmin)
+
+
 class StatschemAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'selfstep', 'prestep', 'remark', 'logic', 'process')
+        'id', 'name', 'status', 'step', 'prestatus', 'remark', 'logic', 'process')
     list_display_links = ('id', 'name')
     ordering = ['id']
 admin.site.register(StatusScheme, StatschemAdmin)
@@ -54,7 +60,7 @@ admin.site.register(RoleDefinition,  RoleDefinitionAdmin)
 
 
 class ProcinstAdmin(admin.ModelAdmin):
-    list_display = ('id', 'status', 'process')
+    list_display = ('id', 'runstatus', 'process')
     ordering = ['id']
 admin.site.register(ProcessInstance, ProcinstAdmin)
 

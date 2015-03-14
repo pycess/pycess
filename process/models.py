@@ -49,7 +49,7 @@ class ProcessDefinition(models.Model):
         return self.name
     
     def first_step(self):
-        return ProcessStep.objects.get(process=self, status_thisstep__prestep=None)
+        return ProcessStep.objects.get(process=self, status_thisstep__prestatus=None)
     
 
 
@@ -81,7 +81,7 @@ class ProcessStep(models.Model):
         ]
     
     def possible_transitions(self):
-        return StatusScheme.objects.filter(prestep=self).all()
+        return StatusScheme.objects.filter(prestatus=self).all()
     
     def __str__(self):
         return self.name
@@ -110,28 +110,32 @@ class ProcessStep(models.Model):
     def is_editable_by_user(self, user):
         return self.role.role_instance.filter(pycuser=user).exists()
 
-# REFACT: consider renaming to ProcessTransition or something similar?
-class StatusScheme(models.Model):
-    """Alle Status des Prozesses, dazu deren moegliche Vorgaenger-Status"""
+class Statuslist  (models.Model):
+    """Liste der verfuegbaren Status zur Prozess-Definiton"""
+    # Neu hinzu per 14.03.15, da StatusScheme nun 1..n Tupel pro Status haben kann
+    process = models.ForeignKey('ProcessDefinition', null=True)
+    name    = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name_plural = "3. Status"
+        unique_together = ('process', 'name',)
     
-    # prestep == NULL for entry step into the process
-    # Use case: process which can be started at many places - by different roles?
+    def __str__(self):
+        return self.name
+    
+class StatusScheme(models.Model):
+    """Status-Verknuepfungen zum Prozess und deren Bedeutung """
+    
+    # pre_status == NULL for entry step into the process
+    # Use case: process which can be started at many places - by different roles? 
     # Use case: allowing steps that loop on the same state, but with logic. E.g.: remind me after x days.
     
-    process = models.ForeignKey('ProcessDefinition', null=True)
+    process   = models.ForeignKey('ProcessDefinition', null=True)
+    name      = models.CharField(max_length=20)
+    status    = models.ForeignKey('Statuslist' , related_name='scheme_status')
+    prestatus = models.ForeignKey('Statuslist' , related_name='scheme_prestatus', null=True, blank=True)
+    step      = models.ForeignKey('ProcessStep', related_name='status_step', null=True)
     
-    # REFACT: consider requiring selfstep and prestep to be non null --dwt 
-    #   vdB: Noe, denn Status koennen gern mal _vor_ den Steps definiert sein 
-    # REFACT: rename related_name to something more unique > schon geaendert
-    selfstep = models.ForeignKey(
-        'ProcessStep', related_name='status_thisstep', null=True)
-        
-    # REFACT: rename related_name to something more unique > schon geaendert
-    prestep = models.ForeignKey(
-        'ProcessStep', related_name='status_prestep' , blank=True, null=True)
-    # Erster Schritt: Prestep = Selfstep
-    
-    name   = models.CharField(max_length=20)
     remark = models.CharField(max_length=200, blank=True)
     
     logic  = models.CharField(max_length=200, blank=True)
@@ -139,14 +143,11 @@ class StatusScheme(models.Model):
     #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt
     
     class Meta:
-        verbose_name_plural = "3. Status Schemes (Process Step Transitions)"
+        verbose_name_plural = "4. Status Scheme"
     
     def __str__(self):
         return self.name
     
-    # Deprecated:   unique_together = ('process', 'selfstep', 'prestep',)
-    #   Denn es kann durchaus mehrere Status fuer die gleiche pre>step Folge geben 
-
 
 class FieldPerstep(models.Model):
     """Fields, die pro Schritt angezeigt/abgefragt werden"""
@@ -210,7 +211,7 @@ class FieldDefinition(models.Model):
     # etwa 1-normal 2-pycess-intern 3-javascript-intern
     
     class Meta:
-        verbose_name_plural = "4. Field Definitions"
+        verbose_name_plural = "5. Field Definitions"
     
     def __str__(self):
         return self.name
@@ -244,7 +245,7 @@ class RoleDefinition(models.Model):
     descript= models.CharField(max_length=200, blank=True)
     
     class Meta:
-        verbose_name_plural = "5. Role Definitions"
+        verbose_name_plural = "6. Role Definitions"
     
     def __str__(self):
         return self.name
@@ -258,14 +259,14 @@ class ProcessInstance(models.Model):
     # TODO: need a standard way to get a meaningfull abbreviation of the current step data to serve as headline
     # procdata= models.JSONdata() .. TODO
     procdata  = models.TextField(default='{}')
-    currentstep = models.ForeignKey('ProcessStep', blank=True, null=True)
+    currentstatus = models.ForeignKey('Statuslist', blank=True, null=True)
     starttime = models.DateTimeField()
     stoptime  = models.DateTimeField(null=True)
-    status    = models.PositiveSmallIntegerField()
-    # Status: 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
+    runstatus = models.PositiveSmallIntegerField()
+    # runtime-Status: 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
     
     class Meta:
-        verbose_name_plural = "6. Process Instances"
+        verbose_name_plural = "7. Process Instances"
     
     def __str__(self):
         return str(self.id)
@@ -277,19 +278,21 @@ class ProcessInstance(models.Model):
             raise ValueError("Erraneous JSON, check it. Original error: %s" % error)
     
     def overview_fields(self):
+        if self.currentstep is None: 
+            return []
         return [
             (field, self.json_data().get(field.field_definition.name, None))
-            for field in self.currentstep.overview_fields()
-        ]
+             for field in self.currentstep.overview_fields()
+            ]
     
     def transition_with_status(self, a_status):
-        assert a_status in self.currentstep.possible_transitions(), "Invalid transition"
+        assert a_status in self.currentstatus.possible_transitions(), "Invalid transition"
         # TODO: this is probably where the logic of the transition needs to be computed / done
-        self.currentstep = a_status.selfstep
+        self.currentstatus = a_status.status
 
 
 class RoleInstance(models.Model):
-    """Roles assigned for a process instance"""
+    """Roles assigned for a process instance, connected to Django-User"""
     
     role      = models.ForeignKey('RoleDefinition', related_name='role_instance')
     procinst  = models.ForeignKey('ProcessInstance', blank=True, null=True)
@@ -298,7 +301,7 @@ class RoleInstance(models.Model):
     exittime  = models.DateTimeField(blank=True, null=True)
     
     class Meta:
-        verbose_name_plural = "8. Role Instances"
+        verbose_name_plural = "9. Role Instances"
     
     def __str__(self):
         return str(self.id)
