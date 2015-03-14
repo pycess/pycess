@@ -27,6 +27,7 @@ setup(name='pycess',
       test_suite='pycess.testing.runtests.runtests',
       install_requires=[
           'django',
-          'pyexpect'
+          'pyexpect',
+          'splinter',
       ],
       )
