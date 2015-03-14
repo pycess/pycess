@@ -29,6 +29,7 @@ def process_overview(request):
 
 def process_instance_create(request, process_id):
     process = get_object_or_404(ProcessDefinition, pk=process_id)
+    # REFACT: use process.create_instance(creator=request.user)?
     instance = ProcessInstance.objects.create(
         process=process,
         currentstep=process.first_step(),
