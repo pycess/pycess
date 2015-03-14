@@ -17,8 +17,15 @@
 	{# See: http://getbootstrap.com/css/#helper-classes-screen-readers #}
 	<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
 	{% include "include/nav.html" %}
-	
 	<div id="content" class="container" style="margin-top: 60px">
+		{% if messages %}
+			<div class="messages">
+			{% for message in messages %}
+				<div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+			{% endfor %}
+			</div>
+		{% endif %}
+		
 		{% block content %}{% endblock %}
 	</div>
 	<div id="js">

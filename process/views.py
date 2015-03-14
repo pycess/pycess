@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from process.models import *
@@ -56,6 +57,10 @@ class ProcessInstanceView(View):
         if 'requested_transition_id' in request.POST:
             status = get_object_or_404(StatusScheme, pk=request.POST['requested_transition_id'])
             instance.transition_with_status(status)
+            # TODO: consider adding information. Who will be responsible, what time frame, perhaps even how to follow along?
+            messages.success(request, "Transitioned to status %s: %s" % (status.name, status.remark))
+        else:
+            messages.info(request, "Saved")
         instance.save()
         
         if instance.currentstep.is_editable_by_user(request.user):
