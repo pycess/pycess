@@ -10,7 +10,7 @@ class FieldperstepInline(admin.TabularInline):
 
 
 class ProcstepAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'descript', 'index', 'role', 'process')
+    list_display = ('id', 'name', 'descript', 'index', 'process')
     list_display_links = ('id', 'name')
     ordering = ['id']
     inlines = [FieldperstepInline]
@@ -32,7 +32,7 @@ admin.site.register(Statuslist, StatlistAdmin)
 
 class StatschemAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'status', 'step', 'prestatus', 'remark', 'logic', 'process')
+        'id', 'name', 'status', 'step', 'prestatus', 'role', 'remark', 'logic', 'process')
     list_display_links = ('id', 'name')
     ordering = ['id']
 admin.site.register(StatusScheme, StatschemAdmin)

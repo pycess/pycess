@@ -57,7 +57,7 @@ class ProcessStep(models.Model):
     """Prozess-spezifischer Bearbeitungs-Schritt, umfasst definierte Felder (FieldPerstep)"""
     
     process = models.ForeignKey('ProcessDefinition', related_name='steps', null=True)
-    role = models.ForeignKey('RoleDefinition',    null=True)
+    # role-Verweis wurde per 19.03.15 nach StatusScheme verschoben
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)
     
@@ -132,9 +132,10 @@ class StatusScheme(models.Model):
     
     process   = models.ForeignKey('ProcessDefinition', null=True)
     name      = models.CharField(max_length=20)
-    status    = models.ForeignKey('Statuslist' , related_name='scheme_status')
+    status    = models.ForeignKey('Statuslist' , related_name='scheme_status', null=True)
     prestatus = models.ForeignKey('Statuslist' , related_name='scheme_prestatus', null=True, blank=True)
     step      = models.ForeignKey('ProcessStep', related_name='status_step', null=True)
+    role      = models.ForeignKey('RoleDefinition', null=True)
     
     remark = models.CharField(max_length=200, blank=True)
     
