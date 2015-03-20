@@ -309,27 +309,32 @@ class RoleInstance(models.Model):
     
     def __str__(self):
         return str(self.id)
-
-
+    
 
 class PycLog(models.Model):
     """Log der Aktionen auf Pycess-Anwendungs-Ebene"""
     
     time    = models.DateTimeField()
     action  = models.CharField(max_length=200)
-
+    
     def __str__(self):
         return str(self.id)
+    
 
 # - Ende models.py -
 
 # For python 2/3 compatibility
-def safe_issubclass(a_class, a_superclass):
-    try:
-        return issubclass(a_class, a_superclass)
-    except TypeError as e:
-        return False
+def annotate_models_as_python_2_unicode_compatible():
+    # see: https://docs.djangoproject.com/en/1.7/topics/python3/#str-and-unicode-methods
+    
+    def safe_issubclass(a_class, a_superclass):
+        try:
+            return issubclass(a_class, a_superclass)
+        except TypeError as e:
+            return False
+    
+    for name, class_ in locals().copy().items():
+        if safe_issubclass(class_, models.Model):
+            locals()[name] = python_2_unicode_compatible(class_)
 
-for name, class_ in locals().copy().items():
-    if safe_issubclass(class_, models.Model):
-        locals()[name] = python_2_unicode_compatible(class_)
+annotate_models_as_python_2_unicode_compatible()
