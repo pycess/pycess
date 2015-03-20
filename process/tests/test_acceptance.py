@@ -36,5 +36,5 @@ class Smoke(LiveServerTestCase):
         super(Smoke, cls).tearDownClass()
         cls.browser.quit()
     
-    def test_smoke(self):
+    def _test_smoke(self):
         self.browser.visit(self.live_server_url)
