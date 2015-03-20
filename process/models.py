@@ -12,6 +12,7 @@ import json
 ## I - Prozess-Definition
 
 class ProcessDefinition(models.Model):
+    """Represents one of many different processes. Can be derived from another process."""
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)
     
@@ -54,7 +55,9 @@ class ProcessDefinition(models.Model):
 
 
 class ProcessStep(models.Model):
-    """Prozess-spezifischer Bearbeitungs-Schritt, umfasst definierte Felder (FieldPerstep)"""
+    """Ties a role to a specific set of fields (and later actions). 
+    
+    Tells the state machine who can trigger and execute this state machine and what kind of interface he will see for it."""
     
     process = models.ForeignKey('ProcessDefinition', related_name='steps', null=True)
     # role-Verweis wurde per 19.03.15 nach StatusScheme verschoben
@@ -85,7 +88,7 @@ class ProcessStep(models.Model):
     
     def __str__(self):
         return self.name
-
+    
     def json_schema(self):
         # See: https://github.com/jdorn/json-editor
         return {
@@ -115,7 +118,7 @@ class Statuslist  (models.Model):
     # Neu hinzu per 14.03.15, da StatusScheme nun 1..n Tupel pro Status haben kann
     process = models.ForeignKey('ProcessDefinition', null=True)
     name    = models.CharField(max_length=20)
-
+    
     class Meta:
         verbose_name_plural = "3. Status"
         unique_together = ('process', 'name',)
@@ -124,7 +127,7 @@ class Statuslist  (models.Model):
         return self.name
     
 class StatusScheme(models.Model):
-    """Status-Verknuepfungen zum Prozess und deren Bedeutung """
+    """Edges in the process state machine / Status-Verknuepfungen zum Prozess und deren Bedeutung """
     
     # pre_status == NULL for entry step into the process
     # Use case: process which can be started at many places - by different roles? 
@@ -151,7 +154,7 @@ class StatusScheme(models.Model):
     
 
 class FieldPerstep(models.Model):
-    """Fields, die pro Schritt angezeigt/abgefragt werden"""
+    """Describes how a fields is tied to a specific step / Fields, die pro Schritt angezeigt/abgefragt werden"""
     
     step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
@@ -189,10 +192,10 @@ class FieldPerstep(models.Model):
         schema = self.field_definition.json_schema()
         schema['propertyOrder'] = self.order
         return schema
-
+    
 
 class FieldDefinition(models.Model):
-    """ Im Process insgesamt verfuegbare Felder"""
+    """Defines a field in a process / Im Process insgesamt verfuegbare Felder"""
     
     process   = models.ForeignKey('ProcessDefinition', null=True)
     name      = models.CharField(max_length=200)
@@ -216,7 +219,7 @@ class FieldDefinition(models.Model):
     
     def __str__(self):
         return self.name
-
+    
     def json_schema(self):
         type_mapping = {
             1: 'string',
@@ -230,13 +233,13 @@ class FieldDefinition(models.Model):
             print("Missing type mapping for type %s" % self.fieldtype)
         if self.fieldtype not in format_mapping:
             print("Missing format mapping for type %s" % self.fieldtype)
-
+        
         return {
             'type': type_mapping.get(self.fieldtype, 'string'),
             'title': self.descript,
             'format': format_mapping.get(self.fieldtype, 'string')
         }
-
+    
 
 class RoleDefinition(models.Model):
     """Roles available for a process"""
@@ -250,7 +253,7 @@ class RoleDefinition(models.Model):
     
     def __str__(self):
         return self.name
-
+    
 
 class ProcessInstance(models.Model):
     """Runtime Instances for a process"""
@@ -284,7 +287,7 @@ class ProcessInstance(models.Model):
         return [
             (field, self.json_data().get(field.field_definition.name, None))
              for field in self.currentstep.overview_fields()
-            ]
+        ]
     
     def transition_with_status(self, a_status):
         assert a_status in self.currentstatus.possible_transitions(), "Invalid transition"
