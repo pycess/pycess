@@ -32,14 +32,14 @@ class ProcessDefinition(models.Model):
     def create_instance(self, creator):
         instance = ProcessInstance.objects.create(
             process=self,
-            currentstep=self.first_step(),
+            currentstatus=self.first_transition().status,
             starttime=timezone.now(),
             stoptime=timezone.now(),
-            status=3,
+            runstatus=3, # REFACT: add constants
         )
-        if not self.first_step().role.role_instance.filter(pycuser=creator).exists():
+        if not self.first_transition().role.role_instance.filter(pycuser=creator).exists():
             RoleInstance.objects.create(
-                role=self.first_step().role,
+                role=self.first_transition().role,
                 procinst=instance,
                 pycuser=creator,
                 entrytime=timezone.now(),
@@ -49,8 +49,11 @@ class ProcessDefinition(models.Model):
     def __str__(self):
         return self.name
     
-    def first_step(self):
-        return ProcessStep.objects.get(process=self, status_thisstep__prestatus=None)
+    def first_transition(self):
+        # REFACT: rename first_transition
+        # REFACT: consider changing to  first_transition(for_role) api
+        # return self.schemes.filter(prestatus=None).first()
+        return StatusScheme.objects.get(process=self, prestatus=None)
     
 
 
@@ -110,11 +113,8 @@ class ProcessStep(models.Model):
         # that should be possible with some clever use of json schema
         return an_instance.procdata
     
-    def is_editable_by_user(self, user):
-        return self.role.role_instance.filter(pycuser=user).exists()
-
-class Statuslist  (models.Model):
-    """Liste der verfuegbaren Status zur Prozess-Definiton"""
+class Statuslist(models.Model):
+    """Node in the process state machine / Liste der verfuegbaren Status zur Prozess-Definiton"""
     # Neu hinzu per 14.03.15, da StatusScheme nun 1..n Tupel pro Status haben kann
     process = models.ForeignKey('ProcessDefinition', null=True)
     name    = models.CharField(max_length=20)
@@ -126,6 +126,11 @@ class Statuslist  (models.Model):
     def __str__(self):
         return self.name
     
+    def is_editable_by_user(self, user):
+        return self.scheme_status.filter(role__role_instance__pycuser=user).exists()
+    
+
+# REFACT: consider rename to StatusTransition, for better self documentation --dwt
 class StatusScheme(models.Model):
     """Edges in the process state machine / Status-Verknuepfungen zum Prozess und deren Bedeutung """
     
@@ -133,10 +138,10 @@ class StatusScheme(models.Model):
     # Use case: process which can be started at many places - by different roles? 
     # Use case: allowing steps that loop on the same state, but with logic. E.g.: remind me after x days.
     
-    process   = models.ForeignKey('ProcessDefinition', null=True)
+    process   = models.ForeignKey('ProcessDefinition', related_name='schemes', null=True)
     name      = models.CharField(max_length=20)
-    status    = models.ForeignKey('Statuslist' , related_name='scheme_status', null=True)
     prestatus = models.ForeignKey('Statuslist' , related_name='scheme_prestatus', null=True, blank=True)
+    status    = models.ForeignKey('Statuslist' , related_name='scheme_status', null=True)
     step      = models.ForeignKey('ProcessStep', related_name='status_step', null=True)
     role      = models.ForeignKey('RoleDefinition', null=True)
     
@@ -290,9 +295,18 @@ class ProcessInstance(models.Model):
         ]
     
     def transition_with_status(self, a_status):
-        assert a_status in self.currentstatus.possible_transitions(), "Invalid transition"
+        assert a_status in self.currentstatus.scheme_prestatus.all(), "Invalid transition"
         # TODO: this is probably where the logic of the transition needs to be computed / done
         self.currentstatus = a_status.status
+    
+    def add_user_for_role(self, user, role):
+        return RoleInstance.objects.create(
+            role=role,
+            procinst=self,
+            pycuser=user,
+            entrytime=timezone.now(),
+        )
+    
 
 
 class RoleInstance(models.Model):

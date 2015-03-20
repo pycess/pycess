@@ -33,7 +33,7 @@ def process_instance_create(request, process_id):
     # REFACT: use process.create_instance(creator=request.user)?
     instance = ProcessInstance.objects.create(
         process=process,
-        currentstep=process.first_step(),
+        currentstep=process.first_transition(),
         procdata=json.dumps({}), # FIXME: set initial data from somewhere
         starttime=timezone.now(),
         stoptime=timezone.now(),
