@@ -1,77 +1,80 @@
 from django.contrib import admin
 
 # Register your models here.
-from process.models import ProcessStep, ProcessDefinition, Statuslist, StatusScheme, FieldPerstep,  FieldDefinition, RoleDefinition, ProcessInstance, RoleInstance, PycLog
+from . import models
 
 
-class FieldperstepInline(admin.TabularInline):
-    model = FieldPerstep
-    extra = 1
-
-
-class ProcstepAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'descript', 'index', 'process')
-    list_display_links = ('id', 'name')
-    ordering = ['id']
-    inlines = [FieldperstepInline]
-admin.site.register(ProcessStep, ProcstepAdmin)
-
-
-class ProcdefAdmin(admin.ModelAdmin):
+@admin.register(models.ProcessDefinition)
+class ProcessDefinitionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'descript', 'status')
     list_display_links = ('id', 'name')
     ordering = ['id']
-admin.site.register(ProcessDefinition, ProcdefAdmin)
+    # TODO: referring field should be initialized to the originating process when creating a copy of one
+    # Which should be it's own action.
+    # Probably it's also wise not to allow editing it via the GUI
 
+class FieldPerStepInlineAdmin(admin.TabularInline):
+    model = models.FieldPerstep
+    extra = 1
 
-class StatlistAdmin (admin.ModelAdmin):
-    list_display = ('id', 'process', 'name')
+# class ProcessStepAdmin(admin.ModelAdmin):
+#  list_display = ('id', 'name', 'descript', )
+# admin.site.register(models.FieldPerstep) > models.ProcessStep
+
+@admin.register(models.ProcessStep)
+class ProcessStepAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'descript', 'index', 'process')
+    list_display_links = ('id', 'name')
     ordering = ['id']
-admin.site.register(Statuslist, StatlistAdmin)
+    inlines = [FieldPerStepInlineAdmin]
 
 
-class StatschemAdmin(admin.ModelAdmin):
+@admin.register(models.StatusScheme)
+class StatusSchemeAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'name', 'status', 'step', 'prestatus', 'role', 'remark', 'logic', 'process')
     list_display_links = ('id', 'name')
     ordering = ['id']
-admin.site.register(StatusScheme, StatschemAdmin)
-
-# class ProcstepAdmin(admin.ModelAdmin):
-#  list_display = ('id', 'name', 'descript', )
-# admin.site.register(FieldPerstep) > ProcessStep
 
 
-class FielddefAdmin(admin.ModelAdmin):
+@admin.register(models.Statuslist)
+class StatusListAdmin (admin.ModelAdmin):
+    list_display = ('id', 'process', 'name')
+    ordering = ['id']
+
+
+@admin.register(models.FieldDefinition)
+class FieldDefinitionAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'name', 'descript', 'fieldtype', 'length', 'type', 'process')
     list_display_links = ('id', 'name')
     ordering = ['id']
     save_on_top = True
 #  list_filter = ('process') > funktioniert nicht (?)
-admin.site.register(FieldDefinition, FielddefAdmin)
 
 
+@admin.register(models.RoleDefinition)
 class RoleDefinitionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'descript', 'process')
     list_display_links = ('id', 'name')
     ordering = ['id']
-admin.site.register(RoleDefinition,  RoleDefinitionAdmin)
 
 
-class ProcinstAdmin(admin.ModelAdmin):
+@admin.register(models.ProcessInstance)
+class ProcessInstanceAdmin(admin.ModelAdmin):
     list_display = ('id', 'runstatus', 'process')
     ordering = ['id']
-admin.site.register(ProcessInstance, ProcinstAdmin)
 
 
-class RoleinstAdmin(admin.ModelAdmin):
+@admin.register(models.RoleInstance)
+class RoleInstanceAdmin(admin.ModelAdmin):
     list_display = ('id', 'role', 'procinst')
     ordering = ['id']
-admin.site.register(RoleInstance, RoleinstAdmin)
 
 
-class pyclogAdmin(admin.ModelAdmin):
+# REFACT: should be read only?
+# Ideally created by a separate system, for examle sql trigger based, to ensure a clear distinction line between the two systems
+@admin.register(models.PycLog)
+class PycessLogAdmin(admin.ModelAdmin):
     list_display = ('id', 'action', 'time')
     ordering = ['id']
-admin.site.register(PycLog, pyclogAdmin)
