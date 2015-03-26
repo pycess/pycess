@@ -10,16 +10,16 @@ import json
 
 # Serialize process steps with https://github.com/jdorn/json-editor
 
-# REFACT: introduce some sort of pagination?
+# REFACT: introduce pagination
 def process_index(request):
     processes = ProcessDefinition.objects.all()
     instances_by_process = dict(
-        (process, process.instances.filter(currentstep__role__role_instance__pycuser=request.user))
+        (process, process.instances.filter(currentstatus__scheme_prestatus__role__role_instance__pycuser=request.user))
         for process in processes
     )
     return HttpResponse(render(request, 'process/process_index.html', locals()))
 
-# REFACT: introduce some sort of pagination?
+# REFACT: introduce pagination
 def process_overview(request):
     processes = ProcessDefinition.objects.all()
     instances_by_process = dict(
