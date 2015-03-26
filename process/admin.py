@@ -12,6 +12,7 @@ class ProcessDefinitionAdmin(admin.ModelAdmin):
     # TODO: referring field should be initialized to the originating process when creating a copy of one
     # Which should be it's own action.
     # Probably it's also wise not to allow editing it via the GUI
+    # REFACT consider adding status schemes inline here?
 
 class FieldPerStepInlineAdmin(admin.TabularInline):
     model = models.FieldPerstep
@@ -23,6 +24,7 @@ class FieldPerStepInlineAdmin(admin.TabularInline):
 
 @admin.register(models.ProcessStep)
 class ProcessStepAdmin(admin.ModelAdmin):
+    # REFACT process should auto populate with process from whom this is created
     list_display = ('id', 'name', 'descript', 'index', 'process')
     list_display_links = ('id', 'name')
     ordering = ['id']
@@ -45,6 +47,7 @@ class StatusListAdmin (admin.ModelAdmin):
 
 @admin.register(models.FieldDefinition)
 class FieldDefinitionAdmin(admin.ModelAdmin):
+    # process field should auto populate with process of process step when it is created
     list_display = (
         'id', 'name', 'descript', 'fieldtype', 'length', 'type', 'process')
     list_display_links = ('id', 'name')
