@@ -11,7 +11,7 @@ from . import utils
 #   Version 0.14 - 
 #   V 0.1 Bernd Brincken - 12. Sept 2014
 
-
+# REFACT consider to extract name, description and help fields into abstract superclass
 
 ## I - Prozess-Definition
 class ProcessDefinition(models.Model):
@@ -119,11 +119,14 @@ class ProcessStep(models.Model):
         # that should be possible with some clever use of json schema
         return an_instance.procdata
     
+# REFACT consider rename to Status
 class Statuslist(models.Model):
     """Node in the process state machine / Liste der verfuegbaren Status zur Prozess-Definiton"""
     # Neu hinzu per 14.03.15, da StatusScheme nun 1..n Tupel pro Status haben kann
     process = models.ForeignKey('ProcessDefinition', null=True)
     name    = models.CharField(max_length=20)
+    
+    # REFACT: consider adding description and help fields
     
     class Meta:
         verbose_name_plural = "3. Status"
@@ -145,7 +148,7 @@ class StatusScheme(models.Model):
     # Use case: allowing steps that loop on the same state, but with logic. E.g.: remind me after x days.
     
     process   = models.ForeignKey('ProcessDefinition', related_name='schemes', null=True)
-    name      = models.CharField(max_length=20)
+    name      = models.CharField(max_length=20) # REFACT: too short
     prestatus = models.ForeignKey('Statuslist' , related_name='scheme_prestatus', null=True, blank=True)
     status    = models.ForeignKey('Statuslist' , related_name='scheme_status', null=True)
     step      = models.ForeignKey('ProcessStep', related_name='status_step', null=True)
