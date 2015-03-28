@@ -6,82 +6,6 @@ from . import models
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
-# Not a nice monkey patch - but it works. :/ -mh
-from django.utils.translation import ugettext as _
-from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
-from django import forms
-import copy
-class RelatedFieldWithEditLinkWrapperWidget(forms.Widget):
-    
-    def __init__(self, widget, rel, admin_site):
-        self.widget = widget
-        self.rel = rel
-        self.admin_site = admin_site
-    
-    def __deepcopy__(self, memo):
-        obj = copy.copy(self)
-        obj.widget = copy.deepcopy(self.widget, memo)
-        memo[id(self)] = obj
-        return obj
-    
-    @property
-    def attrs(self):
-        return self.widget.attrs
-    
-    @property
-    def choices(self):
-        return self.widget.choices
-    
-    @choices.setter
-    def choices(self, new_choices):
-        self.widget.choices = new_choices
-    
-    @property
-    def is_hidden(self):
-        return self.widget.is_hidden
-
-    @property
-    def media(self):
-        return self.widget.media
-
-    def render(self, name, value, *args, **kwargs):
-        output = [self.widget.render(name, value, *args, **kwargs)]
-        try:
-            rel_to = self.rel.to
-            info = (rel_to._meta.app_label, rel_to._meta.model_name)
-            # import sys; sys.stdout = sys.__stdout__; from pdb import set_trace; set_trace()
-            model_id = value
-            related_url = reverse('admin:%s_%s_change' % info, current_app=self.admin_site.name, args=(model_id,))
-            output.append('<a href="%s" class="edit" id="edit_id_%s" title="%s">%s</a>'
-                      % (related_url, name, _('Edit current'), '✍'))
-            return mark_safe(''.join(output))
-        except Exception as e:
-            import logging
-            logging.exception('tried to add my edit link')
-            return output[0]
-    
-    def build_attrs(self, extra_attrs=None, **kwargs):
-        "Helper function for building an attribute dictionary."
-        return self.widget.build_attrs(extra_attrs=None, **kwargs)
-
-    def value_from_datadict(self, data, files, name):
-        return self.widget.value_from_datadict(data, files, name)
-
-    def id_for_label(self, id_):
-        return self.widget.id_for_label(id_)
-    
-
-# import django.contrib.admin.widgets
-# django.contrib.admin.widgets.RelatedFieldWidgetWrapper = RelatedFieldWithEditLinkWidget
-#
-
-class ModelAdmin(admin.ModelAdmin):
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        formfield = super(ModelAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-        formfield.widget = RelatedFieldWithEditLinkWrapperWidget(formfield.widget, db_field.rel, self.admin_site)
-        return formfield
-
-
 class InlineEditLinkMixin(object):
     "Needs to be inherited from BEFORE admin.*Inline"
     readonly_fields = ['edit_details']
@@ -89,10 +13,10 @@ class InlineEditLinkMixin(object):
     def edit_details(self, obj):
         if obj.id:
             opts = self.model._meta
-            return "<a href='%s'>%s</a>" % (reverse(
+            return mark_safe("<a href='%s'>%s</a>" % (reverse(
                 'admin:%s_%s_change' % (opts.app_label, opts.object_name.lower()),
                 args=[obj.id]
-            ), self.edit_label)
+            ), self.edit_label))
         else:
             return "(save to edit details)"
     edit_details.allow_tags = True
@@ -158,7 +82,7 @@ class StatuslistInlineAdmin(InlineEditLinkMixin, admin.TabularInline):
 @admin.register(models.StatusScheme)
 # @add_link_field('statuslist', 'status', field_name='status_link', short_description='Edit')
 # @add_link_field('statuslist', 'prestatus', field_name='prestatus_link', short_description='Edit')
-class StatusSchemeAdmin(ModelAdmin):
+class StatusSchemeAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'name', 'status', 'step', 'prestatus', 'role', 'remark', 'logic', 'process', )
     list_display_links = ('id', 'name')
