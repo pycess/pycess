@@ -13,21 +13,23 @@ from . import utils
 
 # REFACT consider to extract name, description and help fields into abstract superclass
 
+# REFACT: consider rename, collides with StatusScheme and Statuslist
+class StatusChoices(object):
+    PLANNED, IN_DEVELOPMENT, USABLE, ACTIVE, DEPRECATED, DISABLED = range(6)
+
 ## I - Prozess-Definition
 class ProcessDefinition(models.Model):
     """Represents one of many different processes. Can be derived from another process."""
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)
     
-    # von 1..2^16 hochgezaehlt für jede neue Version
-    version = models.PositiveSmallIntegerField(default=1)
-    
-    class StatusChoices(object):
-        PLANNED, IN_DEVELOPMENT, USABLE, ACTIVE, DEPRECATED, DISABLED = range(6)
     status = models.PositiveSmallIntegerField(choices=utils.choices(StatusChoices))
     
-    # optional: Verweis auf Vorgaenger-Version oder Templates, Kopien etc.
+    version = models.PositiveSmallIntegerField(default=1)
+    "TODO: Simple counter, should be increased for each new version"
+    
     refering = models.ForeignKey('ProcessDefinition', null=True, blank=True)
+    "TODO: Should refer to the original this process was forked from."
     
     class Meta:
         verbose_name_plural = "1. Process Definitions"
@@ -38,7 +40,7 @@ class ProcessDefinition(models.Model):
             currentstatus=self.first_transition().status,
             starttime=timezone.now(),
             stoptime=timezone.now(),
-            runstatus=3, # REFACT: add constants
+            runstatus=StatusChoices.ACTIVE,
         )
         if not self.first_transition().role.role_instance.filter(pycuser=creator).exists():
             RoleInstance.objects.create(
@@ -291,8 +293,9 @@ class ProcessInstance(models.Model):
     currentstatus = models.ForeignKey('Statuslist', blank=True, null=True)
     starttime = models.DateTimeField()
     stoptime  = models.DateTimeField(null=True)
-    runstatus = models.PositiveSmallIntegerField()
-    # runtime-Status: 1-geplant 2-Vorbereitung 3-aktiv 4-postponed 5-deaktiv 6-abgeschlossen
+    
+    runstatus = models.PositiveSmallIntegerField(choices=utils.choices(StatusChoices))
+    "TODO: Should determine where / wether this process is displayed in lists"
     
     class Meta:
         verbose_name_plural = "7. Process Instances"
