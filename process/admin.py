@@ -2,31 +2,13 @@ from django.contrib import admin
 
 # Register your models here.
 from . import models
+from . import utils
 
-from django.core.urlresolvers import reverse
-from django.utils.safestring import mark_safe
-
-class InlineEditLinkMixin(object):
-    "Needs to be inherited from BEFORE admin.*Inline"
-    readonly_fields = ['edit_details']
-    edit_label = "Edit"
-    def edit_details(self, obj):
-        if obj.id:
-            opts = self.model._meta
-            return mark_safe("<a href='%s'>%s</a>" % (reverse(
-                'admin:%s_%s_change' % (opts.app_label, opts.object_name.lower()),
-                args=[obj.id]
-            ), self.edit_label))
-        else:
-            return "(save to edit details)"
-    edit_details.allow_tags = True
-
-
-class StatusListInlineAdmin(InlineEditLinkMixin, admin.TabularInline):
+class StatusListInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline):
     model = models.Statuslist
     extra = 0
 
-class ProcessStepInlineAdmin(InlineEditLinkMixin, admin.TabularInline):
+class ProcessStepInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline):
     model = models.ProcessStep
     extra = 0
     fields = ('name', 'edit_details')
@@ -51,7 +33,7 @@ class FieldPerStepInlineAdmin(admin.TabularInline):
     extra = 0
 
 
-class StatusSchemeInlineAdmin(InlineEditLinkMixin, admin.TabularInline):
+class StatusSchemeInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline):
     model = models.StatusScheme
     extra = 0
     # fk_name = 'status'
@@ -75,7 +57,7 @@ class ProcessStepAdmin(admin.ModelAdmin):
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 
-class StatuslistInlineAdmin(InlineEditLinkMixin, admin.TabularInline):
+class StatuslistInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline):
     model = models.Statuslist
     extra = 0
 

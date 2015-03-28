@@ -20,3 +20,20 @@ def choices(an_enum):
         if constant.isupper():
             yield (getattr(an_enum, _(constant)), constant)
 
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
+class AddInlineEditLinkMixin(object):
+    "Needs to be inherited from BEFORE admin.*Inline"
+    readonly_fields = ['edit_details']
+    edit_label = "Edit"
+    def edit_details(self, obj):
+        if obj.id:
+            opts = self.model._meta
+            return mark_safe("<a href='%s'>%s</a>" % (reverse(
+                'admin:%s_%s_change' % (opts.app_label, opts.object_name.lower()),
+                args=[obj.id]
+            ), self.edit_label))
+        else:
+            return "(save to edit details)"
+    edit_details.allow_tags = True
+
