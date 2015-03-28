@@ -22,6 +22,7 @@ SECRET_KEY = 'c-e2f6t1=c%^h8pb=y=scp8(szq(q=7-18$36$oyf@*b9x)@n^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Will need to change soon as per http://jxqdjango.readthedocs.org/en/latest/ref/templates/upgrading.html
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
