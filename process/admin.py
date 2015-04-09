@@ -131,6 +131,25 @@ class RoleInstanceAdmin(admin.ModelAdmin):
     list_display = ('id', 'role', 'procinst')
     ordering = ['id']
 
+class UsergroupMemberInlineAdmin(admin.TabularInline):
+    model = models.UsergroupMember
+    extra = 0
+    verbose_name = 'GroupMember'
+    verbose_name_plural = 'GroupMembers'
+    fields = ('pycuser', )
+    show_change_link = True
+
+@admin.register(models.Usergroup)
+class UsergroupAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'descript')
+    list_display_links = ('id', 'name')
+    ordering = ['id']
+    inlines = [UsergroupMemberInlineAdmin]
+
+# @admin.register(models.UsergroupMember)
+# class RoleInstanceAdmin(admin.ModelAdmin):
+#    list_display = ('id', 'usergroup', 'pycuser')
+#    ordering = ['id']
 
 # REFACT: should be read only?
 # Ideally created by a separate system, for examle sql trigger based, to ensure a clear distinction line between the two systems
