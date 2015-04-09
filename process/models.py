@@ -161,6 +161,7 @@ class StatusScheme(models.Model):
     logic  = models.CharField(max_length=200, blank=True)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift
     #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt
+    # Could also be used to auto transition a process to a new state if the process has lingered in a specific state for some time.
     
     class Meta:
         verbose_name_plural = "4. Status Scheme"
@@ -177,8 +178,12 @@ class FieldPerstep(models.Model):
     interaction = models.PositiveSmallIntegerField(default=0)
     # 0: Show  2: Editable - 3: Not-NULL forced
     # REFACT: consider splitting this into several bools for 1. Ease of manipulation in django admin, 2. ease of debugging (no more json errors because somebody can't type perfect json in the django admin), ... --dwt
+    # REFACT consider moving interaction into parameters?
+    
     parameter   = models.TextField(default='{}')
     # JSON-Parameter, etwa  Anzeigeoptionen bei overview-Liste
+    # REFACT consider adding python level properties for the parameters?
+    
     editdefault = models.CharField(max_length=200, blank=True)
     # wird bei interaction>0 und leerem Feld eingesetzt
     #   Typ ist ggf. umzusetzen, z.B. text>integer
