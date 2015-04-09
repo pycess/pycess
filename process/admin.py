@@ -4,14 +4,17 @@ from django.contrib import admin
 from . import models
 from . import utils
 
-class StatusListInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline):
+class StatusListInlineAdmin(admin.TabularInline):
     model = models.Statuslist
     extra = 0
+    show_change_link = True
 
-class ProcessStepInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline):
+class ProcessStepInlineAdmin(admin.TabularInline):
     model = models.ProcessStep
     extra = 0
-    fields = ('name', 'edit_details')
+    fields = ('name',)
+    show_change_link = True
+
 
 @admin.register(models.ProcessDefinition)
 class ProcessDefinitionAdmin(admin.ModelAdmin):
@@ -33,7 +36,7 @@ class FieldPerStepInlineAdmin(admin.TabularInline):
     extra = 0
 
 
-class StatusSchemeInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline):
+class StatusSchemeInlineAdmin(admin.TabularInline):
     model = models.StatusScheme
     extra = 0
     # fk_name = 'status'
@@ -58,9 +61,10 @@ class ProcessStepAdmin(admin.ModelAdmin):
 
 from django.contrib.contenttypes.fields import GenericForeignKey
 
-class StatuslistInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline):
+class StatuslistInlineAdmin(admin.TabularInline):
     model = models.Statuslist
     extra = 0
+    show_change_link = True
 
 @admin.register(models.StatusScheme)
 # @add_link_field('statuslist', 'status', field_name='status_link', short_description='Edit')
