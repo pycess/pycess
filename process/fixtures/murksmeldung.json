@@ -1,228 +1,235 @@
 [
 {
+    "model": "process.processdefinition",
+    "pk": 1,
     "fields": {
-        "descript": "Melden Sie uns Produkte die absichtlich so gebaut sind das sie schneller kaputt gehen als notwendig.",
-        "status": 3,
-        "refering": null,
         "name": "Murksmeldung",
-        "version": 1
-    },
-    "pk": 1,
-    "model": "process.processdefinition"
+        "status": 3,
+        "descript": "Melden Sie uns Produkte die absichtlich so gebaut sind das sie schneller kaputt gehen als notwendig.",
+        "version": 1,
+        "refering": null
+    }
 },
 {
+    "model": "process.processstep",
+    "pk": 1,
     "fields": {
-        "descript": "Daten sind eingegeben und k\u00f6nnen vom Redakteur oder Reporter verfeinert werden.",
+        "name": "Daten bearbeiten",
         "process": 1,
-        "index": 0,
         "actiontype": 0,
-        "name": "Daten bearbeiten"
-    },
-    "pk": 1,
-    "model": "process.processstep"
+        "descript": "Daten sind eingegeben und k\u00f6nnen vom Redakteur oder Reporter verfeinert werden.",
+        "index": 0
+    }
 },
 {
-    "fields": {
-        "process": 1,
-        "name": "Daten vorhanden"
-    },
+    "model": "process.statuslist",
     "pk": 1,
-    "model": "process.statuslist"
+    "fields": {
+        "name": "Entscheidung",
+        "process": 1,
+        "role": 2
+    }
 },
 {
-    "fields": {
-        "process": 1,
-        "name": "Angenommen"
-    },
+    "model": "process.statuslist",
     "pk": 2,
-    "model": "process.statuslist"
+    "fields": {
+        "name": "Angenommen",
+        "process": 1,
+        "role": 2
+    }
 },
 {
-    "fields": {
-        "process": 1,
-        "name": "Abgelehnt"
-    },
+    "model": "process.statuslist",
     "pk": 3,
-    "model": "process.statuslist"
-},
-{
     "fields": {
-        "status": 1,
-        "prestatus": null,
-        "name": "Murks melden",
+        "name": "Abgelehnt",
         "process": 1,
-        "role": 1,
-        "logic": "",
-        "step": 1,
-        "remark": ""
-    },
-    "pk": 1,
-    "model": "process.statusscheme"
+        "role": 2
+    }
 },
 {
+    "model": "process.statuslist",
+    "pk": 4,
+    "fields": {
+        "name": "Dateneingabe",
+        "process": 1,
+        "role": 1
+    }
+},
+{
+    "model": "process.statusscheme",
+    "pk": 2,
     "fields": {
         "status": 1,
-        "prestatus": 1,
+        "step": 1,
+        "logic": "",
         "name": "Daten verfeinern",
         "process": 1,
-        "role": 1,
-        "logic": "",
-        "step": 1,
-        "remark": ""
-    },
-    "pk": 2,
-    "model": "process.statusscheme"
-},
-{
-    "fields": {
-        "status": 1,
         "prestatus": 1,
-        "name": "Daten verfeinern",
-        "process": 1,
-        "role": 2,
-        "logic": "",
-        "step": 1,
         "remark": ""
-    },
-    "pk": 3,
-    "model": "process.statusscheme"
+    }
 },
 {
+    "model": "process.statusscheme",
+    "pk": 4,
     "fields": {
         "status": 2,
-        "prestatus": 1,
+        "step": 1,
+        "logic": "",
         "name": "Annehmen",
         "process": 1,
-        "role": 2,
-        "logic": "",
-        "step": 1,
+        "prestatus": 1,
         "remark": ""
-    },
-    "pk": 4,
-    "model": "process.statusscheme"
+    }
 },
 {
+    "model": "process.statusscheme",
+    "pk": 5,
     "fields": {
         "status": 3,
-        "prestatus": 1,
+        "step": 1,
+        "logic": "",
         "name": "Ablehnen",
         "process": 1,
-        "role": 2,
-        "logic": "",
-        "step": 1,
+        "prestatus": 1,
         "remark": ""
-    },
-    "pk": 5,
-    "model": "process.statusscheme"
+    }
 },
 {
+    "model": "process.statusscheme",
+    "pk": 6,
     "fields": {
-        "interaction": 0,
+        "status": 1,
         "step": 1,
+        "logic": "",
+        "name": "Entscheidungsvorlage",
+        "process": 1,
+        "prestatus": 4,
+        "remark": ""
+    }
+},
+{
+    "model": "process.statusscheme",
+    "pk": 7,
+    "fields": {
+        "status": 4,
+        "step": 1,
+        "logic": "",
+        "name": "Start",
+        "process": 1,
+        "prestatus": null,
+        "remark": ""
+    }
+},
+{
+    "model": "process.fieldperstep",
+    "pk": 1,
+    "fields": {
         "order": 1,
-        "parameter": "{}",
+        "step": 1,
+        "editdefault": "",
         "field_definition": 1,
-        "editdefault": ""
-    },
-    "pk": 1,
-    "model": "process.fieldperstep"
+        "parameter": "{}",
+        "interaction": 0
+    }
 },
 {
+    "model": "process.fieldperstep",
+    "pk": 2,
     "fields": {
-        "interaction": 0,
-        "step": 1,
         "order": 1,
-        "parameter": "{}",
+        "step": 1,
+        "editdefault": "",
         "field_definition": 2,
-        "editdefault": ""
-    },
-    "pk": 2,
-    "model": "process.fieldperstep"
-},
-{
-    "fields": {
-        "interaction": 0,
-        "step": 1,
-        "order": 1,
         "parameter": "{}",
+        "interaction": 0
+    }
+},
+{
+    "model": "process.fieldperstep",
+    "pk": 3,
+    "fields": {
+        "order": 1,
+        "step": 1,
+        "editdefault": "",
         "field_definition": 3,
-        "editdefault": ""
-    },
-    "pk": 3,
-    "model": "process.fieldperstep"
+        "parameter": "{}",
+        "interaction": 0
+    }
 },
 {
+    "model": "process.fielddefinition",
+    "pk": 1,
     "fields": {
-        "descript": "Wie hei\u00dft das Ger\u00e4t?",
-        "length": 1,
-        "name": "Ger\u00e4tename",
         "fieldtype": 0,
-        "process": 1,
-        "parent": null,
+        "length": 1,
         "fieldhelp": "Name, Seriennummer, Hersteller, Baujahr... alles was man ben\u00f6tigt um gleiche Ger\u00e4te wieder zu erkennen.",
+        "name": "Ger\u00e4tename",
+        "process": 1,
+        "parent": null,
+        "descript": "Wie hei\u00dft das Ger\u00e4t?",
         "type": 1
-    },
-    "pk": 1,
-    "model": "process.fielddefinition"
+    }
 },
 {
+    "model": "process.fielddefinition",
+    "pk": 2,
     "fields": {
-        "descript": "Was ist kaputt gegangen?",
-        "length": 1,
-        "name": "Schadensbeschreibung",
         "fieldtype": 0,
-        "process": 1,
-        "parent": null,
+        "length": 1,
         "fieldhelp": "Beschreiben sie den Schaden und was Sie davon abgehalten hat den schaden zu reparieren.",
-        "type": 0
-    },
-    "pk": 2,
-    "model": "process.fielddefinition"
-},
-{
-    "fields": {
-        "descript": "Was ist der Murks an dem Produkt?",
-        "length": 1,
-        "name": "Murks",
-        "fieldtype": 0,
+        "name": "Schadensbeschreibung",
         "process": 1,
         "parent": null,
-        "fieldhelp": "Beschreiben Sie was der Hersteller absichtlich schlecht gemacht hat und wie es besser gemacht werden kann.",
+        "descript": "Was ist kaputt gegangen?",
         "type": 0
-    },
+    }
+},
+{
+    "model": "process.fielddefinition",
     "pk": 3,
-    "model": "process.fielddefinition"
-},
-{
     "fields": {
-        "descript": "Alles was wichtig ist aber in die anderen Felder nicht passt",
-        "length": 1,
-        "name": "Kommentare",
         "fieldtype": 0,
+        "length": 1,
+        "fieldhelp": "Beschreiben Sie was der Hersteller absichtlich schlecht gemacht hat und wie es besser gemacht werden kann.",
+        "name": "Murks",
         "process": 1,
         "parent": null,
-        "fieldhelp": "Bitte l\u00f6schen sie bestehenden Inhalt nicht, sondern f\u00fcgen Ihre Kommentare unten an, so dass man nachvollziehen kann was besprochen wurde.",
+        "descript": "Was ist der Murks an dem Produkt?",
         "type": 0
-    },
+    }
+},
+{
+    "model": "process.fielddefinition",
     "pk": 4,
-    "model": "process.fielddefinition"
+    "fields": {
+        "fieldtype": 0,
+        "length": 1,
+        "fieldhelp": "Bitte l\u00f6schen sie bestehenden Inhalt nicht, sondern f\u00fcgen Ihre Kommentare unten an, so dass man nachvollziehen kann was besprochen wurde.",
+        "name": "Kommentare",
+        "process": 1,
+        "parent": null,
+        "descript": "Alles was wichtig ist aber in die anderen Felder nicht passt",
+        "type": 0
+    }
 },
 {
-    "fields": {
-        "descript": "Meldet einen Murks wenn er ihn findet.",
-        "process": 1,
-        "name": "Murksreporter"
-    },
+    "model": "process.roledefinition",
     "pk": 1,
-    "model": "process.roledefinition"
+    "fields": {
+        "name": "Murksreporter",
+        "process": 1,
+        "descript": "Meldet einen Murks wenn er ihn findet."
+    }
 },
 {
-    "fields": {
-        "descript": "Bearbetet gemeldete Murkse und entscheidet \u00fcber Ver\u00f6ffentlichung und Ablehnung",
-        "process": 1,
-        "name": "Murksredakteur"
-    },
+    "model": "process.roledefinition",
     "pk": 2,
-    "model": "process.roledefinition"
+    "fields": {
+        "name": "Murksredakteur",
+        "process": 1,
+        "descript": "Bearbetet gemeldete Murkse und entscheidet \u00fcber Ver\u00f6ffentlichung und Ablehnung"
+    }
 }
 ]

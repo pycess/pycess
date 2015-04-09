@@ -127,6 +127,7 @@ class Statuslist(models.Model):
     # Neu hinzu per 14.03.15, da StatusScheme nun 1..n Tupel pro Status haben kann
     process = models.ForeignKey('ProcessDefinition', null=True)
     name    = models.CharField(max_length=20)
+    role    = models.ForeignKey('RoleDefinition', null=True)
     
     # REFACT: consider adding description and help fields
     
@@ -153,15 +154,16 @@ class StatusScheme(models.Model):
     name      = models.CharField(max_length=20) # REFACT: too short
     prestatus = models.ForeignKey('Statuslist' , related_name='scheme_prestatus', null=True, blank=True)
     status    = models.ForeignKey('Statuslist' , related_name='scheme_status', null=True)
+    
+    # REFACT: consider moving to Statuslist too, for consistency / ease of programming?
     step      = models.ForeignKey('ProcessStep', related_name='status_step', null=True)
-    role      = models.ForeignKey('RoleDefinition', null=True)
     
     remark = models.CharField(max_length=200, blank=True)
     
     logic  = models.CharField(max_length=200, blank=True)
     # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift
     #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt
-    # Could also be used to auto transition a process to a new state if the process has lingered in a specific state for some time.
+    # Could also be used to auto transition a process to a new state if the process has lingered in a specific state for some time.¡
     
     class Meta:
         verbose_name_plural = "4. Status Scheme"

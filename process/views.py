@@ -14,7 +14,7 @@ import json
 def process_index(request):
     processes = models.ProcessDefinition.objects.all()
     instances_by_process = dict(
-        (process, process.instances.filter(currentstatus__scheme_prestatus__role__role_instance__pycuser=request.user))
+        (process, process.instances.filter(currentstatus__role__role_instance__pycuser=request.user))
         for process in processes
     )
     return HttpResponse(render(request, 'process/process_index.html', locals()))

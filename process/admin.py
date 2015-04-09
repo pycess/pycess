@@ -39,7 +39,8 @@ class StatusSchemeInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline)
     # fk_name = 'status'
     verbose_name = 'StatusTransition'
     verbose_name_plural = 'StatusTransitions'
-    fields = ('process', 'name', 'step', 'prestatus', 'status', 'role', 'edit_details', )
+    fields = ('process', 'name', 'step', 'prestatus', 'status',)
+    show_change_link = True
     # REFACT: auto set process, should filter choices to process
 
 
@@ -66,10 +67,10 @@ class StatuslistInlineAdmin(utils.AddInlineEditLinkMixin, admin.TabularInline):
 # @add_link_field('statuslist', 'prestatus', field_name='prestatus_link', short_description='Edit')
 class StatusSchemeAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'status', 'step', 'prestatus', 'role', 'remark', 'logic', 'process', )
+        'id', 'name', 'status', 'step', 'prestatus', 'remark', 'logic', 'process', )
     list_display_links = ('id', 'name')
     ordering = ('id',)
-    # fields = ('process', 'name', ('prestatus', 'prestatus_link'), ('status', 'status_link'), 'step', 'role', 'remark')
+    # fields = ('process', 'name', ('prestatus', 'prestatus_link'), ('status', 'status_link'), 'step', 'remark')
     exclude = ('logic', ) # TODO: enable when it actually does something
     # TODO investigate overriding the form used to generate the widgets, this should allow customizing the widgets
     # see: https://docs.djangoproject.com/en/1.7/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_form
@@ -97,8 +98,8 @@ class StatusSchemeOutgoingInlineAdmin(StatusSchemeInlineAdmin):
 
 @admin.register(models.Statuslist)
 class StatusListAdmin (admin.ModelAdmin):
-    list_display = ('id', 'process', 'name')
-    list_display_links = ('id', 'name')
+    list_display = ('id', 'process', 'name', 'role')
+    list_display_links = ('id', 'name', 'role')
     ordering = ['id']
     inlines = [StatusSchemeIncommingInlineAdmin, StatusSchemeOutgoingInlineAdmin]
 
