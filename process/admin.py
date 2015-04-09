@@ -4,7 +4,7 @@ from django.contrib import admin
 from . import models
 from . import utils
 
-class StatusListInlineAdmin(admin.TabularInline):
+class StatusInlineAdmin(admin.TabularInline):
     model = models.Statuslist
     extra = 0
     show_change_link = True
@@ -21,7 +21,7 @@ class ProcessDefinitionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'descript', 'status')
     list_display_links = ('id', 'name')
     ordering = ['id']
-    inlines=[StatusListInlineAdmin, ProcessStepInlineAdmin]
+    inlines=[StatusInlineAdmin, ProcessStepInlineAdmin]
     # TODO this should provide a link to the app from the admin page
     # def view_on_site(self, instance):
     #     reverse()
@@ -35,21 +35,11 @@ class FieldPerStepInlineAdmin(admin.TabularInline):
     model = models.FieldPerstep
     extra = 0
 
-
-class StatusSchemeInlineAdmin(admin.TabularInline):
-    model = models.StatusScheme
+class StatusInlineAdmin(admin.TabularInline):
+    model = models.Statuslist
     extra = 0
-    # fk_name = 'status'
-    verbose_name = 'StatusTransition'
-    verbose_name_plural = 'StatusTransitions'
-    fields = ('process', 'name', 'step', 'prestatus', 'status',)
     show_change_link = True
-    # REFACT: auto set process, should filter choices to process
 
-
-# class ProcessStepAdmin(admin.ModelAdmin):
-#  list_display = ('id', 'name', 'descript', )
-# admin.site.register(models.FieldPerstep) > models.ProcessStep
 
 @admin.register(models.ProcessStep)
 class ProcessStepAdmin(admin.ModelAdmin):
@@ -57,24 +47,17 @@ class ProcessStepAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'descript', 'index', 'process')
     list_display_links = ('id', 'name')
     ordering = ('id',)
-    inlines = (FieldPerStepInlineAdmin, StatusSchemeInlineAdmin)
+    inlines = (FieldPerStepInlineAdmin, StatusInlineAdmin)
 
-from django.contrib.contenttypes.fields import GenericForeignKey
 
-class StatuslistInlineAdmin(admin.TabularInline):
-    model = models.Statuslist
-    extra = 0
-    show_change_link = True
-
+# REFACT rename StatusTransitionAdmin
 @admin.register(models.StatusScheme)
-# @add_link_field('statuslist', 'status', field_name='status_link', short_description='Edit')
-# @add_link_field('statuslist', 'prestatus', field_name='prestatus_link', short_description='Edit')
 class StatusSchemeAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'name', 'status', 'step', 'prestatus', 'remark', 'logic', 'process', )
+        'id', 'name', 'status', 'prestatus', 'remark', 'logic', 'process', )
     list_display_links = ('id', 'name')
     ordering = ('id',)
-    # fields = ('process', 'name', ('prestatus', 'prestatus_link'), ('status', 'status_link'), 'step', 'remark')
+    # fields = ('process', 'name', ('prestatus', 'prestatus_link'), ('status', 'status_link'), 'remark')
     exclude = ('logic', ) # TODO: enable when it actually does something
     # TODO investigate overriding the form used to generate the widgets, this should allow customizing the widgets
     # see: https://docs.djangoproject.com/en/1.7/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_form
@@ -84,6 +67,17 @@ class StatusSchemeAdmin(admin.ModelAdmin):
     # formfield_overrides = {
     #     models.ForeignKey: {'widget': }
     # }
+
+
+class StatusSchemeInlineAdmin(admin.TabularInline):
+    model = models.StatusScheme
+    extra = 0
+    # fk_name = 'status'
+    verbose_name = 'StatusTransition'
+    verbose_name_plural = 'StatusTransitions'
+    fields = ('process', 'name', 'prestatus', 'status',)
+    show_change_link = True
+    # REFACT: auto set process, should filter choices to process
 
 
 class StatusSchemeIncommingInlineAdmin(StatusSchemeInlineAdmin):
@@ -101,9 +95,9 @@ class StatusSchemeOutgoingInlineAdmin(StatusSchemeInlineAdmin):
 
 
 @admin.register(models.Statuslist)
-class StatusListAdmin (admin.ModelAdmin):
-    list_display = ('id', 'process', 'name', 'role')
-    list_display_links = ('id', 'name', 'role')
+class StatusAdmin (admin.ModelAdmin):
+    list_display = ('id', 'process', 'name', 'role', 'step')
+    list_display_links = ('id', 'name')
     ordering = ['id']
     inlines = [StatusSchemeIncommingInlineAdmin, StatusSchemeOutgoingInlineAdmin]
 

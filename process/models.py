@@ -128,6 +128,8 @@ class Statuslist(models.Model):
     process = models.ForeignKey('ProcessDefinition', null=True)
     name    = models.CharField(max_length=20)
     role    = models.ForeignKey('RoleDefinition', null=True)
+    step    = models.ForeignKey('ProcessStep', related_name='status_step', null=True)
+    
     
     # REFACT: consider adding description and help fields
     
@@ -154,9 +156,6 @@ class StatusScheme(models.Model):
     name      = models.CharField(max_length=20) # REFACT: too short
     prestatus = models.ForeignKey('Statuslist' , related_name='scheme_prestatus', null=True, blank=True)
     status    = models.ForeignKey('Statuslist' , related_name='scheme_status', null=True)
-    
-    # REFACT: consider moving to Statuslist too, for consistency / ease of programming?
-    step      = models.ForeignKey('ProcessStep', related_name='status_step', null=True)
     
     remark = models.CharField(max_length=200, blank=True)
     
