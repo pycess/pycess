@@ -23,7 +23,7 @@ def process_index(request):
 def process_overview(request):
     processes = models.ProcessDefinition.objects.all()
     instances_by_process = dict(
-        (process, process.instances.filter(process__steps__role__role_instance__pycuser=request.user))
+        (process, process.instances.filter(process__status_list__role__role_instance__pycuser=request.user))
         for process in processes
     )
     return HttpResponse(render(request, 'process/process_overview.html', locals()))
@@ -56,7 +56,7 @@ class ProcessInstanceView(View):
             messages.info(request, "Saved")
         instance.save()
         
-        if instance.currentstep.is_editable_by_user(request.user):
+        if instance.currentstatus.is_editable_by_user(request.user):
             return self.get(request, process_id, instance_id)
         else:
             return redirect('index')

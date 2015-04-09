@@ -48,8 +48,8 @@
 	{% csrf_token %}
 	<input type="hidden" name="json" id="json" />
 	<div class="form-group">
-		{% for transition in instance.currentstep.possible_transitions %}
-			<button type="submit" class="btn" name="requested_transition_id" value="{{ transition.id }}">{{ transition.name }} - {{ transition.remark }}</button>
+		{% for transition in instance.currentstatus.possible_transitions %}
+			<button type="submit" class="btn" name="requested_transition_id" value="{{ transition.id }}">{{ transition.name }}: {{ transition.remark }}</button>
 		{% endfor %}
 		{# TODO: Consider if an automatic self-step could be desireable, to allow saving changes without also having to choose what the next step is #}
 		{# Should this get a value? Or is the absence of a value the best identifier? #}

@@ -42,9 +42,9 @@ class ProcessDefinition(models.Model):
             stoptime=timezone.now(),
             runstatus=StatusChoices.ACTIVE,
         )
-        if not self.first_transition().role.role_instance.filter(pycuser=creator).exists():
+        if not instance.currentstatus.role.role_instance.filter(pycuser=creator).exists():
             RoleInstance.objects.create(
-                role=self.first_transition().role,
+                role=instance.currentstatus.role,
                 procinst=instance,
                 pycuser=creator,
                 entrytime=timezone.now(),
@@ -94,9 +94,6 @@ class ProcessStep(models.Model):
             if field.should_show_in_overview
         ]
     
-    def possible_transitions(self):
-        return StatusScheme.objects.filter(prestatus=self).all()
-    
     def __str__(self):
         return self.name
     
@@ -125,7 +122,7 @@ class ProcessStep(models.Model):
 class Statuslist(models.Model):
     """Node in the process state machine / Liste der verfuegbaren Status zur Prozess-Definiton"""
     # Neu hinzu per 14.03.15, da StatusScheme nun 1..n Tupel pro Status haben kann
-    process = models.ForeignKey('ProcessDefinition', null=True)
+    process = models.ForeignKey('ProcessDefinition', null=True, related_name='status_list')
     name    = models.CharField(max_length=20)
     role    = models.ForeignKey('RoleDefinition', null=True)
     step    = models.ForeignKey('ProcessStep', related_name='status_step', null=True)
@@ -141,7 +138,10 @@ class Statuslist(models.Model):
         return self.name
     
     def is_editable_by_user(self, user):
-        return self.scheme_status.filter(role__role_instance__pycuser=user).exists()
+        return self.role.role_instance.filter(pycuser=user).exists()
+    
+    def possible_transitions(self):
+        return StatusScheme.objects.filter(prestatus=self).all()
     
 
 # REFACT: consider rename to StatusTransition, for better self documentation --dwt
@@ -315,12 +315,13 @@ class ProcessInstance(models.Model):
         except ValueError as error:
             raise ValueError("Erraneous JSON, check it. Original error: %s" % error)
     
+    # REFACT should this go somewhere else? Overview fields are intrinsically bound to the current step, so maybe it should go there?
     def overview_fields(self):
-        if self.currentstep is None: 
+        if self.currentstatus is None: 
             return []
         return [
             (field, self.json_data().get(field.field_definition.name, None))
-             for field in self.currentstep.overview_fields()
+             for field in self.currentstatus.step.overview_fields()
         ]
     
     def transition_with_status(self, a_status):

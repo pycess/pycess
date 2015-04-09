@@ -123,6 +123,7 @@ class RoleDefinitionAdmin(admin.ModelAdmin):
 @admin.register(models.ProcessInstance)
 class ProcessInstanceAdmin(admin.ModelAdmin):
     list_display = ('id', 'runstatus', 'process')
+    list_display_links = ('id', 'runstatus')
     ordering = ['id']
 
 

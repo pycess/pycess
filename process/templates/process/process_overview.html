@@ -12,8 +12,8 @@
                 <li>
                     {# REFACT: consider linking only to processes I am currently the one to work on #}
                     <a href="{% url 'instance_detail' process.id instance.id %}/">
-                        <span class="state">Current state: {{instance.currentstep.name}}</span>
-                        <span class="role">Current role: {{instance.currentstep.role.name}} 
+                        <span class="state">Current state: {{instance.currentstatus.name}}</span>
+                        <span class="role">Current role: {{instance.currentstatus.role.name}} 
                             {% for role_instance in instance.currentstep.role.role_instance.all %}
                                 {% if forloop.first%}({% endif %}{{role_instance.pycuser.username}}{% if not forloop.last %}, {% else %}){% endif %}
                             {% endfor %}
