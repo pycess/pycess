@@ -94,7 +94,7 @@ import socket
 HOSTNAME = socket.gethostname().lower().split('.')[0].replace('-','')
 
 try:
-    exec "from pycess.%s_settings import *" % HOSTNAME
+    exec("from pycess.%s_settings import *" % HOSTNAME)
 except ImportError:
     pass
 
