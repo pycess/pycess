@@ -19,7 +19,7 @@ class ProcessStepInlineAdmin(admin.TabularInline):
 @admin.register(models.ProcessDefinition)
 class ProcessDefinitionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'descript', 'status')
-    list_display_links = ('id', 'name')
+    list_display_links = ('id', 'name', 'descript')
     ordering = ['id']
     inlines=[StatusInlineAdmin, ProcessStepInlineAdmin]
     # TODO this should provide a link to the app from the admin page
