@@ -5,7 +5,7 @@ from . import models
 from . import utils
 
 class StatusInlineAdmin(admin.TabularInline):
-    model = models.Statuslist
+    model = models.Status
     extra = 0
     show_change_link = True
 
@@ -36,7 +36,7 @@ class FieldPerStepInlineAdmin(admin.TabularInline):
     extra = 0
 
 class StatusInlineAdmin(admin.TabularInline):
-    model = models.Statuslist
+    model = models.Status
     extra = 0
     show_change_link = True
 
@@ -51,8 +51,8 @@ class ProcessStepAdmin(admin.ModelAdmin):
 
 
 # REFACT rename StatusTransitionAdmin
-@admin.register(models.StatusScheme)
-class StatusSchemeAdmin(admin.ModelAdmin):
+@admin.register(models.StatusTransition)
+class StatusTransitionAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'name', 'status', 'prestatus', 'remark', 'logic', 'process', )
     list_display_links = ('id', 'name')
@@ -69,8 +69,8 @@ class StatusSchemeAdmin(admin.ModelAdmin):
     # }
 
 
-class StatusSchemeInlineAdmin(admin.TabularInline):
-    model = models.StatusScheme
+class StatusTransitionInlineAdmin(admin.TabularInline):
+    model = models.StatusTransition
     extra = 0
     # fk_name = 'status'
     verbose_name = 'StatusTransition'
@@ -80,26 +80,26 @@ class StatusSchemeInlineAdmin(admin.TabularInline):
     # REFACT: auto set process, should filter choices to process
 
 
-class StatusSchemeIncommingInlineAdmin(StatusSchemeInlineAdmin):
+class StatusTransitionIncommingInlineAdmin(StatusTransitionInlineAdmin):
     fk_name = 'status'
     verbose_name = 'Incomming StatusTransition'
     verbose_name_plural = 'Incomming StatusTransitions'
     # REFACT: auto set process, should filter choices to process
 
 
-class StatusSchemeOutgoingInlineAdmin(StatusSchemeInlineAdmin):
+class StatusTransitionOutgoingInlineAdmin(StatusTransitionInlineAdmin):
     fk_name = 'prestatus'
     verbose_name = 'Outgoing StatusTransition'
     verbose_name_plural = 'Outgoing StatusTransitions'
     # REFACT: auto set process, should filter choices to process
 
 
-@admin.register(models.Statuslist)
+@admin.register(models.Status)
 class StatusAdmin (admin.ModelAdmin):
     list_display = ('id', 'process', 'name', 'role', 'step')
     list_display_links = ('id', 'name')
     ordering = ['id']
-    inlines = [StatusSchemeIncommingInlineAdmin, StatusSchemeOutgoingInlineAdmin]
+    inlines = [StatusTransitionIncommingInlineAdmin, StatusTransitionOutgoingInlineAdmin]
 
 
 @admin.register(models.FieldDefinition)
@@ -154,7 +154,7 @@ class UsergroupAdmin(admin.ModelAdmin):
 
 # REFACT: should be read only?
 # Ideally created by a separate system, for examle sql trigger based, to ensure a clear distinction line between the two systems
-@admin.register(models.PycLog)
+@admin.register(models.PycessLog)
 class PycessLogAdmin(admin.ModelAdmin):
     list_display = ('id', 'action', 'time')
     ordering = ['id']

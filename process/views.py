@@ -48,7 +48,7 @@ class ProcessInstanceView(View):
         instance.procdata = request.POST['json']
         # FIXME: validate requested_transition
         if 'requested_transition_id' in request.POST:
-            status = get_object_or_404(models.StatusScheme, pk=request.POST['requested_transition_id'])
+            status = get_object_or_404(models.StatusTransition, pk=request.POST['requested_transition_id'])
             instance.transition_with_status(status)
             # TODO: consider adding information. Who will be responsible, what time frame, perhaps even how to follow along?
             messages.success(request, "Transitioned to status %s: %s" % (status.name, status.remark))

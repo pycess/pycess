@@ -95,20 +95,20 @@ class StateMachineTests(TestCase):
         
         cls.edit_data = ProcessStep.objects.create(name="edit_data", process=cls.process)
         
-        cls.enter_data = Statuslist.objects.create(name="enter_data", process=cls.process, step=cls.edit_data, role=cls.reporters)
-        cls.decide = Statuslist.objects.create(name="decide", process=cls.process, step=cls.edit_data, role=cls.publishers)
+        cls.enter_data = Status.objects.create(name="enter_data", process=cls.process, step=cls.edit_data, role=cls.reporters)
+        cls.decide = Status.objects.create(name="decide", process=cls.process, step=cls.edit_data, role=cls.publishers)
         
         # REFACT: consider to drop process reference in some of the objects, as we can also access it via a relation --dwt
-        cls.start = StatusScheme.objects.create(name="start", prestatus=None, status=cls.enter_data, process=cls.process)
-        cls.ask_for_approval = StatusScheme.objects.create(name="ask_for_approval", prestatus=cls.enter_data, status=cls.decide)
-        cls.ask_for_more_data = StatusScheme.objects.create(name="ask_for_more_data", prestatus=cls.decide, status=cls.enter_data)
+        cls.start = StatusTransition.objects.create(name="start", prestatus=None, status=cls.enter_data, process=cls.process)
+        cls.ask_for_approval = StatusTransition.objects.create(name="ask_for_approval", prestatus=cls.enter_data, status=cls.decide)
+        cls.ask_for_more_data = StatusTransition.objects.create(name="ask_for_more_data", prestatus=cls.decide, status=cls.enter_data)
         
-        cls.published = Statuslist.objects.create(name="published", process=cls.process, role=cls.publishers, step=cls.edit_data)
+        cls.published = Status.objects.create(name="published", process=cls.process, role=cls.publishers, step=cls.edit_data)
         
-        cls.publish = StatusScheme.objects.create(name="publish", prestatus=cls.decide, status=cls.published)
+        cls.publish = StatusTransition.objects.create(name="publish", prestatus=cls.decide, status=cls.published)
         
-        cls.trashed = Statuslist.objects.create(name="trashed", process=cls.process, role=cls.publishers, step=cls.edit_data)
-        cls.trash = StatusScheme.objects.create(name="trash", prestatus=cls.decide, status=cls.trashed)
+        cls.trashed = Status.objects.create(name="trashed", process=cls.process, role=cls.publishers, step=cls.edit_data)
+        cls.trash = StatusTransition.objects.create(name="trash", prestatus=cls.decide, status=cls.trashed)
         
     
     def setUp(self):

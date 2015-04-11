@@ -13,11 +13,12 @@ from . import utils
 
 # REFACT consider to extract name, description and help fields into abstract superclass
 
-# REFACT: consider rename, collides with StatusScheme and Statuslist
+# REFACT: consider rename, collides with StatusTransition and Status
 class StatusChoices(object):
     PLANNED, IN_DEVELOPMENT, USABLE, ACTIVE, DEPRECATED, DISABLED = range(6)
 
 ## I - Prozess-Definition
+# REFACT rename Process
 class ProcessDefinition(models.Model):
     """Represents one of many different processes. Can be derived from another process."""
     name = models.CharField(max_length=200)
@@ -58,9 +59,8 @@ class ProcessDefinition(models.Model):
         # REFACT: rename first_transition
         # REFACT: consider changing to  first_transition(for_role) api
         # return self.schemes.filter(prestatus=None).first()
-        return StatusScheme.objects.get(process=self, prestatus=None)
+        return StatusTransition.objects.get(process=self, prestatus=None)
     
-
 
 class ProcessStep(models.Model):
     """Ties a role to a specific set of fields (and later actions). 
@@ -68,7 +68,7 @@ class ProcessStep(models.Model):
     Tells the state machine who can trigger and execute this state machine and what kind of interface he will see for it."""
     
     process = models.ForeignKey('ProcessDefinition', related_name='steps', null=True)
-    # role-Verweis wurde per 19.03.15 nach StatusScheme verschoben
+    # role-Verweis wurde per 19.03.15 nach StatusTransition verschoben
     name = models.CharField(max_length=200)
     descript = models.CharField(max_length=200, blank=True)
     
@@ -118,10 +118,10 @@ class ProcessStep(models.Model):
         # that should be possible with some clever use of json schema
         return an_instance.procdata
     
-# REFACT consider rename to Status
-class Statuslist(models.Model):
+# REFACT consider rename to State, Status, ProcessNode, ProcessStatus, ProcessState
+class Status(models.Model):
     """Node in the process state machine / Liste der verfuegbaren Status zur Prozess-Definiton"""
-    # Neu hinzu per 14.03.15, da StatusScheme nun 1..n Tupel pro Status haben kann
+    # Neu hinzu per 14.03.15, da StatusTransition nun 1..n Tupel pro Status haben kann
     process = models.ForeignKey('ProcessDefinition', null=True, related_name='status_list')
     name    = models.CharField(max_length=20)
     role    = models.ForeignKey('RoleDefinition', null=True)
@@ -141,11 +141,12 @@ class Statuslist(models.Model):
         return self.role.role_instance.filter(pycuser=user).exists()
     
     def possible_transitions(self):
-        return StatusScheme.objects.filter(prestatus=self).all()
+        return StatusTransition.objects.filter(prestatus=self).all()
     
 
 # REFACT: consider rename to StatusTransition, for better self documentation --dwt
-class StatusScheme(models.Model):
+# Maybe ProcessStatusTransition for clarity?
+class StatusTransition(models.Model):
     """Edges in the process state machine / Status-Verknuepfungen zum Prozess und deren Bedeutung """
     
     # pre_status == NULL for entry step into the process
@@ -154,8 +155,8 @@ class StatusScheme(models.Model):
     
     process   = models.ForeignKey('ProcessDefinition', related_name='schemes', null=True)
     name      = models.CharField(max_length=20) # REFACT: too short
-    prestatus = models.ForeignKey('Statuslist' , related_name='scheme_prestatus', null=True, blank=True)
-    status    = models.ForeignKey('Statuslist' , related_name='scheme_status', null=True)
+    prestatus = models.ForeignKey('Status' , related_name='scheme_prestatus', null=True, blank=True)
+    status    = models.ForeignKey('Status' , related_name='scheme_status', null=True)
     
     remark = models.CharField(max_length=200, blank=True)
     
@@ -165,7 +166,7 @@ class StatusScheme(models.Model):
     # Could also be used to auto transition a process to a new state if the process has lingered in a specific state for some time.¡
     
     class Meta:
-        verbose_name_plural = "4. Status Scheme"
+        verbose_name_plural = "4. Status Transitions"
     
     def __str__(self):
         return self.name
@@ -274,6 +275,7 @@ class FieldDefinition(models.Model):
         }
     
 
+# REFACT rename UserRole?
 class RoleDefinition(models.Model):
     """Roles available for a process"""
     
@@ -298,7 +300,7 @@ class ProcessInstance(models.Model):
     # TODO: need a standard way to get a meaningfull abbreviation of the current step data to serve as headline
     # procdata= models.JSONdata() .. TODO
     procdata  = models.TextField(default='{}')
-    currentstatus = models.ForeignKey('Statuslist', blank=True, null=True)
+    currentstatus = models.ForeignKey('Status', blank=True, null=True)
     starttime = models.DateTimeField()
     stoptime  = models.DateTimeField(null=True)
     
@@ -365,7 +367,7 @@ class Usergroup(models.Model):
         verbose_name_plural = "A. Usergroups"
     
     def __str__(self):
-        return str(self.name)
+        return self.name
 
 class UsergroupMember(models.Model):
     """Users assigned to Groups"""
@@ -380,11 +382,13 @@ class UsergroupMember(models.Model):
 
 # REFACT: should be read only and generated by triggers in the database (to ensure clean privilege separation between the two code paths)
 # REFACT PycessLog
-class PycLog(models.Model):
+class PycessLog(models.Model):
     """Log der Aktionen auf Pycess-Anwendungs-Ebene"""
     
     time    = models.DateTimeField()
+    # REFACT This needs to be unlimited length to allow meaningfull logging
     action  = models.CharField(max_length=200)
+    # REFACT should also track who did it
     
     def __str__(self):
         return str(self.id)
