@@ -4,4 +4,4 @@
 __pycache__
 node_modules
 pycess.egg-info
-settings.py
+pycess/local_settings.py
