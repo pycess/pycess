@@ -93,31 +93,20 @@ class StateMachineTests(TestCase):
         
         cls.edit_data = ProcessStep.objects.create(name="edit_data", process=cls.process)
         
-        cls.data_entered = Statuslist.objects.create(name="data_available", process=cls.process)
+        cls.enter_data = Statuslist.objects.create(name="enter_data", process=cls.process, step=cls.edit_data, role=cls.reporters)
+        cls.decide = Statuslist.objects.create(name="decide", process=cls.process, step=cls.edit_data, role=cls.publishers)
         
-        # REFACT: consider allowing to mark status schemes as entry points directly
-        # Really not sure if it's worth it, as there is alreaddy very little duplication --dwt
         # REFACT: consider to drop process reference in some of the objects, as we can also access it via a relation --dwt
-        cls.start = StatusScheme.objects.create(name="start", 
-            prestatus=None, status=cls.data_entered, process=cls.process, 
-            role=cls.reporters, step=cls.edit_data)
-        cls.edit_data_reporters = StatusScheme.objects.create(name="edit_data_reporters", 
-            prestatus=cls.data_entered, status=cls.data_entered, 
-            role=cls.publishers, step=cls.edit_data)
-        cls.edit_data_publishers = StatusScheme.objects.create(name="edit_data_publishers", 
-            prestatus=cls.data_entered, status=cls.data_entered, 
-            role=cls.publishers, step=cls.edit_data)
+        cls.start = StatusScheme.objects.create(name="start", prestatus=None, status=cls.enter_data, process=cls.process)
+        cls.ask_for_approval = StatusScheme.objects.create(name="ask_for_approval", prestatus=cls.enter_data, status=cls.decide)
+        cls.ask_for_more_data = StatusScheme.objects.create(name="ask_for_more_data", prestatus=cls.decide, status=cls.enter_data)
         
-        cls.published = Statuslist.objects.create(name="published", process=cls.process)
+        cls.published = Statuslist.objects.create(name="published", process=cls.process, role=cls.publishers, step=cls.edit_data)
         
-        cls.publish = StatusScheme.objects.create(name="publish", 
-            prestatus=cls.data_entered, status=cls.published, 
-            role=cls.publishers, step=cls.edit_data)
+        cls.publish = StatusScheme.objects.create(name="publish", prestatus=cls.decide, status=cls.published)
         
-        cls.trashed = Statuslist.objects.create(name="trashed", process=cls.process)
-        cls.trash = StatusScheme.objects.create(name="trash", 
-            prestatus=cls.data_entered, status=cls.trashed, 
-            role=cls.publishers, step=cls.edit_data)
+        cls.trashed = Statuslist.objects.create(name="trashed", process=cls.process, role=cls.publishers, step=cls.edit_data)
+        cls.trash = StatusScheme.objects.create(name="trash", prestatus=cls.decide, status=cls.trashed)
         
     
     def setUp(self):
@@ -127,16 +116,16 @@ class StateMachineTests(TestCase):
         self.report.add_user_for_role(self.publisher, self.publishers)
     
     def test_should_get_outgoing_transitions(self):
-        transitions = self.data_entered.scheme_prestatus.all()
-        expect(transitions).has_length(4)
+        transitions = self.decide.scheme_prestatus.all()
+        expect(transitions).has_length(3)
         # Stupid django returns something array like, but that doesn't implement the __equals__  protocol.
-        expect(transitions).to_contain(self.edit_data_reporters, self.edit_data_publishers, self.publish, self.trash)
+        expect(transitions).to_contain(self.ask_for_more_data, self.publish, self.trash)
     
     def test_should_transition_to_valid_states(self):
         instance = self.process.create_instance(creator=self.reporter)
-        expect(instance.currentstatus) == self.data_entered
-        instance.transition_with_status(self.publish)
-        expect(instance.currentstatus) == self.published
+        expect(instance.currentstatus) == self.enter_data
+        instance.transition_with_status(self.ask_for_approval)
+        expect(instance.currentstatus) == self.decide
     
     def test_should_only_transition_to_valid_states(self):
         instance = self.process.create_instance(creator=self.reporter)
