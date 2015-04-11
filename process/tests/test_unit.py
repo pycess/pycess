@@ -86,6 +86,8 @@ class StateMachineTests(TestCase):
     
     @classmethod
     def setUpClass(cls):
+        super(StateMachineTests, cls).setUpClass()
+        
         cls.process = ProcessDefinition.objects.create(name='murksmeldung', status=0)
         
         cls.reporters = RoleDefinition.objects.create(name='reporters', process=cls.process)
@@ -110,6 +112,8 @@ class StateMachineTests(TestCase):
         
     
     def setUp(self):
+        super(StateMachineTests, self).setUp()
+        
         self.reporter = User.objects.create(username='Joe User')
         self.publisher = User.objects.create(username='Jane Admin')
         self.report = self.process.create_instance(creator=self.reporter)
