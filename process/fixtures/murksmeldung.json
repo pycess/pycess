@@ -22,7 +22,7 @@
     "pk": 1
 },
 {
-    "model": "process.statuslist",
+    "model": "process.status",
     "fields": {
         "process": 1,
         "name": "Entscheidung",
@@ -32,7 +32,7 @@
     "pk": 1
 },
 {
-    "model": "process.statuslist",
+    "model": "process.status",
     "fields": {
         "process": 1,
         "name": "Angenommen",
@@ -42,7 +42,7 @@
     "pk": 2
 },
 {
-    "model": "process.statuslist",
+    "model": "process.status",
     "fields": {
         "process": 1,
         "name": "Abgelehnt",
@@ -52,7 +52,7 @@
     "pk": 3
 },
 {
-    "model": "process.statuslist",
+    "model": "process.status",
     "fields": {
         "process": 1,
         "name": "Dateneingabe",
@@ -62,7 +62,7 @@
     "pk": 4
 },
 {
-    "model": "process.statusscheme",
+    "model": "process.statustransition",
     "fields": {
         "status": 1,
         "process": 1,
@@ -74,7 +74,7 @@
     "pk": 2
 },
 {
-    "model": "process.statusscheme",
+    "model": "process.statustransition",
     "fields": {
         "status": 2,
         "process": 1,
@@ -86,7 +86,7 @@
     "pk": 4
 },
 {
-    "model": "process.statusscheme",
+    "model": "process.statustransition",
     "fields": {
         "status": 3,
         "process": 1,
@@ -98,7 +98,7 @@
     "pk": 5
 },
 {
-    "model": "process.statusscheme",
+    "model": "process.statustransition",
     "fields": {
         "status": 1,
         "process": 1,
@@ -110,7 +110,7 @@
     "pk": 6
 },
 {
-    "model": "process.statusscheme",
+    "model": "process.statustransition",
     "fields": {
         "status": 4,
         "process": 1,
