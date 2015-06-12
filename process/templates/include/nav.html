@@ -21,8 +21,17 @@
             {# TODO: Consider adding a popup menu to create processes instantly without having to go to a list first? #}
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+                <li><a href='javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();'>Bootlint current page</a></li>
+            {% endif %}
             <li><a href="/admin/">Admin</a></li>
-            <li><a href='javascript:(function(){var s=document.createElement("script");s.onload=function(){bootlint.showLintReportForCurrentDocument([]);};s.src="https://maxcdn.bootstrapcdn.com/bootlint/latest/bootlint.min.js";document.body.appendChild(s)})();'>Bootlint current page</a></li>
+            <li>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'django.contrib.auth.views.logout' %}?next={{request.path}}">Loggout</a>
+                {% else %}
+                    <a href="{% url 'django.contrib.auth.views.login' %}">Login</a>
+                {% endif %}
+            </li>
         </ul>
     </div><!--/.nav-collapse -->
     </div>

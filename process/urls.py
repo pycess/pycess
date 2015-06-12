@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 
 from . import views
 
@@ -10,4 +10,8 @@ urlpatterns = [
         views.process_instance_create, name='instance_create'),
     url(r'^(?P<process_id>\d+)/(?P<instance_id>\d+)/?$',
         views.ProcessInstanceView.as_view(), name='instance_detail'),
+    
+    url('^accounts/', include('django.contrib.auth.urls')),
 ]
+
+

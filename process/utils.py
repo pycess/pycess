@@ -37,3 +37,10 @@ class AddInlineEditLinkMixin(object):
             return "(save to edit details)"
     edit_details.allow_tags = True
 
+from django.contrib.auth.decorators import login_required
+class LoginRequiredMixin(object):
+    "needs to be inherited from _before_ django.views.generic.View, or it won't work"
+    @classmethod
+    def as_view(cls):
+        return login_required(super(LoginRequiredMixin, cls).as_view())
+

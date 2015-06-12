@@ -1,0 +1,33 @@
+{% extends "include/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h1>{% block title %}Hello there!{% endblock %}</h1>
+    <p>This is a plattform for workflows - if you log in you can start
+         processes and track how they get worked on.</p>
+    
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+    
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+    
+    <form class="" style="width:50%" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+        {{ form | crispy }}
+        {# Assumes you setup the password_reset view in your URLconf #}
+        <p class="pull-right"><a href="{% url 'password_reset' %}">Lost password?</a></p>
+        <input type="submit" value="login" class="btn btn-primary"/>
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+
+    
+    {#{{ combined_login_and_registration_pane }}#}
+{% endblock content %}

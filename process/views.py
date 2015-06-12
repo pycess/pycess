@@ -1,46 +1,53 @@
+import json
+from datetime import datetime
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
-from . import models
 from django.utils import timezone
 from django.views.generic import View
-from datetime import datetime
-import json
+
+from . import models
+from .utils import LoginRequiredMixin
 
 # Serialize process steps with https://github.com/jdorn/json-editor
 
 # REFACT: introduce pagination
+@login_required
 def process_index(request):
     processes = models.ProcessDefinition.objects.all()
     instances_by_process = dict(
         (process, process.instances.filter(currentstatus__role__role_instance__pycuser=request.user))
         for process in processes
     )
-    return HttpResponse(render(request, 'process/process_index.html', locals()))
+    return render(request, 'process/process_index.html', locals())
 
 # REFACT: introduce pagination
+@login_required
 def process_overview(request):
     processes = models.ProcessDefinition.objects.all()
     instances_by_process = dict(
         (process, process.instances.filter(process__status_list__role__role_instance__pycuser=request.user))
         for process in processes
     )
-    return HttpResponse(render(request, 'process/process_overview.html', locals()))
+    return render(request, 'process/process_overview.html', locals())
 
+@login_required
 def process_instance_create(request, process_id):
     process = get_object_or_404(models.ProcessDefinition, pk=process_id)
     instance = process.create_instance(request.user)
     return redirect('instance_detail', process_id=process.id, instance_id=instance.id)
 
 
-class ProcessInstanceView(View):
+class ProcessInstanceView(LoginRequiredMixin, View):
     
     def get(self, request, process_id, instance_id):
         instance = get_object_or_404(models.ProcessInstance, pk=instance_id)
         json_schema = instance.currentstatus.step.json_schema
         current_json = instance.currentstatus.step.json_data(instance)
-        return HttpResponse(render(request, 'process/process_instance_detail.html', locals()))
+        return render(request, 'process/process_instance_detail.html', locals())
     
     def post(self, request, process_id, instance_id):
         instance = get_object_or_404(models.ProcessInstance, pk=instance_id)

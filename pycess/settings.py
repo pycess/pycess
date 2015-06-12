@@ -37,6 +37,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # dependancies
+    'crispy_forms',
+    # our app
     'process',
 )
 
@@ -84,6 +87,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'process/static/')
+
+
+# django-crispy-forms settings
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
 
 # Modeled after http://stackoverflow.com/questions/1406892/elegantly-handle-site-specific-settings-configuration-in-svn-hg-git-etc
 # REFACT: I would like to replace this with a config file loader that loads a yml or ini file

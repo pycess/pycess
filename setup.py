@@ -29,5 +29,6 @@ setup(name='pycess',
           'django',
           'pyexpect',
           'splinter',
+          'django-crispy-forms',
       ],
       )
