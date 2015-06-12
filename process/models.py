@@ -245,7 +245,7 @@ class FieldDefinition(models.Model):
     
     # REFACT: consider renaming to resolve naming collision with type() and fieldtype
     class TypeChoices(object):
-        NORMAL, INTERNAL, JAVASCRIPT_INTERNAL = range(3)
+        NORMAL, INTERNAL_TBD, JAVASCRIPT_INTERNAL_TBD = range(3)
     type = models.PositiveSmallIntegerField(choices=utils.choices(TypeChoices), default=0)
     
     class Meta:
