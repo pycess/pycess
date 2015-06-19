@@ -108,6 +108,6 @@ except ImportError:
 
 # Pull in the local changes.
 try:
-    from myproject.local_settings import *
+    from pycess.local_settings import *
 except ImportError:
     pass
