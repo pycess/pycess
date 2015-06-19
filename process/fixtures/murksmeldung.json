@@ -124,7 +124,6 @@
 {
     "model": "process.fieldperstep",
     "fields": {
-        "parameter": "{}",
         "step": 1,
         "order": 1,
         "field_definition": 1,
@@ -136,7 +135,6 @@
 {
     "model": "process.fieldperstep",
     "fields": {
-        "parameter": "{}",
         "step": 1,
         "order": 1,
         "field_definition": 2,
@@ -148,7 +146,6 @@
 {
     "model": "process.fieldperstep",
     "fields": {
-        "parameter": "{}",
         "step": 1,
         "order": 1,
         "field_definition": 3,
