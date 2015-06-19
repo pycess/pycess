@@ -39,6 +39,7 @@ class FieldPerStepInlineAdmin(admin.TabularInline):
     model = models.FieldPerstep
     extra = 0
     show_change_link = True
+    ordering = ('order',)
 
 class StatusInlineAdmin(admin.TabularInline):
     model = models.Status
