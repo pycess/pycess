@@ -1,0 +1,12 @@
+# Dependencies to run the app
+Django==1.8.2
+django-crispy-forms==1.4.0
+
+# running it on heroku
+gunicorn==19.3.0
+
+
+# actually just for development
+pyexpect==1.0.14
+selenium==2.45.0
+splinter==0.7.1
