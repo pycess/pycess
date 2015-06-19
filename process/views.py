@@ -3,7 +3,6 @@ from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from django.utils import timezone
@@ -15,7 +14,6 @@ from .utils import LoginRequiredMixin
 # Serialize process steps with https://github.com/jdorn/json-editor
 
 # REFACT: introduce pagination
-@login_required
 def process_index(request):
     processes = models.ProcessDefinition.objects.all()
     instances_by_process = dict(
@@ -25,7 +23,6 @@ def process_index(request):
     return render(request, 'process/process_index.html', locals())
 
 # REFACT: introduce pagination
-@login_required
 def process_overview(request):
     processes = models.ProcessDefinition.objects.all()
     instances_by_process = dict(
@@ -34,14 +31,13 @@ def process_overview(request):
     )
     return render(request, 'process/process_overview.html', locals())
 
-@login_required
 def process_instance_create(request, process_id):
     process = get_object_or_404(models.ProcessDefinition, pk=process_id)
     instance = process.create_instance(request.user)
     return redirect('instance_detail', process_id=process.id, instance_id=instance.id)
 
 
-class ProcessInstanceView(LoginRequiredMixin, View):
+class ProcessInstanceView(View):
     
     def get(self, request, process_id, instance_id):
         instance = get_object_or_404(models.ProcessInstance, pk=instance_id)
