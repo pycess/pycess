@@ -26,7 +26,7 @@ setup(name='pycess',
       #      zip_safe=False, Right now it should be
       test_suite='pycess.testing.runtests.runtests',
       install_requires=[
-          'django',
+          'Django',
           'pyexpect',
           'splinter',
           'django-crispy-forms',
