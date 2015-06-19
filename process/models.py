@@ -7,10 +7,6 @@ import json
 
 from . import utils
 
-# pycess models - gem. Workshop 27. June 2013
-#   Version 0.14 - 
-#   V 0.1 Bernd Brincken - 12. Sept 2014
-
 # REFACT consider to extract name, description and help fields into abstract superclass
 
 # REFACT: consider rename, collides with StatusTransition and Status
@@ -232,6 +228,7 @@ class FieldDefinition(models.Model):
     
     class FieldtypeChoices(object):
         STRING, INTEGER, FLOAT, FINANCE_NUMBER_TBD, DATE, DATETIME, BLOB_TBD, ENUM_TBD = range(8)
+    # TODO: need bool field
     
     # REFACT: consider rename to field_type / type
     fieldtype = models.PositiveSmallIntegerField(choices=utils.choices(FieldtypeChoices))
