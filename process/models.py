@@ -87,7 +87,7 @@ class ProcessStep(models.Model):
         return [
             field 
             for field in self.field_perstep.order_by('order').all()
-            if field.should_show_in_overview
+            if field.is_part_of_overview
         ]
     
     def __str__(self):
@@ -178,10 +178,6 @@ class FieldPerstep(models.Model):
     # REFACT: consider splitting this into several bools for 1. Ease of manipulation in django admin, 2. ease of debugging (no more json errors because somebody can't type perfect json in the django admin), ... --dwt
     # REFACT consider moving interaction into parameters?
     
-    parameter   = models.TextField(default='{}')
-    # JSON-Parameter, etwa  Anzeigeoptionen bei overview-Liste
-    # REFACT consider adding python level properties for the parameters?
-    
     editdefault = models.CharField(max_length=200, blank=True)
     # wird bei interaction>0 und leerem Feld eingesetzt
     #   Typ ist ggf. umzusetzen, z.B. text>integer
@@ -189,23 +185,14 @@ class FieldPerstep(models.Model):
     #   Abfolge des Felds im Formular. Evt. in 10er Stufen, 
     #     damit bei Umstellungen nicht alle order-s zu aendern sind.
     
+    is_part_of_overview = models.BooleanField(default=False)
+    "Wether this field should be shown in the overview"
+    
     class Meta:
         unique_together = ('step', 'field_definition', )
     
     def __str__(self):
         return str(self.id)
-    
-    # REFACT: research if there is a way to route accesses to parameters through this method
-    def json_parameter(self):
-        try:
-            return json.loads(self.parameter or '{}')
-        except ValueError as error:
-            raise ValueError("Erraneous JSON, check it. Original error: %s" % error)
-        # REFACT: remove or '{}'? --dwt
-    
-    @property
-    def should_show_in_overview(self):
-        return self.json_parameter().get('should_show_in_overview', False)
     
     def json_schema(self):
         schema = self.field_definition.json_schema()
