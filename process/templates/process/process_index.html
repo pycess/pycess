@@ -18,7 +18,7 @@
             {% for instance in instances %}
                 <li>
                     <a href="{% url 'instance_detail' process.id instance.id %}/">
-                        <span class="state">Current state: {{instance.currentstep.name}}</span>
+                        <span class="field state">Current state: {{instance.currentstatus.name}}</span>
                         {% for field, value in instance.overview_fields %}
                             {% if forloop.first %}
                             <br>
