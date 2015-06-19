@@ -5,6 +5,8 @@ python:
   - "3.4"
 #  - "nightly" # splinter fails currently for nightly, so as we don't really need nightly support...
 install:
+  # FIXME not clear why this is needed, but the regular dependency on django cannot be installed on travis.ci. Not idea why. --mh
+  - pip install Django
   - python setup.py install
 script:
   - python setup.py test
