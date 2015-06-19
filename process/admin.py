@@ -12,16 +12,20 @@ class StatusInlineAdmin(admin.TabularInline):
 class ProcessStepInlineAdmin(admin.TabularInline):
     model = models.ProcessStep
     extra = 0
-    fields = ('name',)
     show_change_link = True
 
+class FieldDefinitionInlineAdmin(admin.TabularInline):
+    model = models.FieldDefinition
+    extra = 0
+    show_change_link = True
+    fields = ('name', 'descript', 'fieldtype', 'length', )
 
 @admin.register(models.ProcessDefinition)
 class ProcessDefinitionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'descript', 'status')
     list_display_links = ('id', 'name', 'descript')
     ordering = ['id']
-    inlines=[StatusInlineAdmin, ProcessStepInlineAdmin]
+    inlines=[StatusInlineAdmin, ProcessStepInlineAdmin, FieldDefinitionInlineAdmin]
     # TODO this should provide a link to the app from the admin page
     # def view_on_site(self, instance):
     #     reverse()
@@ -34,6 +38,7 @@ class ProcessDefinitionAdmin(admin.ModelAdmin):
 class FieldPerStepInlineAdmin(admin.TabularInline):
     model = models.FieldPerstep
     extra = 0
+    show_change_link = True
 
 class StatusInlineAdmin(admin.TabularInline):
     model = models.Status
@@ -72,11 +77,11 @@ class StatusTransitionAdmin(admin.ModelAdmin):
 class StatusTransitionInlineAdmin(admin.TabularInline):
     model = models.StatusTransition
     extra = 0
+    show_change_link = True
     # fk_name = 'status'
     verbose_name = 'StatusTransition'
     verbose_name_plural = 'StatusTransitions'
     fields = ('process', 'name', 'prestatus', 'status',)
-    show_change_link = True
     # REFACT: auto set process, should filter choices to process
 
 
@@ -135,10 +140,10 @@ class RoleInstanceAdmin(admin.ModelAdmin):
 class UsergroupMemberInlineAdmin(admin.TabularInline):
     model = models.UsergroupMember
     extra = 0
+    show_change_link = True
     verbose_name = 'GroupMember'
     verbose_name_plural = 'GroupMembers'
     fields = ('pycuser', )
-    show_change_link = True
 
 @admin.register(models.Usergroup)
 class UsergroupAdmin(admin.ModelAdmin):
