@@ -100,13 +100,14 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 # FIXME: this stinks, we really want something better to direct django at a specific settings module
 # Could be the DJANGO_SETTINGS_MODULE env var is actually the right thing.
 # Pull in hostname-based changes.
-# import socket
-# HOSTNAME = socket.gethostname().lower().split('.')[0].replace('-','')
-#
-# try:
-#     exec("from pycess.%s_settings import *" % HOSTNAME)
-# except ImportError:
-#     pass
+import socket
+HOSTNAME = socket.gethostname().lower().split('.')[0].replace('-','')
+print('running on HOSTNAME', HOSTNAME)
+
+try:
+    exec("from pycess.%s_settings import *" % HOSTNAME)
+except ImportError:
+    pass
 
 # Pull in the local changes.
 try:
