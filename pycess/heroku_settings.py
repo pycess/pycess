@@ -7,6 +7,7 @@ DATABASES = {'default': dj_database_url.config() }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# Never allow access without https
 SECURE_SSL_REDIRECT = True
 
 # Allow all host headers
@@ -18,9 +19,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'process/static/')
+# )
 
 USE_DJ_STATIC = True
 
