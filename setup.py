@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(name='pycess',
       description='pycess',
-      version='0.1',
+      version='0.20',
       classifiers=[
           "Programming Language :: Python",
           "Framework :: Django",
