@@ -1,2 +1,2 @@
-web: bin/stagint_start.sh
+web: bin/staging_start.sh
 # web: gunicorn pycess.wsgi --log-file -
