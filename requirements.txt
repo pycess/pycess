@@ -4,7 +4,7 @@ django-crispy-forms==1.4.0
 
 # running it on heroku
 gunicorn==19.3.0
-
+dj-database-url==0.3.0
 
 # actually just for development
 pyexpect==1.0.14
