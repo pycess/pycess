@@ -97,17 +97,12 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 # REFACT: I would like to replace this with a config file loader that loads a yml or ini file
 # it could default to development.ini in the root file and be overridden by something. Most likely an environment variable?
 
-# FIXME: this stinks, we really want something better to direct django at a specific settings module
-# Could be the DJANGO_SETTINGS_MODULE env var is actually the right thing.
-# Pull in hostname-based changes.
-import socket
-HOSTNAME = socket.gethostname().lower().split('.')[0].replace('-','')
-print('running on HOSTNAME', HOSTNAME)
-
-try:
-    exec("from pycess.%s_settings import *" % HOSTNAME)
-except ImportError:
-    pass
+import os
+if 'DJANGO_ADD_CONFIG' in os.environ:
+    try:
+        exec("from pycess.%s_settings import *" % os.environ['DJANGO_ADD_CONFIG'])
+    except ImportError:
+        pass
 
 # Pull in the local changes.
 try:
