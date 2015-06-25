@@ -1,3 +1,6 @@
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
 DATABASES = {'default': dj_database_url.config() } 
@@ -17,3 +20,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+USE_DJ_STATIC = True
