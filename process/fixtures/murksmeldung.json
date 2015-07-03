@@ -1,355 +1,397 @@
 [
 {
     "fields": {
-        "version": 1,
+        "name": "Murksmeldung",
         "descript": "Melden Sie uns Produkte die absichtlich so gebaut sind das sie schneller kaputt gehen als notwendig.",
         "status": 3,
-        "name": "Murksmeldung",
+        "version": 1,
         "refering": null
     },
-    "model": "process.processdefinition",
-    "pk": 1
+    "pk": 1,
+    "model": "process.processdefinition"
+},
+{
+    "fields": {
+        "name": "Distraction Process",
+        "descript": "Just to see how filtering works",
+        "status": 1,
+        "version": 1,
+        "refering": null
+    },
+    "pk": 3,
+    "model": "process.processdefinition"
 },
 {
     "fields": {
         "process": 1,
-        "descript": "Daten sind eingegeben und k\u00f6nnen vom Redakteur oder Reporter verfeinert werden.",
         "name": "Daten bearbeiten",
+        "descript": "Daten sind eingegeben und k\u00f6nnen vom Redakteur oder Reporter verfeinert werden.",
         "index": 0,
         "actiontype": 0
     },
-    "model": "process.processstep",
-    "pk": 1
+    "pk": 1,
+    "model": "process.processstep"
 },
 {
     "fields": {
-        "process": 1,
-        "step": 1,
-        "role": 2,
-        "name": "Entscheidung"
+        "process": 3,
+        "name": "Distraction step",
+        "descript": "",
+        "index": 0,
+        "actiontype": 0
     },
-    "model": "process.status",
-    "pk": 1
+    "pk": 2,
+    "model": "process.processstep"
 },
 {
     "fields": {
         "process": 1,
-        "step": 1,
+        "name": "Entscheidung",
         "role": 2,
-        "name": "Angenommen"
+        "step": 1
     },
-    "model": "process.status",
-    "pk": 2
+    "pk": 1,
+    "model": "process.status"
 },
 {
     "fields": {
         "process": 1,
-        "step": 1,
+        "name": "Angenommen",
         "role": 2,
-        "name": "Abgelehnt"
+        "step": 1
     },
-    "model": "process.status",
-    "pk": 3
+    "pk": 2,
+    "model": "process.status"
 },
 {
     "fields": {
         "process": 1,
-        "step": 1,
+        "name": "Abgelehnt",
+        "role": 2,
+        "step": 1
+    },
+    "pk": 3,
+    "model": "process.status"
+},
+{
+    "fields": {
+        "process": 1,
+        "name": "Dateneingabe",
         "role": 1,
-        "name": "Dateneingabe"
+        "step": 1
     },
-    "model": "process.status",
-    "pk": 4
+    "pk": 4,
+    "model": "process.status"
 },
 {
     "fields": {
-        "prestatus": 1,
-        "status": 1,
+        "process": 3,
+        "name": "Initial",
+        "role": 4,
+        "step": 2
+    },
+    "pk": 6,
+    "model": "process.status"
+},
+{
+    "fields": {
+        "process": 1,
         "name": "Daten verfeinern",
-        "process": 1,
-        "remark": "",
-        "logic": ""
-    },
-    "model": "process.statustransition",
-    "pk": 2
-},
-{
-    "fields": {
         "prestatus": 1,
-        "status": 2,
-        "name": "Annehmen",
-        "process": 1,
-        "remark": "",
-        "logic": ""
-    },
-    "model": "process.statustransition",
-    "pk": 4
-},
-{
-    "fields": {
-        "prestatus": 1,
-        "status": 3,
-        "name": "Ablehnen",
-        "process": 1,
-        "remark": "",
-        "logic": ""
-    },
-    "model": "process.statustransition",
-    "pk": 5
-},
-{
-    "fields": {
-        "prestatus": 4,
+        "logic": "",
         "status": 1,
-        "name": "Entscheidungsvorlage",
-        "process": 1,
-        "remark": "",
-        "logic": ""
+        "remark": ""
     },
-    "model": "process.statustransition",
-    "pk": 6
+    "pk": 2,
+    "model": "process.statustransition"
 },
 {
     "fields": {
-        "prestatus": null,
-        "status": 4,
-        "name": "Start",
         "process": 1,
-        "remark": "",
-        "logic": ""
+        "name": "Annehmen",
+        "prestatus": 1,
+        "logic": "",
+        "status": 2,
+        "remark": ""
     },
-    "model": "process.statustransition",
-    "pk": 7
+    "pk": 4,
+    "model": "process.statustransition"
+},
+{
+    "fields": {
+        "process": 1,
+        "name": "Ablehnen",
+        "prestatus": 1,
+        "logic": "",
+        "status": 3,
+        "remark": ""
+    },
+    "pk": 5,
+    "model": "process.statustransition"
+},
+{
+    "fields": {
+        "process": 1,
+        "name": "Entscheidungsvorlage",
+        "prestatus": 4,
+        "logic": "",
+        "status": 1,
+        "remark": ""
+    },
+    "pk": 6,
+    "model": "process.statustransition"
+},
+{
+    "fields": {
+        "process": 1,
+        "name": "Start",
+        "prestatus": null,
+        "logic": "",
+        "status": 4,
+        "remark": ""
+    },
+    "pk": 7,
+    "model": "process.statustransition"
 },
 {
     "fields": {
         "editdefault": "",
+        "field_definition": 1,
+        "interaction": 0,
         "order": 1,
         "is_part_of_overview": true,
-        "step": 1,
-        "field_definition": 1,
-        "interaction": 0
+        "step": 1
     },
-    "model": "process.fieldperstep",
-    "pk": 1
+    "pk": 1,
+    "model": "process.fieldperstep"
 },
 {
     "fields": {
         "editdefault": "",
+        "field_definition": 2,
+        "interaction": 0,
         "order": 2,
         "is_part_of_overview": false,
-        "step": 1,
-        "field_definition": 2,
-        "interaction": 0
+        "step": 1
     },
-    "model": "process.fieldperstep",
-    "pk": 2
+    "pk": 2,
+    "model": "process.fieldperstep"
 },
 {
     "fields": {
         "editdefault": "",
+        "field_definition": 3,
+        "interaction": 0,
         "order": 3,
         "is_part_of_overview": false,
-        "step": 1,
-        "field_definition": 3,
-        "interaction": 0
+        "step": 1
     },
-    "model": "process.fieldperstep",
-    "pk": 3
+    "pk": 3,
+    "model": "process.fieldperstep"
 },
 {
     "fields": {
-        "parent": null,
-        "descript": "Wie hei\u00dft das Ger\u00e4t?",
-        "fieldhelp": "Name, Seriennummer, Hersteller, Baujahr... alles was man ben\u00f6tigt um gleiche Ger\u00e4te wieder zu erkennen.",
-        "type": 0,
         "process": 1,
         "name": "Ger\u00e4tename",
+        "type": 0,
         "length": 256,
-        "fieldtype": 0
+        "fieldtype": 0,
+        "descript": "Wie hei\u00dft das Ger\u00e4t?",
+        "fieldhelp": "Name, Seriennummer, Hersteller, Baujahr... alles was man ben\u00f6tigt um gleiche Ger\u00e4te wieder zu erkennen.",
+        "parent": null
     },
-    "model": "process.fielddefinition",
-    "pk": 1
+    "pk": 1,
+    "model": "process.fielddefinition"
 },
 {
     "fields": {
-        "parent": null,
-        "descript": "Was ist kaputt gegangen?",
-        "fieldhelp": "Beschreiben sie den Schaden und was Sie davon abgehalten hat den schaden zu reparieren.",
-        "type": 0,
         "process": 1,
         "name": "Schadensbeschreibung",
+        "type": 0,
         "length": 0,
-        "fieldtype": 0
+        "fieldtype": 0,
+        "descript": "Was ist kaputt gegangen?",
+        "fieldhelp": "Beschreiben sie den Schaden und was Sie davon abgehalten hat den schaden zu reparieren.",
+        "parent": null
     },
-    "model": "process.fielddefinition",
-    "pk": 2
+    "pk": 2,
+    "model": "process.fielddefinition"
 },
 {
     "fields": {
-        "parent": null,
-        "descript": "Was ist der Murks an dem Produkt?",
-        "fieldhelp": "Beschreiben Sie was der Hersteller absichtlich schlecht gemacht hat und wie es besser gemacht werden kann.",
-        "type": 0,
         "process": 1,
         "name": "Murks",
+        "type": 0,
         "length": 0,
-        "fieldtype": 0
+        "fieldtype": 0,
+        "descript": "Was ist der Murks an dem Produkt?",
+        "fieldhelp": "Beschreiben Sie was der Hersteller absichtlich schlecht gemacht hat und wie es besser gemacht werden kann.",
+        "parent": null
     },
-    "model": "process.fielddefinition",
-    "pk": 3
+    "pk": 3,
+    "model": "process.fielddefinition"
 },
 {
     "fields": {
-        "parent": null,
-        "descript": "Alles was wichtig ist aber in die anderen Felder nicht passt",
-        "fieldhelp": "Bitte l\u00f6schen sie bestehenden Inhalt nicht, sondern f\u00fcgen Ihre Kommentare unten an, so dass man nachvollziehen kann was besprochen wurde.",
-        "type": 0,
         "process": 1,
         "name": "Kommentare",
+        "type": 0,
         "length": 1,
-        "fieldtype": 0
+        "fieldtype": 0,
+        "descript": "Alles was wichtig ist aber in die anderen Felder nicht passt",
+        "fieldhelp": "Bitte l\u00f6schen sie bestehenden Inhalt nicht, sondern f\u00fcgen Ihre Kommentare unten an, so dass man nachvollziehen kann was besprochen wurde.",
+        "parent": null
     },
-    "model": "process.fielddefinition",
-    "pk": 4
+    "pk": 4,
+    "model": "process.fielddefinition"
 },
 {
     "fields": {
         "process": 1,
-        "descript": "Meldet einen Murks wenn er ihn findet.",
         "name": "Murksreporter",
+        "descript": "Meldet einen Murks wenn er ihn findet.",
         "usergroup": null
     },
-    "model": "process.roledefinition",
-    "pk": 1
+    "pk": 1,
+    "model": "process.roledefinition"
 },
 {
     "fields": {
         "process": 1,
-        "descript": "Bearbetet gemeldete Murkse und entscheidet \u00fcber Ver\u00f6ffentlichung und Ablehnung",
         "name": "Murksredakteur",
+        "descript": "Bearbetet gemeldete Murkse und entscheidet \u00fcber Ver\u00f6ffentlichung und Ablehnung",
         "usergroup": null
     },
-    "model": "process.roledefinition",
-    "pk": 2
+    "pk": 2,
+    "model": "process.roledefinition"
 },
 {
     "fields": {
-        "runstatus": 3,
+        "process": 3,
+        "name": "Distraction Role",
+        "descript": "",
+        "usergroup": null
+    },
+    "pk": 4,
+    "model": "process.roledefinition"
+},
+{
+    "fields": {
+        "process": 1,
+        "currentstatus": 4,
         "starttime": "2015-04-09T12:16:38.938Z",
-        "process": 1,
+        "runstatus": 3,
         "stoptime": "2015-04-09T12:16:38.938Z",
-        "procdata": "{\"Ger\u00e4tename\":\"Bose Kopfh\u00f6rer Q20i\",\"Schadensbeschreibung\":\"Der Linke Ohrh\u00f6rer hat ein lockeres Teil - dadurch klackt der Ohrh\u00f6rer bei jedem Schritt.\",\"Murks\":\"Alle Teile sind miteinander verschwei\u00dftes / verklebtes Plastik, dadurch hat man keine Chance selber etwas zu reparieren. Der mechanische Fehler, also das lockere Teil w\u00e4re einfach wieder zu Verkleben - wenn man das Produkt denn \u00f6ffnen k\u00f6nnte.\"}",
-        "currentstatus": 4
+        "procdata": "{\"Ger\u00e4tename\":\"Bose Kopfh\u00f6rer Q20i\",\"Schadensbeschreibung\":\"Der Linke Ohrh\u00f6rer hat ein lockeres Teil - dadurch klackt der Ohrh\u00f6rer bei jedem Schritt.\",\"Murks\":\"Alle Teile sind miteinander verschwei\u00dftes / verklebtes Plastik, dadurch hat man keine Chance selber etwas zu reparieren. Der mechanische Fehler, also das lockere Teil w\u00e4re einfach wieder zu Verkleben - wenn man das Produkt denn \u00f6ffnen k\u00f6nnte.\"}"
     },
-    "model": "process.processinstance",
-    "pk": 1
+    "pk": 1,
+    "model": "process.processinstance"
 },
 {
     "fields": {
-        "runstatus": 3,
+        "process": 1,
+        "currentstatus": 4,
         "starttime": "2015-04-09T12:18:43.334Z",
-        "process": 1,
+        "runstatus": 3,
         "stoptime": "2015-04-09T12:18:43.334Z",
-        "procdata": "{}",
-        "currentstatus": 4
+        "procdata": "{}"
     },
-    "model": "process.processinstance",
-    "pk": 2
+    "pk": 2,
+    "model": "process.processinstance"
 },
 {
     "fields": {
-        "runstatus": 3,
+        "process": 1,
+        "currentstatus": 4,
         "starttime": "2015-04-09T12:19:05.310Z",
-        "process": 1,
+        "runstatus": 3,
         "stoptime": "2015-04-09T12:19:05.310Z",
-        "procdata": "{}",
-        "currentstatus": 4
+        "procdata": "{}"
     },
-    "model": "process.processinstance",
-    "pk": 3
+    "pk": 3,
+    "model": "process.processinstance"
 },
 {
     "fields": {
-        "runstatus": 3,
+        "process": 1,
+        "currentstatus": 1,
         "starttime": "2015-05-14T15:07:34.191Z",
-        "process": 1,
+        "runstatus": 3,
         "stoptime": "2015-05-14T15:07:34.191Z",
-        "procdata": "{\"Ger\u00e4tename\":\"Drucker\",\"Schadensbeschreibung\":\"Druckkopf spritzt\",\"Murks\":\"Das Ger\u00e4t ist von Canon.\"}",
-        "currentstatus": 1
+        "procdata": "{\"Ger\u00e4tename\":\"Drucker\",\"Schadensbeschreibung\":\"Druckkopf spritzt\",\"Murks\":\"Das Ger\u00e4t ist von Canon.\"}"
     },
-    "model": "process.processinstance",
-    "pk": 4
+    "pk": 4,
+    "model": "process.processinstance"
 },
 {
     "fields": {
-        "runstatus": 3,
+        "process": 1,
+        "currentstatus": 1,
         "starttime": "2015-05-14T15:08:39.057Z",
-        "process": 1,
+        "runstatus": 3,
         "stoptime": "2015-05-14T15:08:39.057Z",
-        "procdata": "{\"Ger\u00e4tename\":\"Matemat\",\"Schadensbeschreibung\":\"Mateausgabe\",\"Murks\":\"Es geht nicht!!!!!\"}",
-        "currentstatus": 1
+        "procdata": "{\"Ger\u00e4tename\":\"Matemat\",\"Schadensbeschreibung\":\"Mateausgabe\",\"Murks\":\"Es geht nicht!!!!!\"}"
     },
-    "model": "process.processinstance",
-    "pk": 5
+    "pk": 5,
+    "model": "process.processinstance"
 },
 {
     "fields": {
-        "runstatus": 3,
+        "process": 1,
+        "currentstatus": 4,
         "starttime": "2015-05-28T12:38:49.173Z",
-        "process": 1,
+        "runstatus": 3,
         "stoptime": "2015-05-28T12:38:49.173Z",
-        "procdata": "{\"Ger\u00e4tename\":\"foo\",\"Schadensbeschreibung\":\"bar\",\"Murks\":\"baz\"}",
-        "currentstatus": 4
+        "procdata": "{\"Ger\u00e4tename\":\"foo\",\"Schadensbeschreibung\":\"bar\",\"Murks\":\"baz\"}"
     },
-    "model": "process.processinstance",
-    "pk": 6
+    "pk": 6,
+    "model": "process.processinstance"
 },
 {
     "fields": {
-        "runstatus": 3,
+        "process": 1,
+        "currentstatus": 4,
         "starttime": "2015-06-12T12:03:56.169Z",
-        "process": 1,
+        "runstatus": 3,
         "stoptime": "2015-06-12T12:03:56.169Z",
-        "procdata": "{}",
-        "currentstatus": 4
+        "procdata": "{}"
     },
-    "model": "process.processinstance",
-    "pk": 7
+    "pk": 7,
+    "model": "process.processinstance"
 },
 {
     "fields": {
-        "runstatus": 3,
+        "process": 1,
+        "currentstatus": 4,
         "starttime": "2015-06-12T12:04:04.274Z",
-        "process": 1,
-        "stoptime": "2015-06-12T12:04:04.274Z",
-        "procdata": "{}",
-        "currentstatus": 4
-    },
-    "model": "process.processinstance",
-    "pk": 8
-},
-{
-    "fields": {
         "runstatus": 3,
-        "starttime": "2015-06-12T12:04:21.537Z",
-        "process": 1,
-        "stoptime": "2015-06-12T12:04:21.537Z",
-        "procdata": "{}",
-        "currentstatus": 4
+        "stoptime": "2015-06-12T12:04:04.274Z",
+        "procdata": "{}"
     },
-    "model": "process.processinstance",
-    "pk": 9
+    "pk": 8,
+    "model": "process.processinstance"
 },
 {
     "fields": {
+        "process": 1,
+        "currentstatus": 4,
+        "starttime": "2015-06-12T12:04:21.537Z",
+        "runstatus": 3,
+        "stoptime": "2015-06-12T12:04:21.537Z",
+        "procdata": "{}"
+    },
+    "pk": 9,
+    "model": "process.processinstance"
+},
+{
+    "fields": {
+        "exittime": null,
         "pycuser": 1,
         "role": 1,
-        "entrytime": "2015-04-09T12:19:05.320Z",
-        "exittime": null,
-        "procinst": 3
+        "procinst": 3,
+        "entrytime": "2015-04-09T12:19:05.320Z"
     },
-    "model": "process.roleinstance",
-    "pk": 1
+    "pk": 1,
+    "model": "process.roleinstance"
 }
 ]
