@@ -380,20 +380,17 @@ class PycessLog(models.Model):
         return str(self.id)
     
 
-# For python 2/3 compatibility
-def annotate_models_as_python_2_unicode_compatible():
-    # see: https://docs.djangoproject.com/en/1.7/topics/python3/#str-and-unicode-methods
-    
-    def safe_issubclass(a_class, a_superclass):
-        try:
-            return issubclass(a_class, a_superclass)
-        except TypeError as e:
-            return False
-    
-    for name, class_ in locals().copy().items():
-        if safe_issubclass(class_, models.Model):
-            locals()[name] = python_2_unicode_compatible(class_)
+# For python 2/3 compatibility, annotate all models with the right decorator
+# see: https://docs.djangoproject.com/en/1.7/topics/python3/#str-and-unicode-methods
 
-annotate_models_as_python_2_unicode_compatible()
+def safe_issubclass(a_class, a_superclass):
+    try:
+        return issubclass(a_class, a_superclass)
+    except TypeError as e:
+        return False
+
+for name, class_ in locals().copy().items():
+    if safe_issubclass(class_, models.Model):
+        python_2_unicode_compatible(class_)
 
 # - Ende models.py -
