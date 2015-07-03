@@ -1,5 +1,11 @@
 # coding: utf8
 from __future__ import unicode_literals
+"""
+WARNING: all __str__() methods need to return unicode - else python 2 will get confused
+
+The reason for this is that python3 handles everything as unicode - thus we decorate all the models
+to move __str__ into __unicode__ and synthesized a __str__ that will encode __unicode__ as utf8.
+"""
 
 from django.conf import settings
 from django.db import models
