@@ -11,8 +11,16 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from pyexpect import expect
+import sys
+is_python2 = sys.version_info.major < 3
 
 # TODO: understand how to do integration tests with django testing - or if it is better to switch to something specialized like rspec
+class UnicodeHanldingTest(TestCase):
+    def test_str_is_annotated_in_python2(self):
+        expect(ProcessDefinition).has_attr('__str__')
+        if is_python2:
+            expect(ProcessDefinition).has_attr('__unicode__')
+    
 
 class JSONSchemaTests(TestCase):
     
