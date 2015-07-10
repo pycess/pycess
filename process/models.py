@@ -292,6 +292,10 @@ class ProcessInstance(models.Model):
     # TODO: need a standard way to get a meaningfull abbreviation of the current step data to serve as headline
     # procdata= models.JSONdata() .. TODO
     procdata  = models.TextField(default='{}')
+    # REFACT: consider to change to a log storage here, that stores changes and who did them when
+    # The current idea is to use a db driven log storage here, but making this explicit would be very nice, as it allows this to be accessed easily from the app. That would probably mean a to many relation to the log storage facility and then getting the latest of the linked entries - maybe even one is marked as current from here.
+    # This could also allow some simple conflict resolution to be done?
+    
     currentstatus = models.ForeignKey('Status', blank=True, null=True)
     starttime = models.DateTimeField()
     stoptime  = models.DateTimeField(null=True)
