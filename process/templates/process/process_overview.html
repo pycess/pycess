@@ -3,10 +3,26 @@
 {% load pdb %}
 
 {% block content %}
-    <h1>{% block title %}Process Overview{% endblock %}</h1>
+    <h1 class="clearfix">{% block title %}Process Overview{% endblock %}
+        {% if user.is_staff %}
+            <span class="pull-right">
+                <a href="{% url 'admin:process_processdefinition_add' %}" class="btn btn-default">New Process</a>
+                <a href="{% url 'admin:process_processdefinition_changelist' %}" class="btn btn-default">Manage Processes</a>
+            </span>
+        {% endif %}
+    </h1>
     <p>See whats up with the processes you participate.</p>
+    {# FIXME: only for admin #}
     {% for process in processes %}
-        <h2>{{process.name}}</h2>
+        <h2 class="clearfix">{{process.name}}
+            <span class="pull-right">
+                <a href="{% url 'instance_create' process.id %}" class="btn btn-default">New</a>
+                {% if user.is_staff %}
+                    <a href="{% url 'admin:process_processdefinition_change' process.id %}" class="btn btn-default">Manage</a>
+                    <a href="#" class="btn btn-default">Analyze</a>
+                {% endif %}
+            </span>
+        </h2>
         <ul>
             {% for instance in process.instances.all %}
                 <li>
@@ -31,6 +47,10 @@
                         {% endfor %}
                         
                     </a>
+                    <span class="pull-right">
+                        <a href="{% url 'instance_detail' process.id instance.id %}" class="btn btn-default">Status</a>
+                        <a href="{% url 'instance_detail' process.id instance.id %}" class="btn btn-default">Work</a>
+                    </span>
                 </li>
             {% empty %}
                 <p>No instances are available.</p>
