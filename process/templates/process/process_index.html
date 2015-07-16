@@ -1,17 +1,12 @@
 {% extends "include/base.html" %}
 
-{% load pdb %}
-
-
 {% block content %}
     <h1>{% block title %}Get Stuff Done{% endblock %}</h1>
     <p>Work on a process or create a new one.</p>
     {% for process, instances in instances_by_process.items %}
         <h2>{{process.name}}
-            <small style="margin-left: 20px">
-                <a class="btn btn-default" href="{% url 'instance_create' process.id %}">
-                    Start new
-                </a>
+            <small class="pull-right">
+                {% include "include/process_buttons.html" with process=process user=user only %}
             </small>
         </h2>
         <ul>

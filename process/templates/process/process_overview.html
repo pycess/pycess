@@ -1,7 +1,5 @@
 {% extends "include/base.html" %}
 
-{% load pdb %}
-
 {% block content %}
     <h1 class="clearfix">{% block title %}Process Overview{% endblock %}
         {% if user.is_staff %}
@@ -16,14 +14,10 @@
     {% for process in processes %}
         <h2 class="clearfix">{{process.name}}
             <span class="pull-right">
-                <a href="{% url 'instance_create' process.id %}" class="btn btn-default">New</a>
-                {% if user.is_staff %}
-                    <a href="{% url 'admin:process_processdefinition_change' process.id %}" class="btn btn-default">Manage</a>
-                    <a href="#" class="btn btn-default">Analyze</a>
-                {% endif %}
+                {% include "include/process_buttons.html" with process=process user=user only %}
             </span>
         </h2>
-        <ul>
+        <ul class="instance-list">
             {% for instance in process.instances.all %}
                 <li>
                     {# REFACT: consider linking only to processes I am currently the one to work on #}
@@ -47,10 +41,6 @@
                         {% endfor %}
                         
                     </a>
-                    <span class="pull-right">
-                        <a href="{% url 'instance_detail' process.id instance.id %}" class="btn btn-default">Status</a>
-                        <a href="{% url 'instance_detail' process.id instance.id %}" class="btn btn-default">Work</a>
-                    </span>
                 </li>
             {% empty %}
                 <p>No instances are available.</p>

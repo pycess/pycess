@@ -1,0 +1,5 @@
+<a class="btn btn-default" href="{% url 'instance_create' process.id %}">New</a>
+{% if user.is_staff %}
+    <a href="{% url 'admin:process_processdefinition_change' process.id %}" class="btn btn-default">Manage</a>
+    <a href="#todo" class="btn btn-default">Analyze</a>
+{% endif %}
