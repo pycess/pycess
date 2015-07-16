@@ -47,6 +47,9 @@ class ProcessInstanceView(View):
     
     def post(self, request, process_id, instance_id):
         instance = get_object_or_404(models.ProcessInstance, pk=instance_id)
+        if request.user not in instance.responsible_users():
+            return self.get(request, process_id, instance_id)
+        
         # FIXME: validate json and then update procdata with it
         instance.procdata = request.POST['json']
         # FIXME: validate requested_transition

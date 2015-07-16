@@ -10,12 +10,23 @@
         <input type="hidden" name="json" id="json" />
         <div class="form-group">
             {% for transition in instance.currentstatus.possible_transitions %}
-                <button type="submit" class="btn btn-primary" name="requested_transition_id" value="{{ transition.id }}">{{ transition.name }}{% if transition.remark %}: {{ transition.remark }}{% endif %}</button>
+                <button 
+                    type="submit" 
+                    class="btn btn-primary" 
+                    name="requested_transition_id" 
+                    value="{{ transition.id }}"
+                    {% if user not in instance.responsible_users %}disabled="disabled"{% endif %}
+                    >
+                    {{ transition.name }}{% if transition.remark %}: {{ transition.remark }}{% endif %}
+                </button>
             {% endfor %}
-            {# TODO: Consider if an automatic self-step could be desireable, to allow saving changes without also having to choose what the next step is #}
-            {# Should this get a value? Or is the absence of a value the best identifier? #}
-            {# Could also use this to autosave periodically via ajax call? #}
-            <button type="submit" class="btn btn-default">Save and continue editing</button>
+            <button 
+                type="submit" 
+                class="btn btn-default"
+                {% if user not in instance.responsible_users %}disabled="disabled"{% endif %}
+                >
+                Save and continue editing
+            </button>
         </div>
     </form>
 {% endblock content %}
@@ -42,6 +53,9 @@
                 required_by_default: true
             }
         );
+        {% if user not in instance.responsible_users %}
+            editor.disable();
+        {% endif %}
         // TODO: enable validation
         // editor.setValue(current_step_data);
         // var errors = editor.validate();
