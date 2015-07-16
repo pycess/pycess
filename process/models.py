@@ -341,7 +341,7 @@ class ProcessInstance(models.Model):
         return [
             instance.pycuser 
             for instance 
-            in RoleInstance.objects.filter(procinst=self, role=self.currentstatus.role)
+            in self.currentstatus.role.role_instance.all()
         ]
 
 

@@ -28,9 +28,11 @@
                             {% endfor %}
                         </tr>
                     </thead>
+                    <tbody>
                 {% endif %}
-                <tbody>
-                    <tr>
+                    <tr
+                    {% if user in instance.responsible_users %}class="active"{% endif %}
+                    >
                         <td>{{instance.id}}</td>
                         <td>
                             <a href="{% url 'instance_detail' process.id instance.id %}/">
@@ -56,13 +58,21 @@
                             </td>
                         {% endfor %}
                     </tr>
-                </tbody>
             {% empty %}
                 <p>No instances are available.</p>
                 <p>Start a process to see it here.</p>
             {% endfor %}
+            </tbody>
         </table>
     {% empty %}
         <p>No processes are available.</p>
     {% endfor %}
 {% endblock content %}
+
+{% block css %}
+<style>
+td a {
+	display: block;
+}
+</style>
+{% endblock css %}
