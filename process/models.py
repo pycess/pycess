@@ -336,6 +336,13 @@ class ProcessInstance(models.Model):
             pycuser=user,
             entrytime=timezone.now(),
         )
+    
+    def responsible_users(self):
+        return [
+            instance.pycuser 
+            for instance 
+            in RoleInstance.objects.filter(procinst=self, role=self.currentstatus.role)
+        ]
 
 
 class RoleInstance(models.Model):
@@ -354,6 +361,7 @@ class RoleInstance(models.Model):
         return str(self.id)
 
 
+# REFACT consider removing this, role is already a group concept that could be used for different processes
 class Usergroup(models.Model):
     """Group of Users that may be used for different processes"""
     name    = models.CharField(max_length=200)
