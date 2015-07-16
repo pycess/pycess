@@ -23,7 +23,7 @@
                 {% endif %}
                 <tbody>
                     <tr>
-                        <td>{{forloop.counter}}</td>
+                        <td>{{instance.id}}</td>
                         <td>
                             <a href="{% url 'instance_detail' process.id instance.id %}/">
                                 {{instance.currentstatus.name}}

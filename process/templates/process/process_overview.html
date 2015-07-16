@@ -31,7 +31,7 @@
                 {% endif %}
                 <tbody>
                     <tr>
-                        <td>{{forloop.counter}}</td>
+                        <td>{{instance.id}}</td>
                         <td>
                             <a href="{% url 'instance_detail' process.id instance.id %}/">
                                 {{instance.currentstatus.name}}
@@ -51,6 +51,7 @@
                             <td class="field {{field.field_definition.name}}">
                                 <a href="{% url 'instance_detail' process.id instance.id %}/">
                                     {{value}}
+                                    &nbsp;{# ensure empty cells are still clickable #}
                                 </a>
                             </td>
                         {% endfor %}
