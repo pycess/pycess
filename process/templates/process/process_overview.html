@@ -17,37 +17,50 @@
                 {% include "include/process_buttons.html" with process=process user=user only %}
             </span>
         </h2>
-        <ul class="instance-list">
+        <table class="table table-hover">
             {% for instance in process.instances.all %}
-                <li class="
-                    {% if user in instance.responsible_users %}responsible{% else %}status{% endif %}
-                ">
-                    {# REFACT: consider linking only to processes I am currently the one to work on #}
-                    <a href="{% url 'instance_detail' process.id instance.id %}/">
-                        <span class="field state">Current state: {{instance.currentstatus.name}}</span>
-                        <span class="field role">Current role: {{instance.currentstatus.role.name}} 
-                            {% for role_instance in instance.currentstatus.role.role_instance.all %}
-                                {% if forloop.first%}({% endif %}
-                                {{role_instance.pycuser.username}}
-                                {% if not forloop.last %}, {% else %}){% endif %}
+                {% if forloop.first %}
+                    <thead>
+                        <tr>
+                            <th>#</th><th>State</th><th>Responsible</th>
+                            {% for field, value in instance.overview_fields %}
+                                <th class="field {{field.field_definition.name}}">{{field.field_definition.name}}</th>
                             {% endfor %}
-                        </span>
-                        {# TODO: should list role instances with role #}
-                        {# FIXME: overview_fields is problematic as it might show data that the current user is _NOT_ supposed to see, it is computed for the currently assigned user --dwt #}
+                        </tr>
+                    </thead>
+                {% endif %}
+                <tbody>
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>
+                            <a href="{% url 'instance_detail' process.id instance.id %}/">
+                                {{instance.currentstatus.name}}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'instance_detail' process.id instance.id %}/">
+                                {{instance.currentstatus.role.name}} 
+                                {% for role_instance in instance.currentstatus.role.role_instance.all %}
+                                    {% if forloop.first%}({% endif %}
+                                    {{role_instance.pycuser.username}}
+                                    {% if not forloop.last %}, {% else %}){% endif %}
+                                {% endfor %}
+                            </a>
+                        </td>
                         {% for field, value in instance.overview_fields %}
-                            {% if forloop.first %}
-                            <br>
-                            Detail:
-                            {% endif %}
-                            <span class="field {{field.field_definition.name}}">{{field.field_definition.name}}: {{value}}</span>
+                            <td class="field {{field.field_definition.name}}">
+                                <a href="{% url 'instance_detail' process.id instance.id %}/">
+                                    {{value}}
+                                </a>
+                            </td>
                         {% endfor %}
-                        
-                    </a>
-                </li>
+                    </tr>
+                </tbody>
             {% empty %}
                 <p>No instances are available.</p>
+                <p>Start a process to see it here.</p>
             {% endfor %}
-        </ul>
+        </table>
     {% empty %}
         <p>No processes are available.</p>
     {% endfor %}

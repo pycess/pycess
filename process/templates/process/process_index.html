@@ -9,26 +9,40 @@
                 {% include "include/process_buttons.html" with process=process user=user only %}
             </small>
         </h2>
-        <ul>
+        <table class="table table-hover">
             {% for instance in instances %}
-                <li>
-                    <a href="{% url 'instance_detail' process.id instance.id %}/">
-                        <span class="field state">Current state: {{instance.currentstatus.name}}</span>
+                {% if forloop.first %}
+                    <thead>
+                        <tr>
+                            <th>#</th><th>Current state</th>
+                            {% for field, value in instance.overview_fields %}
+                                <th class="field {{field.field_definition.name}}">{{field.field_definition.name}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                {% endif %}
+                <tbody>
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>
+                            <a href="{% url 'instance_detail' process.id instance.id %}/">
+                                {{instance.currentstatus.name}}
+                            </a>
+                        </td>
                         {% for field, value in instance.overview_fields %}
-                            {% if forloop.first %}
-                            <br>
-                            Detail:
-                            {% endif %}
-                            <span class="field {{field.field_definition.name}}">{{field.field_definition.name}}: {{value}}</span>
+                            <td class="field {{field.field_definition.name}}">
+                                <a href="{% url 'instance_detail' process.id instance.id %}/">
+                                    {{value}}
+                                </a>
+                            </td>
                         {% endfor %}
-                        
-                    </a>
-                </li>
+                    </tr>
+                </tbody>
             {% empty %}
                 <p>No instances are available.</p>
                 <p>Start a process to see it here.</p>
             {% endfor %}
-        </ul>
+        </table>
     {% empty %}
         <p>No processes are available.</p>
         <p>Start a process and see it here.</p>
