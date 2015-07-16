@@ -2,59 +2,59 @@
 
 {% load json_filters %}
 
+{% block content %}
+    <h1>{% block title %}Instance of: {{instance.process.name}}{% endblock %}</h1>
+    <div id="editor_holder"></div>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="json" id="json" />
+        <div class="form-group">
+            {% for transition in instance.currentstatus.possible_transitions %}
+                <button type="submit" class="btn btn-primary" name="requested_transition_id" value="{{ transition.id }}">{{ transition.name }}{% if transition.remark %}: {{ transition.remark }}{% endif %}</button>
+            {% endfor %}
+            {# TODO: Consider if an automatic self-step could be desireable, to allow saving changes without also having to choose what the next step is #}
+            {# Should this get a value? Or is the absence of a value the best identifier? #}
+            {# Could also use this to autosave periodically via ajax call? #}
+            <button type="submit" class="btn btn-default">Save and continue editing</button>
+        </div>
+    </form>
+{% endblock content %}
+
+
 {% block scripts%}
 <script>
-	$(function() {
-		var json_schema = {{ json_schema | jsonify | safe }};
-		// TODO: need to use JSON.parse to prevent code injections
-		var current_step_data = {{ current_json | safe}};
-		var editor = new JSONEditor(
-			document.getElementById("editor_holder"), 
-			{
-				schema: json_schema,
-				startval: current_step_data,
-			
-				theme: 'bootstrap3',
-				iconlib: 'bootstrap3',
-				disable_edit_json: true,
-				disable_properties: true,
-				disable_collapse: true,
-				no_additional_properties: true,
-				required_by_default: true
-			}
-		);
-		// TODO: enable validation
-		// editor.setValue(current_step_data);
-		// var errors = editor.validate();
-		// if(errors.length) {
-		//   // Not valid
-		// }
-	
-		// editor.on("change",  function() {
-		// 	$('input#json').val(JSON.stringify(editor.getValue()));
-		// });
-		$('button[type=submit]').click(function() {
-			$('input#json').val(JSON.stringify(editor.getValue()));
-		});
-	});
+    $(function() {
+        var json_schema = {{ json_schema | jsonify | safe }};
+        // TODO: need to use JSON.parse to prevent code injections
+        var current_step_data = {{ current_json | safe}};
+        var editor = new JSONEditor(
+            document.getElementById("editor_holder"), 
+            {
+                schema: json_schema,
+                startval: current_step_data,
+                
+                theme: 'bootstrap3',
+                iconlib: 'bootstrap3',
+                disable_edit_json: true,
+                disable_properties: true,
+                disable_collapse: true,
+                no_additional_properties: true,
+                required_by_default: true
+            }
+        );
+        // TODO: enable validation
+        // editor.setValue(current_step_data);
+        // var errors = editor.validate();
+        // if(errors.length) {
+        //   // Not valid
+        // }
+        
+        // editor.on("change",  function() {
+        // $('input#json').val(JSON.stringify(editor.getValue()));
+        // });
+        $('button[type=submit]').click(function() {
+            $('input#json').val(JSON.stringify(editor.getValue()));
+        });
+    });
 </script>
 {% endblock scripts %}
-
-
-{% block content %}
-<h1>{% block title %}Instance of: {{instance.process.name}}{% endblock %}</h1>
-<div id="editor_holder"></div>
-<form method="post">
-	{% csrf_token %}
-	<input type="hidden" name="json" id="json" />
-	<div class="form-group">
-		{% for transition in instance.currentstatus.possible_transitions %}
-			<button type="submit" class="btn" name="requested_transition_id" value="{{ transition.id }}">{{ transition.name }}: {{ transition.remark }}</button>
-		{% endfor %}
-		{# TODO: Consider if an automatic self-step could be desireable, to allow saving changes without also having to choose what the next step is #}
-		{# Should this get a value? Or is the absence of a value the best identifier? #}
-		{# Could also use this to autosave periodically via ajax call? #}
-		<button type="submit" class="btn btn-default">Save and continue editing</button>
-	</div>
-</form>
-{% endblock content %}
