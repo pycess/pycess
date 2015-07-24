@@ -68,7 +68,10 @@ class ProcessDefinition(models.Model):
 
 # REFACT consider rename to State, Status, ProcessNode, ProcessStatus, ProcessState
 class Status(models.Model):
-    """Node in the process state machine"""
+    """Node in the process state machine.
+    
+    Always has a specific Role, to ensure that there is always someone specific responsible for this status.
+    The step determines what subset of this processes fields are shown to the user."""
     # Neu hinzu per 14.03.15, da StatusTransition nun 1..n Tupel pro Status haben kann
     process = models.ForeignKey('ProcessDefinition', null=True, related_name='status_list')
     name    = models.CharField(max_length=20)
@@ -93,7 +96,10 @@ class Status(models.Model):
     
 
 class StatusTransition(models.Model):
-    """Edges in the process state machine"""
+    """Edges in the process state machine.
+    
+    I.e. which Status cane come after the current status, which determines what options a user 
+    gets shown in the UI."""
     
     # pre_status == NULL for entry step into the process
     # Use case: process which can be started at many places - by different roles? 
@@ -121,11 +127,9 @@ class StatusTransition(models.Model):
     
 
 class ProcessStep(models.Model):
-    """Ties a role to a specific set of fields (and later actions). 
+    """Ties a specific set of fields to a Status. 
     
-    Tells the state machine who can trigger and execute this state machine and what kind of interface
-    he will see for it.
-    REFACT what is this exactly required for? Seems like it's quite redundant with the Status
+    This allow to explicitly express that different Status share the same set of FieldDefinitions.
     """
     
     process = models.ForeignKey('ProcessDefinition', related_name='steps', null=True)
@@ -136,14 +140,14 @@ class ProcessStep(models.Model):
     # REFACT: remove until we actually ue this for something? --dwt
     # also: self.id is available and guaranteed to be unique within the process definition
     index = models.PositiveSmallIntegerField(default=0)
-    """Id innerhalb der ProcDef"""
+    """REFACT: Use as ordering within the ProcessDefinition?"""
     
     # REFACT: remove until we actually need / use this? --dwt
     class ActiontypeChoices(object):
+        """E.g. 'Decision', 'Clearance', 'Computation' > Logic behind this ProcessStep"""
         NOT_USED = 0
     
     actiontype = models.PositiveSmallIntegerField(choices=utils.choices(ActiontypeChoices), default=0)
-    """Etwa 'Entscheidung', 'Freigabe', 'Kalkulation' > Logik dahinter"""
     # REFACT consider to pull out into a 1:n linked model like role and fields
     
     class Meta:
@@ -181,7 +185,10 @@ class ProcessStep(models.Model):
         return an_instance.procdata
     
 class FieldPerstep(models.Model):
-    """Describes how a fields is tied to a specific step"""
+    """Describes how a fields is tied to a specific step
+    
+    Especially if it is editable or not, and if it is to be shown as the overview of the process in this step.
+    """
     
     step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
@@ -216,6 +223,8 @@ class FieldDefinition(models.Model):
     """Defines a field in a process"""
     
     # REFACT remove, should be attached to a process via a process-step. Doing away with the direct connection could also help in pulling in fields through the steps that are triggered, thus having an easier time defining reusable fields
+    # removing it though would mean that I need to find a clever way to show this in the admin editor for the process
+    # as django admin only seems to deal in direct foreign keys for inline admin panels.
     process   = models.ForeignKey('ProcessDefinition', null=True)
     name      = models.CharField(max_length=200)
     # REFACT: rename description
