@@ -43,6 +43,7 @@ class ProcessDefinitionAdmin(admin.ModelAdmin):
         StatusTransitionInlineAdmin, 
         ProcessStepInlineAdmin, 
         FieldDefinitionInlineAdmin, 
+        # would love to have FieldPerStepInlineAdmin, but it would need a reference to the ProcessDefinition to be here
     ]
     # TODO this should provide a link to the app from the admin page
     # def view_on_site(self, instance):

@@ -109,7 +109,9 @@ class StatusTransition(models.Model):
     # REFACT: consider to get rid of ht eprocess here - pre- and post-status already fully append this to a (or more) specific processes
     
     name      = models.CharField(max_length=20) # REFACT: too short
+    # REFACT rename from_status
     prestatus = models.ForeignKey('Status' , related_name='scheme_prestatus', null=True, blank=True)
+    # REFACT rename to_status
     status    = models.ForeignKey('Status' , related_name='scheme_status', null=True)
     
     remark = models.CharField(max_length=200, blank=True)
