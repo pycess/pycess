@@ -31,10 +31,10 @@ class ProcessDefinition(models.Model):
     status = models.PositiveSmallIntegerField(choices=utils.choices(StatusChoices))
     
     version = models.PositiveSmallIntegerField(default=1)
-    "TODO: Simple counter, should be increased for each new version"
+    # TODO: Simple counter, should be increased for each new version
     
     refering = models.ForeignKey('ProcessDefinition', null=True, blank=True)
-    "TODO: Should refer to the original this process was forked from."
+    # TODO: Should refer to the original this process was forked from.
     
     class Meta:
         verbose_name_plural = "1. Process Definitions"
@@ -69,7 +69,8 @@ class ProcessDefinition(models.Model):
 class ProcessStep(models.Model):
     """Ties a role to a specific set of fields (and later actions). 
     
-    Tells the state machine who can trigger and execute this state machine and what kind of interface he will see for it."""
+    Tells the state machine who can trigger and execute this state machine and what kind of interface
+    he will see for it."""
     
     process = models.ForeignKey('ProcessDefinition', related_name='steps', null=True)
     # role-Verweis wurde per 19.03.15 nach StatusTransition verschoben
@@ -124,7 +125,7 @@ class ProcessStep(models.Model):
     
 # REFACT consider rename to State, Status, ProcessNode, ProcessStatus, ProcessState
 class Status(models.Model):
-    """Node in the process state machine / Liste der verfuegbaren Status zur Prozess-Definiton"""
+    """Node in the process state machine"""
     # Neu hinzu per 14.03.15, da StatusTransition nun 1..n Tupel pro Status haben kann
     process = models.ForeignKey('ProcessDefinition', null=True, related_name='status_list')
     name    = models.CharField(max_length=20)
@@ -151,13 +152,15 @@ class Status(models.Model):
 # REFACT: consider rename to StatusTransition, for better self documentation --dwt
 # Maybe ProcessStatusTransition for clarity?
 class StatusTransition(models.Model):
-    """Edges in the process state machine / Status-Verknuepfungen zum Prozess und deren Bedeutung """
+    """Edges in the process state machine"""
     
     # pre_status == NULL for entry step into the process
     # Use case: process which can be started at many places - by different roles? 
     # Use case: allowing steps that loop on the same state, but with logic. E.g.: remind me after x days.
     
     process   = models.ForeignKey('ProcessDefinition', related_name='schemes', null=True)
+    # REFACT: consider to get rid of ht eprocess here - pre- and post-status already fully append this to a (or more) specific processes
+    
     name      = models.CharField(max_length=20) # REFACT: too short
     prestatus = models.ForeignKey('Status' , related_name='scheme_prestatus', null=True, blank=True)
     status    = models.ForeignKey('Status' , related_name='scheme_status', null=True)
@@ -177,7 +180,7 @@ class StatusTransition(models.Model):
     
 
 class FieldPerstep(models.Model):
-    """Describes how a fields is tied to a specific step / Fields, die pro Schritt angezeigt/abgefragt werden"""
+    """Describes how a fields is tied to a specific step"""
     
     step  = models.ForeignKey('ProcessStep', related_name='field_perstep')
     field_definition = models.ForeignKey('FieldDefinition')
@@ -209,7 +212,7 @@ class FieldPerstep(models.Model):
     
 
 class FieldDefinition(models.Model):
-    """Defines a field in a process / Im Process insgesamt verfuegbare Felder"""
+    """Defines a field in a process"""
     
     process   = models.ForeignKey('ProcessDefinition', null=True)
     name      = models.CharField(max_length=200)
@@ -362,6 +365,7 @@ class RoleInstance(models.Model):
 
 
 # REFACT consider removing this, role is already a group concept that could be used for different processes
+# REFACT remove, use django group model instead if required at all
 class Usergroup(models.Model):
     """Group of Users that may be used for different processes"""
     name    = models.CharField(max_length=200)
