@@ -92,6 +92,34 @@ class Status(models.Model):
         return StatusTransition.objects.filter(prestatus=self).all()
     
 
+class StatusTransition(models.Model):
+    """Edges in the process state machine"""
+    
+    # pre_status == NULL for entry step into the process
+    # Use case: process which can be started at many places - by different roles? 
+    # Use case: allowing steps that loop on the same state, but with logic. E.g.: remind me after x days.
+    
+    process   = models.ForeignKey('ProcessDefinition', related_name='schemes', null=True)
+    # REFACT: consider to get rid of ht eprocess here - pre- and post-status already fully append this to a (or more) specific processes
+    
+    name      = models.CharField(max_length=20) # REFACT: too short
+    prestatus = models.ForeignKey('Status' , related_name='scheme_prestatus', null=True, blank=True)
+    status    = models.ForeignKey('Status' , related_name='scheme_status', null=True)
+    
+    remark = models.CharField(max_length=200, blank=True)
+    
+    logic  = models.CharField(max_length=200, blank=True)
+    # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift
+    #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt
+    # Could also be used to auto transition a process to a new state if the process has lingered in a specific state for some time.¡
+    
+    class Meta:
+        verbose_name_plural = "4. Status Transitions"
+    
+    def __str__(self):
+        return self.name
+    
+
 class ProcessStep(models.Model):
     """Ties a role to a specific set of fields (and later actions). 
     
@@ -152,34 +180,6 @@ class ProcessStep(models.Model):
         # that should be possible with some clever use of json schema
         return an_instance.procdata
     
-class StatusTransition(models.Model):
-    """Edges in the process state machine"""
-    
-    # pre_status == NULL for entry step into the process
-    # Use case: process which can be started at many places - by different roles? 
-    # Use case: allowing steps that loop on the same state, but with logic. E.g.: remind me after x days.
-    
-    process   = models.ForeignKey('ProcessDefinition', related_name='schemes', null=True)
-    # REFACT: consider to get rid of ht eprocess here - pre- and post-status already fully append this to a (or more) specific processes
-    
-    name      = models.CharField(max_length=20) # REFACT: too short
-    prestatus = models.ForeignKey('Status' , related_name='scheme_prestatus', null=True, blank=True)
-    status    = models.ForeignKey('Status' , related_name='scheme_status', null=True)
-    
-    remark = models.CharField(max_length=200, blank=True)
-    
-    logic  = models.CharField(max_length=200, blank=True)
-    # Kann etwa eine Makrosprache halten, die auf Prozess-Variablen zugreift
-    #  und bei >1 moeglichen Folge-Steps den konkreten ermittelt
-    # Could also be used to auto transition a process to a new state if the process has lingered in a specific state for some time.¡
-    
-    class Meta:
-        verbose_name_plural = "4. Status Transitions"
-    
-    def __str__(self):
-        return self.name
-    
-
 class FieldPerstep(models.Model):
     """Describes how a fields is tied to a specific step"""
     
