@@ -17,6 +17,16 @@ class ProcessStepInlineAdmin(admin.TabularInline):
     extra = 0
     show_change_link = True
 
+class StatusTransitionInlineAdmin(admin.TabularInline):
+    model = models.StatusTransition
+    extra = 0
+    show_change_link = True
+    # fk_name = 'status'
+    verbose_name = 'StatusTransition'
+    verbose_name_plural = 'StatusTransitions'
+    fields = ('process', 'name', 'prestatus', 'status',)
+    # REFACT: auto set process, should filter choices to process
+
 class FieldDefinitionInlineAdmin(admin.TabularInline):
     model = models.FieldDefinition
     extra = 0
@@ -28,7 +38,12 @@ class ProcessDefinitionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'descript', 'status')
     list_display_links = ('id', 'name', 'descript')
     ordering = ['id']
-    inlines=[StatusInlineAdmin, ProcessStepInlineAdmin, FieldDefinitionInlineAdmin]
+    inlines=[
+        StatusInlineAdmin, 
+        StatusTransitionInlineAdmin, 
+        ProcessStepInlineAdmin, 
+        FieldDefinitionInlineAdmin, 
+    ]
     # TODO this should provide a link to the app from the admin page
     # def view_on_site(self, instance):
     #     reverse()
@@ -38,17 +53,16 @@ class ProcessDefinitionAdmin(admin.ModelAdmin):
     # REFACT consider adding status schemes inline here?
 
 
-class FieldPerStepInlineAdmin(admin.TabularInline):
-    model = models.FieldPerstep
-    extra = 0
-    show_change_link = True
-    ordering = ('order',)
-
 class StatusInlineAdmin(admin.TabularInline):
     model = models.Status
     extra = 0
     show_change_link = True
 
+class FieldPerStepInlineAdmin(admin.TabularInline):
+    model = models.FieldPerstep
+    extra = 0
+    show_change_link = True
+    ordering = ('order',)
 
 @admin.register(models.ProcessStep)
 class ProcessStepAdmin(admin.ModelAdmin):
@@ -59,7 +73,6 @@ class ProcessStepAdmin(admin.ModelAdmin):
     inlines = (FieldPerStepInlineAdmin, StatusInlineAdmin)
 
 
-# REFACT rename StatusTransitionAdmin
 @admin.register(models.StatusTransition)
 class StatusTransitionAdmin(admin.ModelAdmin):
     list_display = (
@@ -76,17 +89,6 @@ class StatusTransitionAdmin(admin.ModelAdmin):
     # formfield_overrides = {
     #     models.ForeignKey: {'widget': }
     # }
-
-
-class StatusTransitionInlineAdmin(admin.TabularInline):
-    model = models.StatusTransition
-    extra = 0
-    show_change_link = True
-    # fk_name = 'status'
-    verbose_name = 'StatusTransition'
-    verbose_name_plural = 'StatusTransitions'
-    fields = ('process', 'name', 'prestatus', 'status',)
-    # REFACT: auto set process, should filter choices to process
 
 
 class StatusTransitionIncommingInlineAdmin(StatusTransitionInlineAdmin):
