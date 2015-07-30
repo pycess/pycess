@@ -18,7 +18,7 @@ def choices(an_enum):
     # REFACT: consider to humanize() the display names
     for constant in dir(an_enum):
         if constant.isupper():
-            yield (getattr(an_enum, _(constant)), constant)
+            yield (getattr(an_enum, constant), constant)
 
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
