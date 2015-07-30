@@ -7,6 +7,7 @@ from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from django.utils import timezone
 from django.views.generic import View
+from django.utils.translation import ugettext as _
 
 from . import models
 from .utils import LoginRequiredMixin
@@ -57,9 +58,11 @@ class ProcessInstanceView(View):
             status = get_object_or_404(models.StatusTransition, pk=request.POST['requested_transition_id'])
             instance.transition_with_status(status)
             # TODO: consider adding information. Who will be responsible, what time frame, perhaps even how to follow along?
-            messages.success(request, "Transitioned to status %s: %s" % (status.name, status.remark))
+            messages.success(request, _("Transitioned to status %(status_name)s: %(status_remark)s") 
+                % dict(status_name=status.name, status_remark=status.remark) ) 
         else:
-            messages.info(request, "Saved")
+            # translators: Confirms that record was saved
+            messages.info( request, _("Saved") )
         instance.save()
         
         if instance.currentstatus.is_editable_by_user(request.user):

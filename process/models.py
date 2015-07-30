@@ -1,4 +1,4 @@
-# coding: utf8
+# coding: utf-8
 from __future__ import unicode_literals
 """
 WARNING: all __str__() methods need to return unicode - else python 2 will get confused
