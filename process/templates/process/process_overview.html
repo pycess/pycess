@@ -11,14 +11,14 @@
     </h1>
     <p>See whats up with the processes you participate.</p>
     {# FIXME: only for admin #}
-    {% for process in processes %}
+    {% for process, instances in instances_by_process.items %}
         <h2 class="clearfix">{{process.name}}
             <span class="pull-right">
                 {% include "include/process_buttons.html" with process=process user=user only %}
             </span>
         </h2>
         <table class="table table-hover">
-            {% for instance in process.instances.all %}
+            {% for instance in instances %}
                 {% if forloop.first %}
                     <thead>
                         <tr>
