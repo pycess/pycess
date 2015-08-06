@@ -43,9 +43,7 @@
                             <a href="{% url 'instance_detail' process.id instance.id %}/">
                                 {{instance.currentstatus.role.name}} 
                                 {% for role_instance in instance.currentstatus.role.role_instance.all %}
-                                    {% if forloop.first%}({% endif %}
-                                    {{role_instance.pycuser.username}}
-                                    {% if not forloop.last %}, {% else %}){% endif %}
+                                    {% if forloop.first%}({% endif %}{{role_instance.pycuser.username}}{% if not forloop.last %}, {% else %}){% endif %}
                                 {% endfor %}
                             </a>
                         </td>
