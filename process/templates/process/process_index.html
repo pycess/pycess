@@ -26,7 +26,7 @@
                         <td>{{instance.id}}</td>
                         <td>
                             <a href="{% url 'instance_detail' process.id instance.id %}/">
-                                {{instance.currentstatus.name}}
+                                {{instance.currentstatus.name}} (<small>{{instance.currentstatus.role.name}}</small>)
                             </a>
                         </td>
                         {% for field, value in instance.overview_fields %}
