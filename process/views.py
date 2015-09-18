@@ -12,9 +12,7 @@ from django.utils.translation import ugettext as _
 from . import models
 from .utils import LoginRequiredMixin
 
-# Serialize process steps with https://github.com/jdorn/json-editor
-
-# REFACT: introduce pagination
+# TODO: introduce pagination
 def process_index(request):
     processes = models.ProcessDefinition.objects.all()
     instances_by_process = dict(
@@ -23,7 +21,7 @@ def process_index(request):
     )
     return render(request, 'process/process_index.html', locals())
 
-# REFACT: introduce pagination
+# TODO: introduce pagination
 def process_overview(request):
     if not request.user.is_staff:
         processes = models.ProcessDefinition.objects.all()
