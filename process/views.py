@@ -15,6 +15,7 @@ from .utils import LoginRequiredMixin
 # TODO: introduce pagination
 def process_index(request):
     processes = models.ProcessDefinition.objects.all()
+    processes = filter(lambda each: each.is_startable_by_user(request.user), processes)
     instances_by_process = dict(
         (process, process.instances.filter(currentstatus__role__role_instance__pycuser=request.user))
         for process in processes
@@ -23,15 +24,17 @@ def process_index(request):
 
 # TODO: introduce pagination
 def process_overview(request):
-    if not request.user.is_staff:
+    if request.user.is_staff:
+        # Admins see everything
         processes = models.ProcessDefinition.objects.all()
+        instances_by_process = dict((process, process.instances.all) for process in processes)
+    else:
+        processes = models.ProcessDefinition.objects.all()
+        processes = filter(lambda each: each.is_startable_by_user(request.user), processes)
         instances_by_process = dict(
             (process, process.instances.filter(process__status_list__role__role_instance__pycuser=request.user))
             for process in processes
         )
-    else: # show everything to admins
-        processes = models.ProcessDefinition.objects.all()
-        instances_by_process = dict((process, process.instances.all) for process in processes)
     return render(request, 'process/process_overview.html', locals())
 
 def process_instance_create(request, process_id):
