@@ -295,6 +295,12 @@ class RoleDefinition(models.Model):
     name      = models.CharField(max_length=200)
     # REFACT rename description
     descript  = models.CharField(max_length=200, blank=True)
+    is_self_assignable = models.BooleanField(default=False)
+    """A user can decide for himself to take this role.
+    
+    This allows to build processes with public participation, as a user can 
+    just self assign the role that this process starts with.
+    """
     
     class Meta:
         verbose_name_plural = "6. Role Definitions"
