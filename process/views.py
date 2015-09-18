@@ -25,11 +25,15 @@ def process_index(request):
 
 # REFACT: introduce pagination
 def process_overview(request):
-    processes = models.ProcessDefinition.objects.all()
-    instances_by_process = dict(
-        (process, process.instances.filter(process__status_list__role__role_instance__pycuser=request.user))
-        for process in processes
-    )
+    if not request.user.is_staff:
+        processes = models.ProcessDefinition.objects.all()
+        instances_by_process = dict(
+            (process, process.instances.filter(process__status_list__role__role_instance__pycuser=request.user))
+            for process in processes
+        )
+    else: # show everything to admins
+        processes = models.ProcessDefinition.objects.all()
+        instances_by_process = dict((process, process.instances.all) for process in processes)
     return render(request, 'process/process_overview.html', locals())
 
 def process_instance_create(request, process_id):
