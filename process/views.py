@@ -42,7 +42,7 @@ def process_instance_create(request, process_id):
     return redirect('instance_detail', process_id=process.id, instance_id=instance.id)
 
 
-class ProcessInstanceView(View):
+class ProcessInstanceEditView(View):
     
     def get(self, request, process_id, instance_id):
         instance = get_object_or_404(models.ProcessInstance, pk=instance_id)

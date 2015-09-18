@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^(?P<process_id>\d+)/create$',
         login_required(views.process_instance_create), name='instance_create'),
     url(r'^(?P<process_id>\d+)/(?P<instance_id>\d+)/?$',
-        login_required(views.ProcessInstanceView.as_view()), name='instance_detail'),
+        login_required(views.ProcessInstanceEditView.as_view()), name='instance_detail'), # REFACT rename instance_edit
 ]
 
 
