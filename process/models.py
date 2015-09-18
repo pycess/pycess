@@ -8,6 +8,7 @@ to move __str__ into __unicode__ and synthesized a __str__ that will encode __un
 """
 
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
@@ -40,6 +41,7 @@ class ProcessDefinition(models.Model):
         verbose_name_plural = "1. Process Definitions"
     
     def create_instance(self, creator):
+        # FIXME better error handling, instance might be leaked if PermissionDenied is raised
         instance = ProcessInstance.objects.create(
             process=self,
             currentstatus=self.first_transition().status,
@@ -47,7 +49,10 @@ class ProcessDefinition(models.Model):
             stoptime=timezone.now(),
             runstatus=StatusChoices.ACTIVE,
         )
-        if not instance.currentstatus.role.role_instance.filter(pycuser=creator).exists():
+        if not instance.currentstatus.is_editable_by_user(creator):
+            if not self.is_startable_by_anyone():
+                raise PermissionDenied('This user cannot create an instance of the process %s' % self)
+            
             RoleInstance.objects.create(
                 role=instance.currentstatus.role,
                 procinst=instance,
@@ -64,6 +69,9 @@ class ProcessDefinition(models.Model):
         # REFACT: consider changing to  first_transition(for_role) api
         # return self.schemes.filter(prestatus=None).first()
         return StatusTransition.objects.get(process=self, prestatus=None)
+    
+    def is_startable_by_anyone(self):
+        return self.first_transition().status.role.is_self_assignable
     
 
 # REFACT consider rename to State, Status, ProcessNode, ProcessStatus, ProcessState

@@ -98,7 +98,7 @@ class StateMachineTests(TestCase):
         
         cls.process = ProcessDefinition.objects.create(name='murksmeldung', status=0)
         
-        cls.reporters = RoleDefinition.objects.create(name='reporters', process=cls.process)
+        cls.reporters = RoleDefinition.objects.create(name='reporters', process=cls.process, is_self_assignable=True)
         cls.publishers = RoleDefinition.objects.create(name='publishers', process=cls.process)
         
         cls.edit_data = ProcessStep.objects.create(name="edit_data", process=cls.process)
@@ -160,4 +160,35 @@ class StateMachineTests(TestCase):
         expect(RoleInstance.objects.filter(pycuser=self.reporter).exists()).is_false()
         instance = self.process.create_instance(creator=self.reporter)
         expect(RoleInstance.objects.filter(pycuser=self.reporter).exists()).is_true()
+    
+
+class SelfAssignedRolesTest(TestCase):
+    
+    def setUp(self):
+        self.process = ProcessDefinition.objects.create(name='process', status=StatusChoices.IN_DEVELOPMENT)
+        self.starter = RoleDefinition.objects.create(name='starter', process=self.process, is_self_assignable=True)
+        self.edit = ProcessStep.objects.create(name='edit', process=self.process)
+        self.started = Status.objects.create(name='started', process=self.process, role=self.starter, step=self.edit)
+        self.start = StatusTransition.objects.create(name='start', process=self.process, prestatus=None, status=self.started)
+    
+    def test_should_know_if_anyone_can_start_the_process(self):
+        expect(self.process.is_startable_by_anyone()).is_true()
+        
+        self.starter.is_self_assignable = False
+        self.starter.save()
+        expect(self.process.is_startable_by_anyone()).is_false()
+    
+    def test_should_assign_role_to_user_when_he_starts_the_process(self):
+        creator = User.objects.create()
+        instance = self.process.create_instance(creator=creator)
+        expect(instance.currentstatus.role.role_instance.filter(pycuser=creator).exists()).is_true()
+    
+    def test_should_raise_if_user_tries_to_start_process_in_role_which_is_not_self_assignable(self):
+        self.starter.is_self_assignable = False
+        self.starter.save()
+        
+        creator = User.objects.create()
+        from django.core.exceptions import PermissionDenied
+        expect(lambda: self.process.create_instance(creator=creator)).to_raise(PermissionDenied)
+        
 
