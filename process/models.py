@@ -8,7 +8,7 @@ to move __str__ into __unicode__ and synthesized a __str__ that will encode __un
 """
 
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
@@ -65,13 +65,21 @@ class ProcessDefinition(models.Model):
         return self.name
     
     def first_transition(self):
-        # REFACT: rename first_transition
         # REFACT: consider changing to  first_transition(for_role) api
-        # return self.schemes.filter(prestatus=None).first()
         return StatusTransition.objects.get(process=self, prestatus=None)
     
     def is_startable_by_anyone(self):
         return self.first_transition().status.role.is_self_assignable
+    
+    def is_startable_by_user(self, wannabee_starter):
+        # REFACT: allow this to be expressed solely with sql, so I can easily query for this
+        try:
+            if self.is_startable_by_anyone():
+                return True
+            else:
+                return self.first_transition().status.is_editable_by_user(wannabee_starter)
+        except ObjectDoesNotExist:
+            return False
     
 
 # REFACT consider rename to State, Status, ProcessNode, ProcessStatus, ProcessState

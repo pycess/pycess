@@ -190,5 +190,18 @@ class SelfAssignedRolesTest(TestCase):
         creator = User.objects.create()
         from django.core.exceptions import PermissionDenied
         expect(lambda: self.process.create_instance(creator=creator)).to_raise(PermissionDenied)
+    
+    def test_should_know_if_specific_user_can_start_process(self):
+        prospective_creator = User.objects.create()
+        expect(self.process.is_startable_by_user(prospective_creator)).is_true()
         
+        self.starter.is_self_assignable = False
+        self.starter.save()
+        expect(self.process.is_startable_by_user(prospective_creator)).is_false()
+    
+    def test_should_not_explode_if_process_cannot_be_started_at_all(self):
+        # should only happen for unfinished processes
+        self.start.delete()
+        prospective_creator = User.objects.create()
+        expect(self.process.is_startable_by_user(prospective_creator)).is_false()
 
