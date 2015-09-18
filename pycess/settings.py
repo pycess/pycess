@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # dependancies
     'crispy_forms',
+    'lazysignup',
     # our app
     'process',
 )
@@ -55,6 +56,10 @@ ROOT_URLCONF = 'pycess.urls'
 
 WSGI_APPLICATION = 'pycess.wsgi.application'
 
+AUTHENTICATION_BACKENDS = (
+  'django.contrib.auth.backends.ModelBackend',
+  'lazysignup.backends.LazySignupBackend',
+)
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases

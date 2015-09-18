@@ -25,10 +25,13 @@ setup(name='pycess',
       include_package_data=True,
       #      zip_safe=False, Right now it should be
       test_suite='pycess.testing.runtests.runtests',
+      # REFACT consider to pull out the requirements into a requirements.txt file, as that would allow several of them like requirements.txt, heroku_requirements.txt, dev_requirements.txt, tested_requirements.txt, ...
       install_requires=[
           'Django',
           'pyexpect',
           'splinter',
           'django-crispy-forms',
+          'django-lazysignup',
+          'six>=1.9.0', ## django-lazy-setup requires 1.8.0, but actually requires 1.9.0. Remove when they update
       ],
-      )
+)

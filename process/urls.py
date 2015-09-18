@@ -1,13 +1,15 @@
 from django.conf.urls import url, include
 from django.contrib.auth.decorators import login_required
+from lazysignup.decorators import allow_lazy_user
 
 from . import views
 
 urlpatterns = [
     url('^accounts/', include('django.contrib.auth.urls')),
+    url(r'^convert/', include('lazysignup.urls')),
     
-    url(r'^$', login_required(views.process_index), name='index'),
-    url(r'^overview$', login_required(views.process_overview), name='overview'),
+    url(r'^$', allow_lazy_user(views.process_index), name='index'),
+    url(r'^overview$', allow_lazy_user(views.process_overview), name='overview'),
     url(r'^(?P<process_id>\d+)/create$',
         login_required(views.process_instance_create), name='instance_create'),
     url(r'^(?P<process_id>\d+)/(?P<instance_id>\d+)/?$',
