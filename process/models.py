@@ -111,6 +111,8 @@ class StatusTransition(models.Model):
     name      = models.CharField(max_length=20) # REFACT: too short
     # REFACT rename from_status
     prestatus = models.ForeignKey('Status' , related_name='scheme_prestatus', null=True, blank=True)
+    """If the prestatus is empty/ not set that means this transition 
+    is a start transition for the process state machine"""
     # REFACT rename to_status
     status    = models.ForeignKey('Status' , related_name='scheme_status', null=True)
     
@@ -291,6 +293,7 @@ class RoleDefinition(models.Model):
     usergroup = models.ForeignKey('Usergroup', null=True, blank=True)
     #  Optional - Group from which a user may be chosen for a process-Instance
     name      = models.CharField(max_length=200)
+    # REFACT rename description
     descript  = models.CharField(max_length=200, blank=True)
     
     class Meta:
