@@ -1,5 +1,9 @@
 [![Build Status](https://travis-ci.org/pycess/pycess.svg)](https://travis-ci.org/pycess/pycess)
 
+## Status
+
+This project is not maintained any longer. We still like the Idea, but have no use case for this anymore. Feel free to fork and learn from it if you like.
+
 ## TODO
 
 * validate input from user on python side
